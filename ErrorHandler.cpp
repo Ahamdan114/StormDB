@@ -16,6 +16,9 @@ public:
 		this->i = i;
 	}
 
+	string handleError(string err) {
+		return err;
+	}
 	// Getting the input of a variable.
 	string getInput() {
 		return this->input;
