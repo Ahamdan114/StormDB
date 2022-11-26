@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "ErrorHandler.cpp";
 using namespace std;
 
 class Printer {

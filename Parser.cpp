@@ -35,7 +35,7 @@ class Parser {
 		string removeSpaces(string input) {
 			char comparison = ' ';
 			string removeSpacesArr = "";
-			for (int i = 0; i < input.length(); i++) {
+			for (unsigned int i = 0; i < input.length(); i++) {
 				if (input[i] != comparison) {
 					removeSpacesArr += input[i];
 				}

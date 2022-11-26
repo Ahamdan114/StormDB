@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
-
-#include "ErrorHandler.cpp";
-#include "Printer.cpp";
-#include "Parser.cpp";
-#include "LogicHandler.cpp";
-#include "FileHandler.cpp";
+#define _CRT_SECURE_NO_WARNINGS
+#include "ErrorHandler.cpp"
+#include "Printer.cpp"
+#include "Parser.cpp"
+#include "LogicHandler.cpp"
+#include "FileHandler.cpp"
 
 using namespace std;
 
@@ -19,14 +19,12 @@ int main() {
 	while (true) {
 		cout << "Introdu o comanda: "; 
 		getline(cin, input);
-
 		if (input != "") {
-			// Check-urile inputului.
+			// Input checking.
 			try {
 				string cleanInput = parser.cleanInput(input);
-				cout << cleanInput << endl;
-				/*parser.parse(cleanInput);
-				string output = logicHandler.handleLogic(cleanInput);
+				parser.parse(cleanInput);
+				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
 			}
 			catch (string err) {
