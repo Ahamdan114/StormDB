@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include<regex>
 
 #include "ErrorHandler.cpp"
 #include "Printer.cpp"
@@ -15,6 +16,7 @@ int main() {
 	LogicHandler logicHandler = LogicHandler();
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
+	CreateTable testCreateTable = CreateTable();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -22,8 +24,9 @@ int main() {
 		if (input != "") {
 			// Input checking.
 			try {
-				string cleanInput = parser.cleanInput(input);
-				parser.parse(cleanInput);
+				//string cleanInput = parser.cleanInput(input);
+				//parser.parse(cleanInput);
+				testCreateTable.testCreateTable(input);
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
 			}
@@ -31,5 +34,6 @@ int main() {
 				errorHandler.handleError(err);
 			}
 		}
+
 	}
 }
