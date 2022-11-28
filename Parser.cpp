@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include<regex>
 
 using namespace std;
 
@@ -65,6 +66,15 @@ class Parser {
 				}
 			}*/
 		}
+		class create_table
+		{
+			void testCreateTable(input) {
+				if (regex_match(input, regex("^create table[a-zA-z0-9]+[\_]${1,}",regex::icase))) {
+					cout << "your input is valid! ";
+				else throw "your input is not valid. try again!";
+				}
+			}
+		};
 
 		~Parser() {
 			cout << "Destructor Parser" << endl;
