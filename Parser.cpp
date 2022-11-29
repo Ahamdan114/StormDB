@@ -74,10 +74,11 @@ class Parser {
 };
 class CreateTable
 {public:
-	void testCreateTable(string const input)
+	bool testCreateTable(string const input)
 	{
-		bool reg = regex_match(input.c_str(), regex("^create\s + table\s + [a - zA - Z_] * _ * [a - zA - Z0 - 9_] {0, 63}$ "));
-		cout << reg;
+		bool reg = regex_match(input.c_str(), regex("^create\\s+table\\s+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
+		cout << reg<<endl;
+		return reg;
 		
 	}
 };

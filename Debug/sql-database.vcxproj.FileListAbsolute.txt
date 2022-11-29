@@ -1,2 +1,3 @@
 C:\Users\Ahmed\Desktop\sql-database-repo\Debug\sql-database.exe
 C:\Users\User\Source\Repos\sql-database-repo\Debug\sql-database.exe
+C:\Users\AndreiEnculescu\Desktop\sql-database-repo\Debug\sql-database.exe

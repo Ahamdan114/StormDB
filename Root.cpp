@@ -26,7 +26,8 @@ int main() {
 			try {
 				//string cleanInput = parser.cleanInput(input);
 				//parser.parse(cleanInput);
-				testCreateTable.testCreateTable(input);
+				/*testCreateTable.testCreateTable(input);*/
+				bool a= testCreateTable.testCreateTable(input);
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
 			}
