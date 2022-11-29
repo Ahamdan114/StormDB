@@ -24,10 +24,12 @@ int main() {
 		if (input != "") {
 			// Input checking.
 			try {
-				//string cleanInput = parser.cleanInput(input);
+				string cleanInput = parser.cleanInput(input);
+				cout << cleanInput << endl;
 				//parser.parse(cleanInput);
 				/*testCreateTable.testCreateTable(input);*/
-				bool a= testCreateTable.testCreateTable(input);
+				bool a= testCreateTable.testCreateTable(cleanInput);
+
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
 			}

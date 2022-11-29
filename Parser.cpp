@@ -22,12 +22,12 @@ enum MyCRUDCommands {
 
 class Parser {
 	public:
-		/*string cleanInput(string input) {
+		string cleanInput(string input) {
 			return formatInput(removeSpaces(input));
-		}*/
+		}
 
-		/*string formatInput(string input) {
-			for (int i = 0; input[i] != '\0'; i++) {
+		string formatInput(string input) {
+			for (unsigned int i = 0; input[i] != '\0'; i++) {
 				if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
 			}
 			return input;
@@ -43,7 +43,7 @@ class Parser {
 			}
 			input = comparison = NULL;
 			return removeSpacesArr;
-		}*/
+		}
 
 		void parse(string cleanInput) {
 			/*int tokens_index = 0;
@@ -76,9 +76,21 @@ class CreateTable
 {public:
 	bool testCreateTable(string const input)
 	{
-		bool reg = regex_match(input.c_str(), regex("^create\\s+table\\s+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
+		bool reg = regex_match(input.c_str(), regex("^create+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
 		cout << reg<<endl;
 		return reg;
 		
+	}
+};
+
+class DropTable
+{
+public:
+	bool testCreateTable(string const input)
+	{
+		bool reg = regex_match(input.c_str(), regex("^create+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
+		cout << reg << endl;
+		return reg;
+
 	}
 };
