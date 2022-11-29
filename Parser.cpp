@@ -1,24 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include<regex>
+#include <regex>
 
 using namespace std;
 
-enum MyStructureDBCommands {
-	CREATE = 0, 
-	TABLE = 1, 
-	INDEX = 2, 
-	DROP = 3,
-	DISPLAY = 4
-};
-
-enum MyCRUDCommands {
-	INSERT = 5,
-	SELECT = 6,
-	UPDATE = 7,
-	DELETE = 8,
-};
 
 class Parser {
 	public:

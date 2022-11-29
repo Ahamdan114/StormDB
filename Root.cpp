@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include<regex>
+#include <regex>
 
 #include "ErrorHandler.cpp"
 #include "Printer.cpp"
@@ -22,7 +22,7 @@ int main() {
 		cout << "Introdu o comanda: "; 
 		getline(cin, input);
 		if (input != "") {
-			// Input checking.
+			
 			try {
 				string cleanInput = parser.cleanInput(input);
 				cout << cleanInput << endl;
