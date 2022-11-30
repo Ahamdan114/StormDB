@@ -29,7 +29,7 @@ int main() {
 				cout << cleanInput << endl;
 				//parser.parse(cleanInput);
 				/*testCreateTable.testCreateTable(input);*/
-				/*bool a= testCreateTable.testCreateTable(cleanInput);*/
+				bool a= testCreateTable.testCreateTable(cleanInput);
 				bool b = select.testSelect(cleanInput);
 				cout << b << endl;
 				/*string output = logicHandler.handleLogic(cleanInput);
