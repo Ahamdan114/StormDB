@@ -9,7 +9,7 @@ using namespace std;
 class Parser {
 	public:
 		string cleanInput(string input) {
-			return formatInput(removeSpaces(input));
+			return formatInput(input);
 		}
 
 		string formatInput(string input) {
@@ -19,7 +19,7 @@ class Parser {
 			return input;
 		}
 
-		string removeSpaces(string input) {
+		/*string removeSpaces(string input) {
 			char comparison = ' ';
 			string removeSpacesArr = "";
 			for (unsigned int i = 0; i < input.length(); i++) {
@@ -29,7 +29,7 @@ class Parser {
 			}
 			input = comparison = NULL;
 			return removeSpacesArr;
-		}
+		}*/
 
 		void parse(string cleanInput) {
 			/*int tokens_index = 0;
@@ -78,5 +78,14 @@ public:
 		cout << reg << endl;
 		return reg;
 
+	}
+};
+class Select
+{
+public:
+	bool testSelect(string const input)
+	{
+		bool selectColumns = regex_match(input.c_str(), regex("^select[[:blank:]]+(?!all)(\\((?\'numeCol\'[a-zA-Z_]+)(,{0,1}[a-zA-Z_]+)+\\))[[:blank:]]+from[[:blank:]]+(?\'numeTabel\'[a-zA-Z0-9_]+)[[:blank:]]{0,}(where[[:blank:]]+[a-zA-Z_]+[[:blank:]]{0,}=[[:blank:]]{0,}(([0-9]+)|(\"[a-zA-Z]+\"))){0,1}"));
+		return selectColumns;
 	}
 };

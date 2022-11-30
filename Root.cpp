@@ -17,6 +17,7 @@ int main() {
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
 	CreateTable testCreateTable = CreateTable();
+	Select select = Select();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -28,8 +29,9 @@ int main() {
 				cout << cleanInput << endl;
 				//parser.parse(cleanInput);
 				/*testCreateTable.testCreateTable(input);*/
-				bool a= testCreateTable.testCreateTable(cleanInput);
-
+				/*bool a= testCreateTable.testCreateTable(cleanInput);*/
+				bool b = select.testSelect(cleanInput);
+				cout << b << endl;
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
 			}
