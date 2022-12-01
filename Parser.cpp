@@ -89,3 +89,11 @@ public:
 		return selectColumns;
 	}
 };
+class DisplayTable
+{public:
+	bool testDisplayTable(string const input)
+	{
+		bool displayTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}display[[:blank:]]+table[[:blank:]]+[a-z0-9_]+[[:blank:]]+"));
+		return displayTable;
+	}
+};

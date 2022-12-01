@@ -18,6 +18,7 @@ int main() {
 	ErrorHandler errorHandler = ErrorHandler();
 	CreateTable testCreateTable = CreateTable();
 	Select select = Select();
+	DisplayTable display = DisplayTable();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -34,6 +35,8 @@ int main() {
 				cout << b << endl;
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
+				bool c = display.testDisplayTable(cleanInput);
+				cout << c << endl;
 			}
 			catch (string err) {
 				errorHandler.handleError(err);
