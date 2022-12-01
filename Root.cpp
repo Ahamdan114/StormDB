@@ -21,6 +21,7 @@ int main() {
 	DisplayTable display = DisplayTable();
 	DeleteTable deleteTab = DeleteTable();
 	UpdateTable updateTab = UpdateTable();
+	Insert insertus = Insert();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -43,6 +44,8 @@ int main() {
 				cout << d << endl;
 				bool e = updateTab.testUpdateTable(cleanInput);
 				cout << e << endl;
+				bool f = insertus.InsertIntoTable(cleanInput);
+				cout << f << endl;
 			}
 			catch (string err) {
 				errorHandler.handleError(err);

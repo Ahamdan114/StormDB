@@ -119,3 +119,13 @@ public:
 
 
 };
+class Insert
+{
+	
+	public:
+	bool InsertIntoTable(string const input)
+	{
+		bool testInsertInto = regex_match(input.c_str(), regex("[[:blank:]]{0,}insert[[:blank:]]+into[[:blank:]]+(\\w+)[[:blank:]]+values[[:blank:]]+(\\((\"?((\\w+)|([0-9]+.[0-9]+))\"?,){0,}\"?((\\w+)|([0-9]+.[0-9]+))\"?\\))[[:blank:]]{0,}"));
+		return testInsertInto;
+	}
+};
