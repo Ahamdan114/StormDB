@@ -20,6 +20,7 @@ int main() {
 	Select select = Select();
 	DisplayTable display = DisplayTable();
 	DeleteTable deleteTab = DeleteTable();
+	UpdateTable updateTab = UpdateTable();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -40,6 +41,8 @@ int main() {
 				cout << c << endl;
 				bool d = deleteTab.testDeleteTable(cleanInput);
 				cout << d << endl;
+				bool e = updateTab.testUpdateTable(cleanInput);
+				cout << e << endl;
 			}
 			catch (string err) {
 				errorHandler.handleError(err);

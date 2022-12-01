@@ -105,4 +105,17 @@ public:
 		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]{0,}where[[:blank:]]{0,}\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]+"));
 		return deleteTable;
 	}
+
+};
+class UpdateTable
+{
+public:
+	bool testUpdateTable(string const input) 
+	{
+		
+		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}update[[:blank:]]+\\w+[[:blank:]]set[[:blank:]]+\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]{0,}"));
+		return updateTable;
+	}
+
+
 };
