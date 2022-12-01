@@ -18,6 +18,7 @@ int main() {
 	ErrorHandler errorHandler = ErrorHandler();
 	CreateTable testCreateTable = CreateTable();
 	Select select = Select();
+	DropTable dropTable = DropTable();
 	DisplayTable display = DisplayTable();
 	DeleteTable deleteTab = DeleteTable();
 	UpdateTable updateTab = UpdateTable();
@@ -34,18 +35,18 @@ int main() {
 				//parser.parse(cleanInput);
 				/*testCreateTable.testCreateTable(input);*/
 				bool a= testCreateTable.testCreateTable(cleanInput);
-				bool b = select.testSelect(cleanInput);
-				cout << b << endl;
+				//bool b = select.testSelect(cleanInput);
+				cout << a << endl;
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
-				bool c = display.testDisplayTable(cleanInput);
-				cout << c << endl;
-				bool d = deleteTab.testDeleteTable(cleanInput);
-				cout << d << endl;
-				bool e = updateTab.testUpdateTable(cleanInput);
-				cout << e << endl;
-				bool f = insertus.InsertIntoTable(cleanInput);
-				cout << f << endl;
+				//bool c = display.testDisplayTable(cleanInput);
+				//cout << c << endl;
+				//bool d = deleteTab.testDeleteTable(cleanInput);
+				//cout << d << endl;
+				//bool e = updateTab.testUpdateTable(cleanInput);
+				//cout << e << endl;
+				//bool f = insertus.InsertIntoTable(cleanInput);
+				//cout << f << endl;
 			}
 			catch (string err) {
 				errorHandler.handleError(err);

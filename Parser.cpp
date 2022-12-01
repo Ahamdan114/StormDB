@@ -62,7 +62,13 @@ class CreateTable
 {public:
 	bool testCreateTable(string const input)
 	{
-		bool reg = regex_match(input.c_str(), regex("^create+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
+		// Regex Error with memory location
+		bool reg = regex_match(
+			input.c_str(), 
+			regex(
+				"[[:blank:]]{0,}create[[:blank:]]+table[[:blank:]]+(?!table)[a-z0-9_]+[[:blank:]]{0,}+\\s{0,}((if[[:blank:]]+not[[:blank:]]+exist[[:blank:]]+))?\\s{0,}\\((((\\((\\s{0,}\\w+\\s{0,},\\s{0,}((integer)|(text)|(numeric)|(real)|(blob))\\s{0,},\\s{0,}[0-9]+\\s{0,},\\s{0,}(\"|[0-9]+|('[a-z0-9]+'))\\s{0,})\\))+)+([[:blank:]]+,\\s{0,1}+[[:blank:]])?\\s{0,}){0,}\\)[[:blank:]]+"
+			)
+		);
 		cout << reg<<endl;
 		return reg;
 		
@@ -72,7 +78,7 @@ class CreateTable
 class DropTable
 {
 public:
-	bool testCreateTable(string const input)
+	bool testDropTable(string const input)
 	{
 		bool reg = regex_match(input.c_str(), regex("^create+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
 		cout << reg << endl;
