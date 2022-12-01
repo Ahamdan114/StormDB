@@ -97,3 +97,12 @@ class DisplayTable
 		return displayTable;
 	}
 };
+class DeleteTable
+{
+public:
+	bool testDeleteTable(string const input) 
+	{
+		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]{0,}where[[:blank:]]{0,}\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]+"));
+		return deleteTable;
+	}
+};

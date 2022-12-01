@@ -19,6 +19,7 @@ int main() {
 	CreateTable testCreateTable = CreateTable();
 	Select select = Select();
 	DisplayTable display = DisplayTable();
+	DeleteTable deleteTab = DeleteTable();
 
 	while (true) {
 		cout << "Introdu o comanda: "; 
@@ -37,6 +38,8 @@ int main() {
 				printer.print(output);*/
 				bool c = display.testDisplayTable(cleanInput);
 				cout << c << endl;
+				bool d = deleteTab.testDeleteTable(cleanInput);
+				cout << d << endl;
 			}
 			catch (string err) {
 				errorHandler.handleError(err);
