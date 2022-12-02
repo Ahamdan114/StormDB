@@ -63,8 +63,8 @@ class CreateTable
 	bool testCreateTable(string const input)
 	{
 		// Regex Error with memory location
-		bool reg = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)*((\\([[:blank:]]*((\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*((\'[0-9_a-z]+\')|(\'[0-9]+\\.[0-9]+\')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))(,(?5))*)[[:blank:]]*\\))|(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*((\'[0-9_a-z]+\')|(\'[0-9]+\\.[0-9]+\')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\)))[[:blank:]]*"));
-		cout << reg<<endl;
+		bool reg = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?((\\([[:blank:]]*((\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))(,(?5))*)[[:blank:]]*\\)[[:blank:]]*)|(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\)))[[:blank:]]*"));
+		
 		return reg;
 		
 	}
@@ -75,9 +75,9 @@ class DropTable
 public:
 	bool testDropTable(string const input)
 	{
-		bool reg = regex_match(input.c_str(), regex("^drop+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
-		cout << reg << endl;
-		return reg;
+		bool dropTab = regex_match(input.c_str(), regex("[[:blank:]]*drop[[:blank:]]+table[[:blank:]]+\\w+[[:blank:]]*"));
+		
+		return dropTab;
 
 	}
 };
@@ -86,7 +86,7 @@ class Select
 public:
 	bool testSelect(string const input)
 	{
-		bool selectColumns = regex_match(input.c_str(), regex("^select+[[:blank:]]+((all)|(\\((?!all)([^)]+)\\)))[[:blank:]]+from[[:blank:]]+(?!where)\\w+([[:blank:]]+(where(?!where)[[:blank:]]+\\w+[[:blank:]]{0,}=[[:blank:]]{0,}([0-9]+|\"(\\w*?)\")))?$"));
+		bool selectColumns = regex_match(input.c_str(), regex("[[:blank:]]*select+[[:blank:]]+((all)|(\\((?!all)([^)]+)\\)))[[:blank:]]+from[[:blank:]]+(?!where)\\w+([[:blank:]]+(where(?!where)[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*([0-9]+|\"(\\w*?)\")))?[[:blank:]]*"));
 		return selectColumns;
 	}
 };
@@ -94,7 +94,7 @@ class DisplayTable
 {public:
 	bool testDisplayTable(string const input)
 	{
-		bool displayTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}display[[:blank:]]+table[[:blank:]]+[a-z0-9_]+[[:blank:]]+"));
+		bool displayTable = regex_match(input.c_str(), regex("[[:blank:]]*display[[:blank:]]+table[[:blank:]]+\\w+[[:blank:]]*"));
 		return displayTable;
 	}
 };
@@ -103,7 +103,7 @@ class DeleteTable
 public:
 	bool testDeleteTable(string const input) 
 	{
-		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]{0,}where[[:blank:]]{0,}\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]+"));
+		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]*"));
 		return deleteTable;
 	}
 
@@ -114,7 +114,7 @@ public:
 	bool testUpdateTable(string const input) 
 	{
 		
-		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]{0,}update[[:blank:]]+\\w+[[:blank:]]set[[:blank:]]+\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]{0,}=[[:blank:]]{0,}((\"[a-z]+\"|[0-9]+))[[:blank:]]{0,}"));
+		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]*"));
 		return updateTable;
 	}
 
@@ -126,7 +126,8 @@ class Insert
 	public:
 	bool InsertIntoTable(string const input)
 	{
-		bool testInsertInto = regex_match(input.c_str(), regex("[[:blank:]]{0,}insert[[:blank:]]+into[[:blank:]]+(\\w+)[[:blank:]]+values[[:blank:]]+(\\((\"?((\\w+)|([0-9]+.[0-9]+))\"?,){0,}\"?((\\w+)|([0-9]+.[0-9]+))\"?\\))[[:blank:]]{0,}"));
+		bool testInsertInto = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+(\\w+)[[:blank:]]+values[[:blank:]]+(\\((\"?((\\w+)|([0-9]+\\.[0-9]+))\"?,)*\"?((\\w+)|([0-9]+\\.[0-9]+))\"?\\))[[:blank:]]*"));
 		return testInsertInto;
 	}
+	//s-ar putea sa fie de la float uri, check tomorrow
 };

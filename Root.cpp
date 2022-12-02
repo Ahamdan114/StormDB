@@ -35,18 +35,22 @@ int main() {
 				//parser.parse(cleanInput);
 				/*testCreateTable.testCreateTable(input);*/
 				bool a= testCreateTable.testCreateTable(cleanInput);
-				//bool b = select.testSelect(cleanInput);
-				cout << a << endl;
+				cout << "Test for create table " << a << endl;
+				bool b = select.testSelect(cleanInput);
+				cout << "Test for select command " << b << endl;
+				/*cout << a << endl;*/
 				/*string output = logicHandler.handleLogic(cleanInput);
 				printer.print(output);*/
-				//bool c = display.testDisplayTable(cleanInput);
-				//cout << c << endl;
-				//bool d = deleteTab.testDeleteTable(cleanInput);
-				//cout << d << endl;
-				//bool e = updateTab.testUpdateTable(cleanInput);
-				//cout << e << endl;
-				//bool f = insertus.InsertIntoTable(cleanInput);
-				//cout << f << endl;
+				bool c = display.testDisplayTable(cleanInput);
+				cout << "Test for display tab command "<<c << endl;
+				bool d = deleteTab.testDeleteTable(cleanInput);
+				cout << "Test for delete tab command "<<d << endl;
+				bool e = updateTab.testUpdateTable(cleanInput);
+				cout << "Test for update tab command "<< e << endl;
+				bool f = insertus.InsertIntoTable(cleanInput);
+				cout <<"Test for insert command "<< f << endl;
+				bool g = dropTable.testDropTable(cleanInput);
+				cout << "Test for dropt table command " << g << endl;
 			}
 			catch (std::exception const& e) {
 				//errorHandler.handleError(err);
