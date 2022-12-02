@@ -63,12 +63,7 @@ class CreateTable
 	bool testCreateTable(string const input)
 	{
 		// Regex Error with memory location
-		bool reg = regex_match(
-			input.c_str(), 
-			regex(
-				"[[:blank:]]{0,}create[[:blank:]]+table[[:blank:]]+(?!table)[a-z0-9_]+[[:blank:]]{0,}+\\s{0,}((if[[:blank:]]+not[[:blank:]]+exist[[:blank:]]+))?\\s{0,}\\((((\\((\\s{0,}\\w+\\s{0,},\\s{0,}((integer)|(text)|(numeric)|(real)|(blob))\\s{0,},\\s{0,}[0-9]+\\s{0,},\\s{0,}(\"|[0-9]+|('[a-z0-9]+'))\\s{0,})\\))+)+([[:blank:]]+,\\s{0,1}+[[:blank:]])?\\s{0,}){0,}\\)[[:blank:]]+"
-			)
-		);
+		bool reg = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)*((\\([[:blank:]]*((\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*((\'[0-9_a-z]+\')|(\'[0-9]+\\.[0-9]+\')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))(,(?5))*)[[:blank:]]*\\))|(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*((\'[0-9_a-z]+\')|(\'[0-9]+\\.[0-9]+\')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\)))[[:blank:]]*"));
 		cout << reg<<endl;
 		return reg;
 		
@@ -80,7 +75,7 @@ class DropTable
 public:
 	bool testDropTable(string const input)
 	{
-		bool reg = regex_match(input.c_str(), regex("^create+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
+		bool reg = regex_match(input.c_str(), regex("^drop+table+[a-zA-Z_]*_*[a-zA-Z0-9_]{0,63}$"));
 		cout << reg << endl;
 		return reg;
 

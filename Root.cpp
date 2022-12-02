@@ -48,8 +48,9 @@ int main() {
 				//bool f = insertus.InsertIntoTable(cleanInput);
 				//cout << f << endl;
 			}
-			catch (string err) {
-				errorHandler.handleError(err);
+			catch (std::exception const& e) {
+				//errorHandler.handleError(err);
+				std::cerr << e.what() << std::endl;
 			}
 		}
 
