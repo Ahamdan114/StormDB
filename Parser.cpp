@@ -126,7 +126,7 @@ class Insert
 	public:
 	bool InsertIntoTable(string const input)
 	{
-		bool testInsertInto = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+(\\w+)[[:blank:]]+values[[:blank:]]+(\\((\"?((\\w+)|([0-9]+\\.[0-9]+))\"?,)*\"?((\\w+)|([0-9]+\\.[0-9]+))\"?\\))[[:blank:]]*"));
+		bool testInsertInto = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*((\"\\w+\"|([0-9]+))\\s*,\\s*(\"\\w+\"|([0-9]+))*)*\\s*,\\s*((\"\\w+\")|[0-9]+)\\s*\\)[[:blank:]]*"));
 		return testInsertInto;
 	}
 	//s-ar putea sa fie de la float uri, check tomorrow
