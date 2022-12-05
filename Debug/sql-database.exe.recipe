@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
       <FullPath>C:\Users\Ahmed\Desktop\sql-database-repo\Debug\sql-database.exe</FullPath>
+=======
+      <FullPath>C:\Users\Maria\Desktop\sql-database-repo\Debug\sql-database.exe</FullPath>
+>>>>>>> 6f70292adc60610f0789f6f77ae0c2caa51192f3
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
