@@ -67,10 +67,6 @@ public:
 		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return updateTable;
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 6f70292adc60610f0789f6f77ae0c2caa51192f3
 };
 class Insert
 {

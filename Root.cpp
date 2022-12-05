@@ -32,7 +32,7 @@ int main() {
 			try {
 				string cleanInput = parser.cleanInput(input);
 				parser.parse(cleanInput);
-				cout << "The command introduced is: " << cleanInput << endl;
+				cout << "The command introduced to lowercase is: " << cleanInput << endl;
 
 				// Next phase: maintenance;
 			
