@@ -5,7 +5,7 @@ using namespace std;
 
 class Printer {
 public:
-	void print(string output) {
+	void print(string cleanInput) {
 	
 	}
 

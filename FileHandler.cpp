@@ -5,6 +5,10 @@ using namespace std;
 
 class FileHandler {
 public:
+	void fileHandle(string cleanInput) {
+
+	}
+
 	~FileHandler() {
 		cout << "Destructor FileHandler" << endl;
 	}

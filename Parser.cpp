@@ -5,69 +5,16 @@
 
 using namespace std;
 
-
-class Parser {
-	public:
-		string cleanInput(string input) {
-			return formatInput(input);
-		}
-
-		string formatInput(string input) {
-			for (unsigned int i = 0; input[i] != '\0'; i++) {
-				if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
-			}
-			return input;
-		}
-
-	/*	string removeSpaces(string input) {
-			char comparison = ' ';
-			string removeSpacesArr = "";
-			for (unsigned int i = 0; i < input.length(); i++) {
-				if (input[i] != comparison) {
-					removeSpacesArr += input[i];
-				}
-			}
-			input = comparison = NULL;
-			return removeSpacesArr;
-		}*/
-
-		void parse(string cleanInput) {
-			/*int tokens_index = 0;
-			string token = "";
-			string[cleanInput.length()] tokens = {};
-			for (int i = 0; i < cleanInput.length(); i++) {
-				char currentChar = cleanInput[i];
-				bool isLastChar = i == cleanInput.length() - 1;
-				bool isWhiteSpace = currentChar == ' ';
-
-				if (isWhiteSpace) {
-					tokens[tokens_index++] = token;
-					token = "";
-				} else if (isLastChar) {
-					token += currentChar;
-					tokens[tokens_index++] = token;
-					token = "";
-				} else {
-					token += currentChar;
-				}
-			}*/
-		}
-		
-
-		~Parser() {
-			cout << "Destructor Parser" << endl;
-		}
-};
 class CreateTable
-{public:
+{
+public:
 	bool testCreateTable(string const input)
 	{
 
 		//bool reg = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?(\\([[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))(\\s*,\\s*\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))+\\))|[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?[[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))[[:blank:]]*"));
 		bool reg = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?(\\([[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))(\\s*,\\s*\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))+\\))|[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?[[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))[[:blank:]]*"));
-		
 		return reg;
-		
+
 	}
 };
 
@@ -104,9 +51,9 @@ class DisplayTable
 class DeleteTable
 {
 public:
-	bool testDeleteTable(string const input) 
+	bool testDeleteTable(string const input)
 	{
-		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]*"));
+		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return deleteTable;
 	}
 
@@ -114,13 +61,12 @@ public:
 class UpdateTable
 {
 public:
-	bool testUpdateTable(string const input) 
+	bool testUpdateTable(string const input)
 	{
-		
-		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]*"));
+
+		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return updateTable;
 	}
-
 
 };
 class Insert
@@ -134,4 +80,60 @@ class Insert
 		return testInsertInto;
 	}
 
+};
+
+
+
+class Parser {
+public:
+	string cleanInput(string input) {
+		return formatInput(input);
+	}
+
+	string formatInput(string input) {
+		for (unsigned int i = 0; input[i] != '\0'; i++) {
+			if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
+		}
+		return input;
+	}
+
+	// For logic phase: [
+
+	/*	string removeSpaces(string input) {
+			char comparison = ' ';
+			string removeSpacesArr = "";
+			for (unsigned int i = 0; i < input.length(); i++) {
+				if (input[i] != comparison) {
+					removeSpacesArr += input[i];
+				}
+			}
+			input = comparison = NULL;
+			return removeSpacesArr;
+		}*/
+	// ]
+
+	void parse(string cleanInput) {
+		CreateTable createTable = CreateTable();
+		Select selectTable = Select();
+		DropTable dropTable = DropTable();
+		DisplayTable displayTable = DisplayTable();
+		DeleteTable deleteTable = DeleteTable();
+		UpdateTable updateTable = UpdateTable();
+		Insert insertTable = Insert();
+
+		bool createCheck = createTable.testCreateTable(cleanInput);
+		bool dropCheck = dropTable.testDropTable(cleanInput);
+		bool selectCheck = selectTable.testSelect(cleanInput);
+		bool displayCheck = displayTable.testDisplayTable(cleanInput);
+		bool deleteCheck = deleteTable.testDeleteTable(cleanInput);
+		bool updateCheck = updateTable.testUpdateTable(cleanInput);
+		bool insertCheck = insertTable.InsertIntoTable(cleanInput);
+		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck)) throw "Syntax error.";
+		else cout << "Syntax correct!" << endl;
+	}
+
+
+	~Parser() {
+		cout << "Destructor Parser" << endl;
+	}
 };
