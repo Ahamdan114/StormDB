@@ -50,7 +50,7 @@ int main() {
 				bool f = insertus.InsertIntoTable(cleanInput);
 				cout <<"Test for insert command "<< f << endl;
 				bool g = dropTable.testDropTable(cleanInput);
-				cout << "Test for dropt table command " << g << endl;
+				cout << "Test for drop table command " << g << endl;
 			}
 			catch (std::exception const& e) {
 				//errorHandler.handleError(err);
