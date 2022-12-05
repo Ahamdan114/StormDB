@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include<fstream>
 
 #include "ErrorHandler.cpp"
 #include "Printer.cpp"
@@ -22,23 +23,33 @@ int main() {
 
 	// Console Entrance
 	while (true) {
-		if (counter == 0) {
-			cout << "Enter a command: ";
-			counter = 1;
+		
+	
+		if (fileHandle.fileHandle() != "") { input = fileHandle.fileHandle(); }
+		else 
+		{
+			getline(cin, input);
+
+			if (counter == 0) {
+				cout << "Enter a command: ";
+				counter = 1;
+			}
+			else cout << "Enter a new command: ";
 		}
-		else cout << "Enter a new command: ";
-		getline(cin, input);
-		if (input != "") {
+		//getline(cin, input);
+		if (input != "")
+		{  
 			try {
 				string cleanInput = parser.cleanInput(input);
 				parser.parse(cleanInput);
 				cout << "The command introduced to lowercase is: " << cleanInput << endl;
 
 				// Next phase: maintenance;
-			
+
 				//logicHandler.logicHandler(cleanInput); 
 				// printer.print(cleanInput)
-				//fileHandle.fileHandle(string cleanInput)
+				
+
 			}
 			catch (std::exception const& e) {
 				// For next phases
