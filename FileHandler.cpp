@@ -13,7 +13,7 @@ public:
 		if (Input.is_open())
 		{
 			string fileInput;
-			while (getline(Input, fileInput)) cout << fileInput << endl;
+			while (getline(Input, fileInput));
 			Input.close();
 			return fileInput;
 		}

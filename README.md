@@ -14,4 +14,5 @@
 
 #	Input Flow:
 		Input goes through Parser, where it is formatted to lowercase, then returned for actual checking of correctness.
-		After that, it is pointed towards the logical part, where... 
+		After that, it is printed on the console the feedback.
+		Next, the output of the parsing is pointed towards the logical part, where... 

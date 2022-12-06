@@ -42,7 +42,7 @@ public:
 	}
 
 	~ErrorHandler() {
-		cout << "Destructor ErrorHandler" << endl;
+		//cout << "Destructor ErrorHandler" << endl;
 	}
 };
 

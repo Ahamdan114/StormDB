@@ -5,9 +5,7 @@ using namespace std;
 
 class Printer {
 public:
-	void print(string cleanInput) {
-	
-	}
+	void print(string cleanInput) {}
 
 	~Printer() {
 		 // cout << "Destructor Print" << endl;

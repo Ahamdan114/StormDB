@@ -21,7 +21,7 @@ int main() {
 	FileHandler fileHandle = FileHandler();
 
 	int counter = 1;
-	system("color 0D");
+	system("color 0D"); // For purple color of the text.
 
 	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
 	if (input == "") cout << "Input from file is inexistent!" << endl;
@@ -31,6 +31,11 @@ int main() {
 		if (input != "")
 		{  
 			if (input == "exit") break;
+			else if (input == "clear") {
+				for (int i = 0; i < 50; i++) cout << endl << endl;
+				input = "";
+				continue;
+			}
 			try {
 				string cleanInput = parser.cleanInput(input);
 				parser.parse(cleanInput);
@@ -46,17 +51,19 @@ int main() {
 		}
 
 
-
 		if (counter > 0) {
-			cout << "Enter a new command: ";
+			cout << endl << "Enter a new command: ";
 			--counter;
 		}
-		else cout << "Enter a command: ";
+		else cout << endl << "Enter a command: ";
 		getline(cin, input);
-		
 	}
-
-	cout << "##############" << endl;
-	cout << "## Goodbye! ##" << endl;
-	cout << "##############" << endl;
+	cout << endl << endl;
+	cout << "							   								" << endl;
+	cout << "						## # #  # # ## 						" << endl;
+	cout << "						##############						" << endl;
+	cout << "						## Goodbye! ##						" << endl;
+	cout << "						##############						" << endl;
+	cout << "						## # #  # # ## 						" << endl;
+	cout << endl << endl;
 }

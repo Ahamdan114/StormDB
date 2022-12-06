@@ -11,6 +11,6 @@ public:
 	}
 
 	~LogicHandler() {
-		cout << "Destructor LogicHandler" << endl;
+		//cout << "Destructor LogicHandler" << endl;
 	}
 };

@@ -126,7 +126,6 @@ public:
 		else cout << "Syntax correct!" << endl;
 	}
 
-
 	~Parser() {
 		// cout << "Destructor Parser" << endl;
 	}
