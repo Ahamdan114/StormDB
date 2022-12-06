@@ -25,7 +25,9 @@ int main() {
 	while (true) {
 		
 	
-		if (fileHandle.fileHandle() != "") { input = fileHandle.fileHandle(); }
+		if (fileHandle.fileHandle() != "") { 
+			input = fileHandle.fileHandle(); 
+		}
 		else 
 		{
 			getline(cin, input);
@@ -40,6 +42,7 @@ int main() {
 		if (input != "")
 		{  
 			try {
+				if (input == "exit") break;
 				string cleanInput = parser.cleanInput(input);
 				parser.parse(cleanInput);
 				cout << "The command introduced to lowercase is: " << cleanInput << endl;

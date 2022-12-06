@@ -21,7 +21,7 @@ public:
 			return fileInput;
 
 		}
-		else return"";
+		else return "";
 		
 		
 	}
