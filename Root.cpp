@@ -19,8 +19,10 @@ int main() {
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
+
 	int counter = 1;
-	
+	system("color 0D");
+
 	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
 	if (input == "") cout << "Input from file is inexistent!" << endl;
 	else cout << "Input from file is: " << input << endl;

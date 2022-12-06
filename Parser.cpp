@@ -121,7 +121,8 @@ public:
 		bool deleteCheck = deleteTable.testDeleteTable(cleanInput);
 		bool updateCheck = updateTable.testUpdateTable(cleanInput);
 		bool insertCheck = insertTable.InsertIntoTable(cleanInput);
-		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck)) throw "Syntax error.";
+		
+		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck)) throw  "Syntax error.";
 		else cout << "Syntax correct!" << endl;
 	}
 
