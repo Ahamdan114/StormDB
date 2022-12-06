@@ -1,1 +1,1 @@
-exit
+drop table nume

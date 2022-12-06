@@ -20,32 +20,17 @@ int main() {
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
 	int counter = 0;
-
+	
+	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
 	// Console Entrance
 	while (true) {
-		
-	
-		if (fileHandle.fileHandle() != "") { 
-			input = fileHandle.fileHandle(); 
-		}
-		else 
-		{
-			getline(cin, input);
-
-			if (counter == 0) {
-				cout << "Enter a command: ";
-				counter = 1;
-			}
-			else cout << "Enter a new command: ";
-		}
-		//getline(cin, input);
 		if (input != "")
 		{  
+			if (input == "exit") break;
 			try {
-				if (input == "exit") break;
 				string cleanInput = parser.cleanInput(input);
 				parser.parse(cleanInput);
-				cout << "The command introduced to lowercase is: " << cleanInput << endl;
+				cout << "Command details -> The command introduced to lowercase is: " << cleanInput << endl;
 
 				// Next phase: maintenance;
 
@@ -59,6 +44,16 @@ int main() {
 			}
 		}
 
+		if (counter > 0) {
+			cout << "Enter a new command: ";
+			counter = 0;
+		}
+		else cout << "Enter a command: ";
+		getline(cin, input);
 		
 	}
+
+	cout << "##############" << endl;
+	cout << "## Goodbye! ##" << endl;
+	cout << "##############" << endl;
 }

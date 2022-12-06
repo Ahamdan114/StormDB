@@ -6,7 +6,7 @@ using namespace std;
 
 class FileHandler {
 public:
-	string fileHandle() {
+	string inputFromFile() {
 
 		fstream Input;
 		Input.open("input.txt", ios::in);
