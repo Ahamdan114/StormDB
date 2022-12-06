@@ -27,7 +27,7 @@ public:
 	}
 
 	~FileHandler() {
-		cout << "Destructor FileHandler" << endl;
+		// cout << "Destructor FileHandler" << endl;
 	}
 };
 

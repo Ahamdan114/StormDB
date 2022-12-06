@@ -10,7 +10,7 @@ public:
 	}
 
 	~Printer() {
-		cout << "Destructor Print" << endl;
+		 // cout << "Destructor Print" << endl;
 	}
 };
 

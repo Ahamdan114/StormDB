@@ -19,9 +19,10 @@ int main() {
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
-	int counter = 0;
+	int counter = 1;
 	
 	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
+	
 	// Console Entrance
 	while (true) {
 		if (input != "")
