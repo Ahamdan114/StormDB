@@ -1,1 +1,1 @@
-drop table nume
+create table students ((id, integer, 1000, 0),(nume, text, 129, "), (grupa, text, 40, '1000'))

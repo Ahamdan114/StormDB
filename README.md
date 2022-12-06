@@ -13,6 +13,5 @@
 		Else, the asked operation is processed.
 
 #	Input Flow:
-		Input goes through Parser, where it is depleted from empty spaces
-		and formatted to lowercase, then returned for actual parsing.
-		After that, it is pointed towards the logical part, where...
+		Input goes through Parser, where it is formatted to lowercase, then returned for actual checking of correctness.
+		After that, it is pointed towards the logical part, where... 

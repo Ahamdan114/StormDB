@@ -22,7 +22,7 @@ int main() {
 	int counter = 1;
 	
 	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
-	if (input == "") cout << "Input from file is: inexistent " << endl;
+	if (input == "") cout << "Input from file is inexistent!" << endl;
 	else cout << "Input from file is: " << input << endl;
 	// Console Entrance
 	while (true) {
@@ -34,21 +34,20 @@ int main() {
 				parser.parse(cleanInput);
 				cout << "Command details -> The command introduced to lowercase is: " << cleanInput << endl;
 
-				// Next phase: maintenance;
-
+				// Next phase: maintenance
 				//logicHandler.logicHandler(cleanInput); 
 				// printer.print(cleanInput)
-				
-
 			}
 			catch (std::exception const& e) {
 				// For next phases
 			}
 		}
 
+
+
 		if (counter > 0) {
 			cout << "Enter a new command: ";
-			counter = 0;
+			--counter;
 		}
 		else cout << "Enter a command: ";
 		getline(cin, input);
