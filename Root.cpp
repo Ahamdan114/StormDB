@@ -22,7 +22,8 @@ int main() {
 	int counter = 1;
 	
 	if (fileHandle.inputFromFile() != "") input = fileHandle.inputFromFile();
-	
+	if (input == "") cout << "Input from file is: inexistent " << endl;
+	else cout << "Input from file is: " << input << endl;
 	// Console Entrance
 	while (true) {
 		if (input != "")
