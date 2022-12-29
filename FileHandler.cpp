@@ -4,12 +4,14 @@
 #include<fstream>
 using namespace std;
 
-class FileHandler {
+class FileHandler : public LogicHandler {
 public:
-	string inputFromFile() {
+
+	FileHandler() {}
+	string inputFromFile(string file) {
 
 		fstream Input;
-		Input.open("input.txt", ios::in);
+		Input.open(file, ios::in);
 		if (Input.is_open())
 		{
 			string fileInput;
@@ -20,8 +22,24 @@ public:
 		return "";
 	}
 
+
+	// string input, bool resultInput, ofstream ObjectFile
+
+	void FileHandlingCreateFile(string str, string input) {
+		// SELECT_1.txt
+		// CREATE_1.txt
+		// CREATE_2.txt
+		// counter
+		cout << endl << endl << endl;
+		cout << "FileHandlingTemp method CALLED: " << str << endl;
+		fstream ObjectFile;
+		ObjectFile.open(str + "_" + ".txt", ofstream::out);
+		ObjectFile.write(input.c_str(), input.length());
+		ObjectFile.close();
+	}
+
 	~FileHandler() {
-		// cout << "Destructor FileHandler" << endl;
+
 	}
 };
 
