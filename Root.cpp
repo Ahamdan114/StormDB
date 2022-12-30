@@ -25,7 +25,7 @@ int main() {
 			try {
 				cout << parser.getFirstInputElement(input) << endl;
 
-				// fileHandle.FileHandlingCreateFile(parser.getFirstInputElement(input), input);
+			
 
 				string lowerCaseInput = parser.lowerCaseInput(input);
 				parser.parse(lowerCaseInput);
