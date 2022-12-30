@@ -1,10 +1,7 @@
-#pragma once
-#include <iostream>
-#include <string>
-#include <regex>
+#include "Imports.cpp"
+
 #include "LogicHandler.cpp"
 #include "Printer.cpp" // For next phases
-using namespace std;
 
 // All commented commands are for next phases.
 

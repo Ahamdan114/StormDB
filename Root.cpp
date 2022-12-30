@@ -1,14 +1,4 @@
-#include <iostream>
-#include <string>
-#include<fstream>
-#include <regex>
-
-#include "ErrorHandler.cpp"
-#include "Printer.cpp"
-#include "Parser.cpp"
-#include "LogicHandler.cpp"
-#include "FileHandler.cpp"
-using namespace std;
+#include "ClassesImports.cpp"
 
 int main(int numerOfFiles, char** filesArr) {
 	// ifstream& infile1, ifstream& infile2, ifstream& infile3, ifstream& infile4, ifstream& infile5 -> Files that need to be added as parameters
@@ -73,7 +63,7 @@ int main(int numerOfFiles, char** filesArr) {
 				logicHandler.LogicArrayModifier(input);
 				printer.print(input);
 
-				 cout << "ROOT -> The name of the table is: " << logicHandler.getTableName(logicHandler.getCurrentArrSize()) << endl;
+				cout << "ROOT -> The name of the table is: " << logicHandler.getTableName(logicHandler.getCurrentArrSize()) << endl;
 				fileHandle.FileHandlingCreateFile(logicHandler.getFirstElementCurrent(), input);
 				
 			}
