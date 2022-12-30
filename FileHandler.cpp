@@ -1,6 +1,13 @@
 #include "Imports.cpp"
 
 
+// string input, bool resultInput, ofstream ObjectFile
+	// 
+	// SELECT_1.txt
+		// CREATE_1.txt
+		// CREATE_2.txt
+		// counter
+
 class FileHandler : public LogicHandler {
 public:
 
@@ -19,14 +26,7 @@ public:
 		return "";
 	}
 
-
-	// string input, bool resultInput, ofstream ObjectFile
-
 	void FileHandlingCreateFile(string str, string input) {
-		// SELECT_1.txt
-		// CREATE_1.txt
-		// CREATE_2.txt
-		// counter
 		cout << endl << endl << endl;
 		cout << "FileHandlingTemp method CALLED: " << str << endl;
 		fstream ObjectFile;

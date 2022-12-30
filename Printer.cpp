@@ -35,9 +35,18 @@ public:
 		}
 	}
 
-	~Printer() {
-		 // cout << "Destructor Print" << endl;
+	void goodByeModel() {
+		cout << endl << endl;
+		cout << "							   								" << endl;
+		cout << "						## # #  # # ## 						" << endl;
+		cout << "						##############						" << endl;
+		cout << "						## Goodbye! ##						" << endl;
+		cout << "						##############						" << endl;
+		cout << "						## # #  # # ## 						" << endl;
+		cout << endl << endl;
 	}
+
+	~Printer() {}
 };
 
 

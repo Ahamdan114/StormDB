@@ -1,15 +1,15 @@
 #pragma once
 #include "Imports.cpp"
 
-class LogicHandler {
-protected:
 	// Array de table name
 	// string* tableNames = nullptr;
-	// Array de valori
+	// Array de files accesate by name (pentru insert, select)
+
+class LogicHandler {
+protected:
 
 	string* currentArr = nullptr;
 	int size = 0;
-	// Array de files accesate by name (pentru insert, select)
 
 
 public:
@@ -139,7 +139,6 @@ public:
 			}
 			if (i == size) throw "Elementul cautat nu exista";*/
 	}
-
 
 	~LogicHandler() {
 		delete[] this->currentArr;
