@@ -23,13 +23,17 @@ int main() {
 				continue;
 			}
 			try {
-				string lowerCaseInput = parser.cleanInput(input);
+				cout << "PARSER: " << parser.getFirstInputElement(input) << endl;
+
+				// fileHandle.FileHandlingCreateFile(parser.getFirstInputElement(input), input);
+
+				string lowerCaseInput = parser.lowerCaseInput(input);
 				parser.parse(lowerCaseInput);
 				logicHandler.LogicArrayModifier(input);
 				printer.print(input);
 
 				cout << "ROOT -> The name of the table is: " << logicHandler.getTableName(logicHandler.getCurrentArrSize()) << endl;
-				fileHandle.FileHandlingCreateFile(logicHandler.getFirstElementCurrent(), input);
+				
 				
 			}
 			catch (exception const& e) {

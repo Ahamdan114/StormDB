@@ -1,5 +1,6 @@
+#pragma once
 #include "Imports.cpp"
-
+#include "LogicHandler.cpp"
 
 // string input, bool resultInput, ofstream ObjectFile
 	// 
@@ -8,10 +9,8 @@
 		// CREATE_2.txt
 		// counter
 
-class FileHandler : public LogicHandler {
+class FileHandler {
 public:
-
-	FileHandler() {}
 	string inputFromFile(string file) {
 
 		fstream Input;
@@ -26,11 +25,13 @@ public:
 		return "";
 	}
 
-	void FileHandlingCreateFile(string str, string input) {
+	void createHistoryFile(string word, string input, int counter) {
 		cout << endl << endl << endl;
-		cout << "FileHandlingTemp method CALLED: " << str << endl;
+		cout << "createHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
+		cout << "FileHandlingTemp method CALLED: " << word << endl;
+
 		fstream ObjectFile;
-		ObjectFile.open(str + "_" + ".txt", ofstream::out);
+		ObjectFile.open(word + "_" + to_string(counter) + ".txt", ofstream::out);
 		ObjectFile.write(input.c_str(), input.length());
 		ObjectFile.close();
 	}
