@@ -23,7 +23,7 @@ int main() {
 				continue;
 			}
 			try {
-				cout << "PARSER: " << parser.getFirstInputElement(input) << endl;
+				cout << parser.getFirstInputElement(input) << endl;
 
 				// fileHandle.FileHandlingCreateFile(parser.getFirstInputElement(input), input);
 
