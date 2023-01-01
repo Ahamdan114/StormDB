@@ -10,8 +10,8 @@ public:
 
 	// The method if the command is valid displays the succes message
 	void returnStatement(int number) {
-		switch (number) {
-		case 1:
+		/*switch (number) {*/
+		/*case 1:
 			cout << "The table was created." << endl;
 			break;
 		case 2:
@@ -34,7 +34,8 @@ public:
 			break;
 		default:
 			cout << "ERROR: NO COMMAND ACCEPTED." << endl;
-		}
+			*/
+		/*}*/
 	}
 
 	// The method returns a goodbye message at the end of the program

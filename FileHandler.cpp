@@ -1,6 +1,8 @@
 #pragma once
 #include "Imports.cpp"
 
+
+// Basic modes for files
 // ios::out -> write mode
 // ios::app -> Appending mode
 // ios::in -> read mode
@@ -11,10 +13,10 @@
 
 class FileHandler {
 public:
-	// the method opens a file and returns the text inside it.
+	// The method opens a file and returns the text inside it
 	string inputFromCommandPrompt(string file) {
-
 		fstream Input;
+
 		Input.open(file, ios::in);
 		if (Input.is_open())
 		{
@@ -26,10 +28,11 @@ public:
 		}
 		return "";
 	}
-	
-	string inputFromFile(string file) {
 
+	// The method opens a file and returns the text in layers inside it
+	string inputFromFile(string file) {
 		fstream Input;
+
 		Input.open(file, ios::in);
 		if (Input.is_open())
 		{
@@ -39,15 +42,17 @@ public:
 			while (getline(Input, temp)) {
 				fileInput += (temp + " ");
 			}
-			cout << "inputFromFile is: " << fileInput << endl;
+			// cout << "inputFromFile is: " << fileInput << endl;
 			Input.close();
 			return fileInput;
 		}
 		return "";
 	}
 
+	// The method stores the table name inside TableNames.txt file
 	void tableNameToFile(string tableName) {
 		fstream Input;
+
 		Input.open("TableNames.txt", ios::app);
 		if (Input.is_open()) {
 			Input << tableName << endl;
@@ -55,23 +60,16 @@ public:
 		}
 	}
 
-	void suprascriptionTableNames(string* tableNames, int tableSize) {
+	// The method prints on the screen the arrays ( the arrays given for now are: HistoryCounters, TableNames)
+	void suprascriptionTable(string* tableArray, string tableName, int tableSize) {
 		fstream Input;
-		Input.open("TableNames.txt", ios::out);
+		string tableFile = tableName + ".txt";
+
+		Input.open(tableFile, ios::out);
 		if (Input.is_open()) {
 			for (int i = 0; i < tableSize - 1; i++) {
-				Input << tableNames[i] << endl;
-			}
-			Input.close();
-		}
-	}
-
-	void suprascriptionHistoryCounters(string* countersArr, int arrSize = 7) {
-		fstream Input;
-		Input.open("HistoryCounters.txt", ios::out);
-		if (Input.is_open()) {
-			for (int i = 0; i < arrSize - 1; i++) {
-				Input << countersArr[i] << endl;
+				cout << tableArray[i] << endl;
+				Input << tableArray[i] << endl;
 			}
 			Input.close();
 		}
@@ -79,6 +77,7 @@ public:
 
 	void countersTableNamesSaver(string* countersArr, int countersSize) {
 		fstream Input;
+
 		Input.open("HistoryCounters.txt", ios::out);
 		if (Input.is_open()) {
 			for (int i = 0; i < countersSize - 1; i++) {
@@ -88,11 +87,9 @@ public:
 		}
 	}
 
-	// The method creates the history file with given command introduced 
+	// The method creates the history for each command introduced in the console.
 	void createHistoryFile(string word, string input, int counter) {
-		cout << endl << endl << endl;
-		cout << "createHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
-		cout << "FileHandlingTemp method CALLED: " << word << endl;
+		cout << "\tcreateHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
 
 		fstream ObjectFile;
 		ObjectFile.open(word + "_" + to_string(counter) + ".txt", ios::app);
@@ -100,9 +97,12 @@ public:
 		ObjectFile.close();
 	}
 
+	// The method creates the table file.
 	void createTableFile(string* currentArr, int size, string tableName) {
 		fstream Input;
-		Input.open(tableName + ".txt", ios::out);
+		string tableFile = tableName + ".txt";
+
+		Input.open(tableFile, ios::out);
 		if (Input.is_open()) {
 			int i = 3;
 			if (currentArr[3] == "IF") i = 6;
@@ -111,26 +111,32 @@ public:
 			}
 			Input.close();
 		}
+		cout << "\tFile " << tableFile << " created successfully." << endl;
 	}
 
+	// The method displays the table file.
 	void displayTableFile(string tableName) {
 		fstream Output;
-		Output.open(tableName + ".txt", ios::in);
+		string tableFile = tableName + ".txt";
+
+		Output.open(tableFile, ios::in);
 		if (Output.is_open()) {
 			string fileOutput;
-			cout << "The table " + tableName << " displayed." << endl << endl;
+			cout << "\tThe table" << tableFile << " is displayed..." << endl;
 			while (getline(Output, fileOutput)) cout << fileOutput << endl;
+			
+			cout << "\tThe table " << tableFile << " displayed successfully." << endl;
 			cout << endl << endl;
 		}
 		Output.close();
 	}
+	
+	// The method drops the table file.
+	void dropTableFile(string tableName) {
+		string tableFile = tableName + ".txt";
 
-	void deleteTableFile(string tableName) {
-		remove((tableName + ".txt").c_str());
-		cout << tableName << " " << "deleted successfully." << endl;
+		remove(tableFile.c_str());
+		cout << "\tFile " << tableFile << " dropped successfully." << endl;
 	}
 
-	~FileHandler() {
-
-	}
 };

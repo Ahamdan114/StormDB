@@ -1,1 +1,1 @@
-drop table studenti_1drop table bucataridrop table hatzdrop table studenti_1
+drop table studenti_1drop table students

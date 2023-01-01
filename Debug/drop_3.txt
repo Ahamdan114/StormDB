@@ -1,1 +1,0 @@
-drop table orfelinat_56drop table studenti_2

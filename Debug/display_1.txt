@@ -1,1 +1,1 @@
-display table studenti_2display table hatz
+display table studenti_1display table studenti_1

@@ -25,8 +25,7 @@ int main(int argc, char* argv[]) {
 	{
 		while (true) {
 			// logicHandler.dataReloader();
-			logicHandler.LogicTableNamesArrayModifier(fileHandle);
-			cout << "END" << endl;
+			if (input != "exit") logicHandler.LogicTableNamesArrayModifier(fileHandle, true);
 			if (counter < argc) {
 				string currentTextFile = argv[counter];
 				input = fileHandle.inputFromCommandPrompt(currentTextFile);
@@ -41,26 +40,21 @@ int main(int argc, char* argv[]) {
 					continue;
 				}
 				try {
-					cout << "Data reloading -> " << endl;
-					counterRetainer.dataReloader(fileHandle);
-
+					/*cout << "Data reloading -> " << endl;
+					counterRetainer.dataReloader(fileHandle);*/
 
 					string lowerCaseInput = parser.lowerCaseInput(input);
 					parser.parse(lowerCaseInput);
 
 					logicHandler.LogicCurrentArrayModifier(input);
-					printer.print(input);
 
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
-					string tableName = logicHandler.getTableName(logicHandler.getCurrentArrSize());
-					logicHandler.tableNameCheck(firstElement, tableName);
+					string tableName = logicHandler.getTableName();
+					logicHandler.tableLogicalChecks(firstElement, tableName);
 
-					cout << "ROOT -> The name of the table is: " << tableName << endl;
-					cout << "ROOT -> The first element of the table is: " << firstElement << endl;
-
-
-					cout << "Data saving -> " << endl;
-					
+					// Command details down
+					// printer.print(input);
+					// cout << "Data saving -> " << endl;
 				}
 				catch (exception const& e) {
 					// For next phases

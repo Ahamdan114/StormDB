@@ -11,6 +11,10 @@ protected:
 
 public:
 
+	int getCountersSize() {
+		return this->countersSize;
+	}
+
 	void countersArrCreate() {
 		delete[] this->countersArr;
 		this->countersArr = new string[this->countersSize];
@@ -51,7 +55,9 @@ public:
 	}
 
 	void dataSaver(FileHandler& handlingFile) {
-		handlingFile.suprascriptionHistoryCounters(this->countersArr);
+		// Calling for historyCounters array
+
+		handlingFile.suprascriptionTable(this->countersArr, "HistoryCounters", getCountersSize());
 		cout << "Data SAVED" << endl;
 	}
 
@@ -78,7 +84,6 @@ public:
 	}*/
 
 	bool testCreateTable(string const input) {
-		cout << "Here is no problem" << endl;
 		bool createTable = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?(\\([[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))(\\s*,\\s*\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))+\\))|[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?[[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))[[:blank:]]*"));
 		return createTable;
 	}
@@ -252,11 +257,13 @@ public:
 	// The method checks for correctness of input syntax
 	void parse(string cleanInput) {
 
+		cout << endl << "PARSER PHASE ENTERED." << endl;
+
 		CounterRetainer counterRetainer = CounterRetainer();
 		Printer printer = Printer();
 		FileHandler fileHandle = FileHandler();
 
-		counterRetainer.dataReloader(fileHandle);
+		// counterRetainer.dataReloader(fileHandle);
 
 		CreateTable createTable = CreateTable();
 		DropTable dropTable = DropTable();
@@ -265,8 +272,6 @@ public:
 		DeleteTable deleteTable = DeleteTable();
 		UpdateTable updateTable = UpdateTable();
 		Insert insertTable = Insert();
-
-		cout << "PARSER ENTERED." << endl;
 		
 		bool createCheck = createTable.testCreateTable(cleanInput);
 
@@ -337,9 +342,10 @@ public:
 			insertTable.SET_INSERT_COUNTER(counter);
 			printer.returnStatement(7);
 		}
-		counterRetainer.dataSaver(fileHandle);
+		// counterRetainer.dataSaver(fileHandle);
+
 		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck)) throw  "Syntax error.";
-		else cout << "Syntax correct!" << endl;
+		else cout << endl << "Parsing phase passed!" << endl << endl;
 	}
 
 	~Parser() {}
