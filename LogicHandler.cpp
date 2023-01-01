@@ -208,10 +208,28 @@ public:
 		setTableNames(tableNames);
 	} 
 
-	
+	void displayTableElement(string firstElement, string tableName) {
+		
+		if (firstElement == "display") {
+			cout << "displayTableElement ENTERED" << endl;
+			for (int i = 0; i < this->tableSize; i++) {
+				if (tableName == this->tableNames[i]) {
+					cout << "FOUND element " + tableName + " UP!" << endl;
+					FileHandler fileHandle = FileHandler();
+					fileHandle.displayTableFile(tableName);
+				}
+			}
+		}
+		//else {
+		//	// throw "Elementul cautat nu exista";
+		//	cout << "Elementul nu exista" << endl;
+		//}
+	}
+
+
 	void deleteTableElement(string firstElement, string tableName) {
 		if (firstElement == "drop") {
-			cout << "DELETE-TABLE-ELEMENT ENTERED: "  << tableName << " " << tableName.length() << endl;
+			// cout << "DELETE-TABLE-ELEMENT ENTERED: "  << tableName << " " << tableName.length() << endl;
 			for (int i = 0; i < this->tableSize; i++) {
 				/*cout << tableName.length() << " " << this->tableNames[i].length() << endl;
 				cout << tableName << " " << this->tableNames[i] << endl;*/
@@ -228,14 +246,15 @@ public:
 					cout << endl;
 					FileHandler fileHandle = FileHandler();
 					fileHandle.suprascriptionTableNames(this->tableNames, this->tableSize);
+					fileHandle.deleteTableFile(tableName);
 					break;
 				}
 			}
 		}
-		else {
-			// throw "Elementul cautat nu exista";
-			cout << "Elementul nu exista" << endl;
-		}
+		//else {
+		//	// throw "Elementul cautat nu exista";
+		//	cout << "Elementul nu exista" << endl;
+		//}
 	}
 
 	void addTableElement(string firstElement, string tableName) {
@@ -254,6 +273,7 @@ public:
 	void tableNameCheck(string firstElement, string tableName) {
 		addTableElement(firstElement, tableName);
 		deleteTableElement(firstElement, tableName);
+		displayTableElement(firstElement, tableName);
 	}
 
 	~LogicHandler() {

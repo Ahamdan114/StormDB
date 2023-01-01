@@ -102,7 +102,7 @@ public:
 
 	void createTableFile(string* currentArr, int size, string tableName) {
 		fstream Input;
-		Input.open(tableName, ios::out);
+		Input.open(tableName + ".txt", ios::out);
 		if (Input.is_open()) {
 			int i = 3;
 			if (currentArr[3] == "IF") i = 6;
@@ -113,9 +113,21 @@ public:
 		}
 	}
 
+	void displayTableFile(string tableName) {
+		fstream Output;
+		Output.open(tableName + ".txt", ios::in);
+		if (Output.is_open()) {
+			string fileOutput;
+			cout << "The table " + tableName << " displayed." << endl << endl;
+			while (getline(Output, fileOutput)) cout << fileOutput << endl;
+			cout << endl << endl;
+		}
+		Output.close();
+	}
+
 	void deleteTableFile(string tableName) {
-		/*gets(tableName);
-		remove(tableName);*/
+		remove((tableName + ".txt").c_str());
+		cout << tableName << " " << "deleted successfully." << endl;
 	}
 
 	~FileHandler() {
