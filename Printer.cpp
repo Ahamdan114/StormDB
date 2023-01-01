@@ -3,10 +3,12 @@
 
 class Printer {
 public:
+	// The method returns the command details
 	void print(string cleanInput) {
 		cout << "Command details -> The command introduced is: " << cleanInput << endl;
 	}
 
+	// The method if the command is valid displays the succes message
 	void returnStatement(int number) {
 		switch (number) {
 		case 1:
@@ -35,6 +37,7 @@ public:
 		}
 	}
 
+	// The method returns a goodbye message at the end of the program
 	void goodByeModel() {
 		cout << endl << endl;
 		cout << "							   								" << endl;

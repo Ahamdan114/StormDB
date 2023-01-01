@@ -1,144 +1,180 @@
 #include "Imports.cpp"
-
 #include "FileHandler.cpp"
-#include "Printer.cpp" // For next phases
-
-// All commented commands are for next phases.
+#include "Printer.cpp"
 
 class CreateTable // : LogicHandler
 {
-	static int CREATE_COUNTER;
-
+	int CREATE_COUNTER = 0; 
 public:
 
 	bool testCreateTable(string const input) {
 		bool createTable = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?(\\([[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))(\\s*,\\s*\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))+\\))|[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?[[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))[[:blank:]]*"));
 		if (createTable) {
-			CREATE_COUNTER++;
+			this->CREATE_COUNTER++;
 		}
 		return createTable;
 	}
 
-	static int returnCounterCreate() {
-		return CREATE_COUNTER;
+	int returnCounterCreate() {
+		return this->CREATE_COUNTER;
+	}
+
+	void SET_CREATE_COUNTER(int value) {
+		this->CREATE_COUNTER = value;
 	}
 };
 
 class DropTable // : LogicHandler
 {
-	static int DROP_COUNTER;
+	int DROP_COUNTER = 0;
 
 public:
 
 	bool testDropTable(string const input) {
 		bool dropTable = regex_match(input.c_str(), regex("[[:blank:]]*drop[[:blank:]]+table[[:blank:]]+\\w+[[:blank:]]*"));
-		if (dropTable) DROP_COUNTER++;
+		if (dropTable) {
+			this->DROP_COUNTER++;
+		}
 		return dropTable;
 	}
 
-	static int returnCounterDrop() {
-		return DROP_COUNTER;
+	int returnCounterDrop() {
+		return this->DROP_COUNTER;
+	}
+
+	void SET_DROP_COUNTER(int value) {
+		this->DROP_COUNTER = value;
 	}
 };
 
 class Select // : LogicHandler
 {
-	static int SELECT_COUNTER;
+	int SELECT_COUNTER = 0;
 
 public:
 	bool testSelect(string const input)
 	{
 		bool selectColumns = regex_match(input.c_str(), regex("[[:blank:]]*select+[[:blank:]]+((all)|(\\((?!all)([^)]+)\\)))[[:blank:]]+from[[:blank:]]+(?!where)\\w+([[:blank:]]+(where(?!where)[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(([0-9]+\\.[0-9]+)|([0-9]+)|(\"(\\w*)\"))))?[[:blank:]]*"));
-		if (selectColumns) SELECT_COUNTER++;
+		if (selectColumns) {
+			this->SELECT_COUNTER++;
+		}
 		return selectColumns;
 	}
 
-	static int returnCounterSelect() {
-		return SELECT_COUNTER;
+	int returnCounterSelect() {
+		return this->SELECT_COUNTER;
+	}
+
+	void SET_SELECT_COUNTER(int value) {
+		this->SELECT_COUNTER = value;
 	}
 };
 
 class DisplayTable  //: LogicHandler
 {
-	static int DISPLAY_COUNTER;
+	int DISPLAY_COUNTER = 0;
 
 public:
 	bool testDisplayTable(string const input)
 	{
 		bool displayTable = regex_match(input.c_str(), regex("[[:blank:]]*display[[:blank:]]+table[[:blank:]]+\\w+[[:blank:]]*"));
-		if (displayTable) DISPLAY_COUNTER++;
+		if (displayTable) {
+			this->DISPLAY_COUNTER++;
+		}
 		return displayTable;
 	}
 
-	static int returnCounterDisplay() {
-		return DISPLAY_COUNTER;
+	int returnCounterDisplay() {
+		return this->DISPLAY_COUNTER;
+	}
+
+	void SET_DISPLAY_COUNTER(int value) {
+		this->DISPLAY_COUNTER = value;
 	}
 };
 
 class DeleteTable // : LogicHandler
 {
-	static int DELETE_COUNTER;
+	int DELETE_COUNTER = 0;
 
 public:
 	bool testDeleteTable(string const input)
 	{
 		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
-		if (deleteTable) DELETE_COUNTER++;
+		if (deleteTable) {
+			this->DELETE_COUNTER++;
+		}
 		return deleteTable;
 	}
 
-	static int returnCounterDelete() {
-		return DELETE_COUNTER;
+	int returnCounterDelete() {
+		return this->DELETE_COUNTER;
 	}
 
+	void SET_DELETE_COUNTER(int value) {
+		this->DELETE_COUNTER = value;
+	}
 };
 
 class UpdateTable // : LogicHandler
 {
-	static int UPDATE_COUNTER;
+	int UPDATE_COUNTER = 0;
 
 public:
 	bool testUpdateTable(string const input)
 	{
 		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
-		if (updateTable) UPDATE_COUNTER++;
+		if (updateTable) {
+			this->UPDATE_COUNTER++;
+		}
 		return updateTable;
 	}
 
-	static int returnCounterUpdate() {
-		return UPDATE_COUNTER;
+	int returnCounterUpdate() {
+		return this->UPDATE_COUNTER;
+	}
+
+	void SET_UPDATE_COUNTER(int value) {
+		this->UPDATE_COUNTER = value;
 	}
 };
 
 class Insert // : LogicHandler
 {
-	static int INSERT_COUNTER;
+	int INSERT_COUNTER = 0;
 
 public:
 	bool InsertIntoTable(string const input)
 	{
 		bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*((\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))\\s*,\\s*(\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))*)*\\s*,\\s*((\"\\w+\")|([0-9]+\\.[0-9]+)|[0-9]+)\\s*\\)[[:blank:]]*"));
-		if (insertIntoTable) INSERT_COUNTER++;
+		if (insertIntoTable) {
+			this->INSERT_COUNTER++;
+		}
 		return insertIntoTable;
 	}
 
-	static int returnCounterInsert() {
-		return INSERT_COUNTER;
+	int returnCounterInsert() {
+		return this->INSERT_COUNTER;
+	}
+
+	void SET_INSERT_COUNTER(int value) {
+		this->INSERT_COUNTER = value;
 	}
 
 };
 
-int CreateTable::CREATE_COUNTER = 0;
-int DropTable::DROP_COUNTER = 0;
-int Select::SELECT_COUNTER = 0;
-int DisplayTable::DISPLAY_COUNTER = 0;
-int DeleteTable::DELETE_COUNTER = 0;
-int UpdateTable::UPDATE_COUNTER = 0;
-int Insert::INSERT_COUNTER = 0;
+// int CreateTable::CREATE_COUNTER =  0;
+// int DropTable::DROP_COUNTER = 0;
+// int Select::SELECT_COUNTER = 0;
+
+// int DisplayTable::DISPLAY_COUNTER = 0;
+// int DeleteTable::DELETE_COUNTER = 0;
+// int UpdateTable::UPDATE_COUNTER = 0;
+ // int Insert::INSERT_COUNTER = 0;
 
 class Parser {
 public:
-
+	// The method returns the first given input word
 	string getFirstInputElement(string input) {
 		unsigned int i = 0;
 		string word = "";
@@ -151,16 +187,21 @@ public:
 		return word;
 	}
 
+	// The method returns the input given to lowercase
 	string lowerCaseInput(string input) {
 		return formatInput(input);
 	}
 
+	// The method formats the input given to lowercase
 	string formatInput(string input) {
 		for (unsigned int i = 0; input[i] != '\0'; i++) if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
 		return input;
 	}
-
+	
+	// The method checks for correctness of input syntax
 	void parse(string cleanInput) {
+		cout << "PARSER ENTERED." << endl;
+
 		Printer printer = Printer();
 		FileHandler fileHandle = FileHandler();
 
@@ -171,12 +212,15 @@ public:
 		DeleteTable deleteTable = DeleteTable();
 		UpdateTable updateTable = UpdateTable();
 		Insert insertTable = Insert();
-		cout << "PARSER ENTERED." << endl;
+		cout << "First Stage" << endl;
 		bool createCheck = createTable.testCreateTable(cleanInput);
 		if (createCheck) {
+			cout << "Second Stage" << endl;
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, createTable.returnCounterCreate());
+
 			printer.returnStatement(1);
 		}
+		cout << "Third Stage" << endl;
 
 		bool dropCheck = dropTable.testDropTable(cleanInput);
 		if (dropCheck) {

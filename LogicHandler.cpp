@@ -1,23 +1,27 @@
 #pragma once
 #include "Imports.cpp"
+#include "FileHandler.cpp"
+ // #include "Parser.cpp"
 
-	// Array de table name
-	// string* tableNames = nullptr;
+
 	// Array de files accesate by name (pentru insert, select)
 
 class LogicHandler {
 protected:
 
-	string* currentArr = nullptr;
-	int size = 0;
+	string* countersArr = nullptr;
+	int countersSize = 7;
 
+	string* tableNames = nullptr;
+	int tableSize = 0;
+
+	string* currentArr = nullptr;
+	int currentSize = 0;
 
 public:
+	LogicHandler() {}
 
-	LogicHandler() {
-		// this->tableNames = new string[size];
-	}
-
+	// The method removes spaces from the given input
 	string removeSpaces(string input) {
 		char comparison = ' ';
 		string removeSpacesArr = "";
@@ -28,7 +32,6 @@ public:
 				break;
 			}
 		}
-
 		for (unsigned int i = startingIndex; i < input.length() + 1; i++) {
 			if (input[i] != comparison) {
 				removeSpacesArr += input[i];
@@ -47,6 +50,7 @@ public:
 		return removeSpacesArr;
 	}
 
+	// The method find the size of a given input
 	int sizeDiscovery(string input) {
 		int size = 0;
 		for (unsigned int i = 0; i < input.length() + 1; i++) {
@@ -57,7 +61,8 @@ public:
 		return size;
 	}
 
-	void logicHandler(string input, int size) {
+	// The method creates a dynamic size current array
+	void currentArrCreate(string input, int size) {
 		if (this->currentArr != nullptr) {
 			delete[] this->currentArr;
 			this->currentArr = nullptr;
@@ -65,10 +70,11 @@ public:
 		this->currentArr = new string[size];
 	}
 
+	// The method sets the current array values
 	void setCurrentArr(string input, int size) {
 		int j = 0;
 		string tempStr = "";
-		for (unsigned int i = 0; i < input.length() + 1; i++) {
+		for (unsigned int i = 0; i < input.length() - 1; i++) {
 			if (input[i] != '(' && input[i] != ')') {
 				if (input[i] == ' ' || input[i] == ',') {
 					this->currentArr[j] = tempStr;
@@ -79,10 +85,15 @@ public:
 			}
 		}
 		this->currentArr[j] = tempStr;
+		/*for (int i = 0; i <= j; i++) {
+			cout << this->currentArr[i] << " " << this->currentArr[i].length() << endl;
+		}*/
+
 		// cout << "this->currentArr[j] => " << this->currentArr[j] << endl;
 		// cout << "Size: " << size << endl << "j: " << j << endl;
 	}
 
+	// The method finds the array name
 	string getTableName(int size) {
 		string tableName = "";
 		if (this->currentArr[0] == "SELECT") {
@@ -97,54 +108,148 @@ public:
 		return tableName;
 	}
 
+	// The method gets the current array size
 	int getCurrentArrSize() {
-		return this->size;
+		return this->currentSize;
 	}
 
-	string* getCurrentArr() {
-		string* copy = new string[this->size];
-		for (int i = 0; i < this->size; i++) {
-			copy[i] = this->currentArr[i];
-		}
-		return copy;
-	}
-
-	string getFirstElementCurrent() {
-		return this->currentArr[0];
-	}
-
-	void LogicArrayModifier(string input) {
+	// The method creates a dynamic current array with the given input values words on each index position
+	void LogicCurrentArrayModifier(string input) {
 		string RemoveSpacesFromInput = removeSpaces(input);
 		cout << "1" << endl;
-		this->size = sizeDiscovery(RemoveSpacesFromInput) + 1;
+		this->currentSize = sizeDiscovery(RemoveSpacesFromInput) + 1;
 		cout << "2" << endl;
-		logicHandler(RemoveSpacesFromInput, this->size);
+		currentArrCreate(RemoveSpacesFromInput, this->currentSize);
 		cout << "3" << endl;
-		setCurrentArr(RemoveSpacesFromInput, this->size);
+		setCurrentArr(RemoveSpacesFromInput, this->currentSize);
 		cout << "4" << endl;
 		cout << "The array formed is: ";
-		for (int i = 0; i < this->size; i++) cout << this->currentArr[i] << " ";
+		for (int i = 0; i < this->currentSize; i++) cout << this->currentArr[i] << " ";
 		string currentTableName = getTableName(getCurrentArrSize());
 		cout << endl << "The array name is: " << currentTableName << endl;
 	}
 
-	void deleteTableElement(string tableName) {
-		/*	int size = sizeof(tablesList) / sizeof(tablesList[0]);
-			int i = 0;
-			for (i; i < size; i++) {
-				if (tableName == tablesList[i]) {
-					for (int j = i; j < size; j++) tablesList[j] = tablesList[j + 1];
+
+
+
+	// The method find the size of the table names
+	void setTableNamesSize(FileHandler& handlingFile) {
+		this->tableSize = 0;
+
+		string tableNames = getTableNames(handlingFile);
+		const char comparisonSpace = ' ';
+		for (unsigned int i = 0; i < tableNames.length(); i++) {
+			if (tableNames[i] == comparisonSpace) {
+				this->tableSize++;
+			}
+		}
+		cout << "setTableNamesSize -> TABLE SIZE: " << this->tableSize << endl;
+	}
+
+	// The method creates a dynamic size current array
+	void tableNameArrCreate() {
+		delete[] this->tableNames;
+		this->tableNames = new string[this->tableSize];
+	}
+
+	// The method gets all the table names in the project
+	string getTableNames(FileHandler& handlingFile) {
+		return handlingFile.inputFromFile("TableNames.txt");
+	}
+
+	// The method sets the tableNames array values
+	void setTableNames(string tableNames) {
+		int j = 0;
+		const char comparisonSpace = ' ';
+		string tempStr = "";
+
+		for (unsigned int i = 0; i < tableNames.length(); i++) {
+			if (tableNames[i] == comparisonSpace) {
+				this->tableNames[j] = tempStr;
+				tempStr = "";
+				j++;
+			}
+			else tempStr += tableNames[i];
+		}
+		cout << endl << endl << endl;
+
+		cout << "TableName: " << tableNames << endl;
+		cout << "TableSize: " << this->tableSize << endl;
+
+		cout << "The table names are: ";
+		for (int z = 0; z < j; z++) cout << this->tableNames[z] << " ";
+		cout << endl;
+	}
+
+	// The method creates a dynamic current array with the table names as values on each index position
+	void LogicTableNamesArrayModifier(FileHandler& handlingFile) {
+		setTableNamesSize(handlingFile);
+		tableNameArrCreate();
+		string tableNames = getTableNames(handlingFile);
+		setTableNames(tableNames);
+	} 
+
+	
+	void deleteTableElement(string firstElement, string tableName) {
+		if (firstElement == "drop") {
+			cout << "DELETE-TABLE-ELEMENT ENTERED: "  << tableName << " " << tableName.length() << endl;
+			for (int i = 0; i < this->tableSize; i++) {
+				/*cout << tableName.length() << " " << this->tableNames[i].length() << endl;
+				cout << tableName << " " << this->tableNames[i] << endl;*/
+				if (tableName == this->tableNames[i]) {
+					/*cout << "FOUND UP!" << endl;*/
+					for (int j = i; j < this->tableSize - 1; j++) {
+						this->tableNames[j] = this->tableNames[j + 1];
+					}
+					this->tableNames[this->tableSize - 1] = "";
+					cout << "The new array after drop is: ";
+					for (int i = 0; i < this->tableSize; i++) {
+						cout << this->tableNames[i] << " & ";
+					}
+					cout << endl;
+					FileHandler fileHandle = FileHandler();
+					fileHandle.suprascriptionTableNames(this->tableNames, this->tableSize);
 					break;
 				}
 			}
-			if (i == size) throw "Elementul cautat nu exista";*/
+		}
+		else {
+			// throw "Elementul cautat nu exista";
+			cout << "Elementul nu exista" << endl;
+		}
+	}
+
+	void addTableElement(string firstElement, string tableName) {
+		FileHandler fileHandle = FileHandler();
+		if (firstElement == "create") {
+			for (int i = 0; i < this->tableSize; i++) {
+				if (tableName == this->tableNames[i]) throw "Elementul cautat exista deja";
+			}
+			fileHandle.tableNameToFile(tableName);
+			// Daca ajungem aici inseamna ca nu l-a gasit.
+		}
+	}
+
+	void tableNameCheck(string firstElement, string tableName) {
+		addTableElement(firstElement, tableName);
+		deleteTableElement(firstElement, tableName);
+	}
+
+
+	void dataSaver() {
+
+		cout << "Data SAVED" << endl;
+	}
+
+	void dataReloader() {
+
+		cout << "Data RELOADED" << endl;
 	}
 
 	~LogicHandler() {
 		delete[] this->currentArr;
 		this->currentArr = nullptr;
-		/*delete[] this->tableNames;
-		this->tableNames = nullptr;*/
-		
+		delete[] this->tableNames;
+		this->tableNames = nullptr;
 	}
 };
