@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning ( disable : 4018 )
 #include "Imports.cpp"
 #include "FileHandler.cpp"
  // #include "Parser.cpp"
@@ -126,13 +127,34 @@ public:
 		cout << endl << "The array name is: " << currentTableName << endl;
 	}
 
+	void LogicalCheckingsCreate() {
+		int i = 3;
+		if (this->currentArr[3] == "IF") i = 6;
+		for (i; i < this->currentSize; i = i + 4) {
+			cout << "Iteration: " << i << endl;
+			if (this->currentArr[i].length() > atoi(this->currentArr[i + 2].c_str())) {
+				cout << "ERROR: " << this->currentArr[i].length() << this->currentArr[i + 2] << endl;
+			}
+			cout << "FIRST IF ACCEPTED SIZE" << endl;
 
+			if (this->currentArr[i + 1] == "integer") {
 
+				string firstLength = to_string(this->currentArr[i + 3].length());
+				int number = atoi(this->currentArr[i + 3].c_str());
+				string secondLength = to_string(to_string(number).length());
+
+				if (firstLength != secondLength) {
+					cout << firstLength << " " << secondLength << endl;
+					cout << "ERROR: " << this->currentArr[i + 1] << " " <<  this->currentArr[i + 3] << endl;
+				}
+				cout << "SECOND IF ACCEPTED LENGTH" << endl;
+			}
+		}
+	}
 
 	// The method find the size of the table names
 	void setTableNamesSize(FileHandler& handlingFile) {
 		this->tableSize = 0;
-
 		string tableNames = getTableNames(handlingFile);
 		const char comparisonSpace = ' ';
 		for (unsigned int i = 0; i < tableNames.length(); i++) {
@@ -222,27 +244,16 @@ public:
 			for (int i = 0; i < this->tableSize; i++) {
 				if (tableName == this->tableNames[i]) throw "Elementul cautat exista deja";
 			}
-			fileHandle.tableNameToFile(tableName);
 			// Daca ajungem aici inseamna ca nu l-a gasit.
+			LogicalCheckingsCreate();
+			fileHandle.tableNameToFile(tableName);
+			fileHandle.createTableFile(this->currentArr, this->currentSize, tableName);
 		}
 	}
 
 	void tableNameCheck(string firstElement, string tableName) {
 		addTableElement(firstElement, tableName);
 		deleteTableElement(firstElement, tableName);
-	}
-
-
-	
-
-	void dataSaver(FileHandler& handlingFile) {
-		handlingFile.countersTableNamesSaver(this->tableNames, this->tableSize);
-		cout << "Data SAVED" << endl;
-	}
-
-	void dataReloader() {
-
-		cout << "Data RELOADED" << endl;
 	}
 
 	~LogicHandler() {

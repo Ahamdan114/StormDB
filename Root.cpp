@@ -1,9 +1,9 @@
 #include "ClassesImports.cpp"
 
 int main(int argc, char* argv[]) {
-	// For purple color of the text.
-	system("color 0D"); 
+	system("color 0D"); // For purple color of the text.
 
+	CounterRetainer counterRetainer = CounterRetainer();
 	string input = "";
 	string executableName = argv[0];
 	int counter = 1;
@@ -41,6 +41,9 @@ int main(int argc, char* argv[]) {
 					continue;
 				}
 				try {
+					cout << "Data reloading -> " << endl;
+					counterRetainer.dataReloader(fileHandle);
+
 
 					string lowerCaseInput = parser.lowerCaseInput(input);
 					parser.parse(lowerCaseInput);
@@ -54,6 +57,10 @@ int main(int argc, char* argv[]) {
 
 					cout << "ROOT -> The name of the table is: " << tableName << endl;
 					cout << "ROOT -> The first element of the table is: " << firstElement << endl;
+
+
+					cout << "Data saving -> " << endl;
+					
 				}
 				catch (exception const& e) {
 					// For next phases

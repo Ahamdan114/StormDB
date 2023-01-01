@@ -1,0 +1,1 @@
+drop table studdenti_2drop table orfelinat_56

@@ -1,1 +1,1 @@
-drop table moisa_1drop table orfelinat_56
+drop table studenti_1drop table moisa_1

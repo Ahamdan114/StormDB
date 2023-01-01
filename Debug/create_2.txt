@@ -1,0 +1,1 @@
+create table studenti_1 if not exists ((id, integer, 1000, 0), (nume, text, 128, "), (grupa, text,50,'1000'))create table felinare_53 if not exists ((id, integer, 1000, 0), (nume, text, 128, "), (grupa, text,50,'1000'))
