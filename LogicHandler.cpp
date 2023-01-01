@@ -191,7 +191,8 @@ public:
 
 	void LogicalCheckingsCreate() {
 		int i = 3;
-		if (this->currentArr[3] == "IF") i = 6;
+		cout << this->currentArr[3] << endl;
+		if (this->currentArr[3] == "IF" || this->currentArr[3] == "if" || this->currentArr[3] == "If" || this->currentArr[3] == "iF") i = 6;
 
 		for (i; i < this->currentSize; i = i + 4) {
 

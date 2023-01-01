@@ -15,13 +15,13 @@ int main(int argc, char* argv[]) {
 	FileHandler fileHandle = FileHandler();
 	
 	
-	/*for (int i = 0; i < argc; i++) {
-		cout << "ELEMENT: " << argv[i] << endl;
-	}
-	cout << executableName << " sql-database.exe" << endl 
-		 << "argc: " << argc << endl;
+	//for (int i = 0; i < argc; i++) {
+	//	cout << "ELEMENT: " << argv[i] << endl;
+	//}
+	//cout << executableName << " sql-database.exe" << endl 
+	//	 << "argc: " << argc << endl;
 
-	if (executableName == "sql-database.exe" && argc <= 6) */
+	//if (executableName == "sql-database.exe" && argc <= 6) 
 	{
 		while (true) {
 			// logicHandler.dataReloader();

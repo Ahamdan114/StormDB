@@ -114,6 +114,14 @@ public:
 		cout << "\tFile " << tableFile << " created successfully." << endl;
 	}
 
+	// The method drops the table file.
+	void dropTableFile(string tableName) {
+		string tableFile = tableName + ".txt";
+
+		remove(tableFile.c_str());
+		cout << "\tFile " << tableFile << " dropped successfully." << endl;
+	}
+
 	// The method displays the table file.
 	void displayTableFile(string tableName) {
 		fstream Output;
@@ -122,21 +130,24 @@ public:
 		Output.open(tableFile, ios::in);
 		if (Output.is_open()) {
 			string fileOutput;
-			cout << "\tThe table" << tableFile << " is displayed..." << endl;
-			while (getline(Output, fileOutput)) cout << fileOutput << endl;
+			int i = 0;
+			int columnCount = 1;
+			cout << "\tThe table " << tableFile << " is displayed..." << endl;
+			while (getline(Output, fileOutput)) {
+				if (i % 4 == 0) {
+					cout << endl;
+					cout << "Column: " << columnCount << endl;
+					cout << endl;
+					columnCount++;
+				}
+				cout << fileOutput << endl;
+				i++;
+			}
 			
 			cout << "\tThe table " << tableFile << " displayed successfully." << endl;
 			cout << endl << endl;
 		}
 		Output.close();
-	}
-	
-	// The method drops the table file.
-	void dropTableFile(string tableName) {
-		string tableFile = tableName + ".txt";
-
-		remove(tableFile.c_str());
-		cout << "\tFile " << tableFile << " dropped successfully." << endl;
 	}
 
 };
