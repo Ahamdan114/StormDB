@@ -132,6 +132,7 @@ public:
 		if (this->currentArr[3] == "IF") i = 6;
 		for (i; i < this->currentSize; i = i + 4) {
 			cout << "Iteration: " << i << endl;
+
 			if (this->currentArr[i].length() > atoi(this->currentArr[i + 2].c_str())) {
 				cout << "ERROR: " << this->currentArr[i].length() << this->currentArr[i + 2] << endl;
 			}
@@ -148,6 +149,12 @@ public:
 					cout << "ERROR: " << this->currentArr[i + 1] << " " <<  this->currentArr[i + 3] << endl;
 				}
 				cout << "SECOND IF ACCEPTED LENGTH" << endl;
+			}
+			else if (this->currentArr[i + 1] == "text") {
+				if ((this->currentArr[i + 3].c_str())[0] != '\'' && this->currentArr[i + 3] != "\"") {
+					cout << "ERROR" << this->currentArr[i + 3] << endl;
+				}
+				cout << "THIRD IF ACCEPTED SIZE" << endl;
 			}
 		}
 	}

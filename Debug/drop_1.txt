@@ -1,0 +1,1 @@
+drop table studenti_2drop table studentsdrop table moisa_1drop table studentsdrop table students
