@@ -1,6 +1,5 @@
 #pragma once
 #include "Imports.cpp"
-
 // ios::out -> write mode
 // ios::app -> Appending mode
 // ios::in -> read mode
@@ -93,4 +92,3 @@ public:
 
 	}
 };
-

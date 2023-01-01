@@ -4,7 +4,7 @@
 
 class CreateTable // : LogicHandler
 {
-	int CREATE_COUNTER = 0; 
+	int CREATE_COUNTER = 0	; 
 public:
 
 	bool testCreateTable(string const input) {
@@ -172,6 +172,52 @@ public:
 // int UpdateTable::UPDATE_COUNTER = 0;
  // int Insert::INSERT_COUNTER = 0;
 
+class CounterRetainer {
+protected:
+
+	string* countersArr = nullptr;
+	int countersSize = 7;
+
+public:
+
+	void countersArrCreate() {
+		delete[] this->countersArr;
+		this->countersArr = new string[this->countersSize];
+	}
+
+	string getCountersValues(FileHandler& handlingFile) {
+		return handlingFile.inputFromFile("HistoryCounters.txt");
+	}
+
+	void setCountersValues(string countersValues) {
+		int j = 0;
+		const char comparisonSpace = ' ';
+		string tempVal = "";
+
+		for (unsigned int i = 0; i < countersValues.length(); i++) {
+			if (countersValues[i] == comparisonSpace) {
+				this->countersArr[j] = tempVal;
+				tempVal = "";
+				j++;
+			}
+			else tempVal += countersValues[i];
+		}
+		cout << endl << endl << endl;
+
+		cout << "CountersTable: " << countersValues << endl;
+		cout << "CountersSize: " << this->countersSize << endl;
+		cout << "The counters values are: ";
+		for (int z = 0; z < j; z++) cout << this->countersArr[z] << " ";
+		cout << endl;
+	}
+
+	void LogicCountersArrayStorage(FileHandler& handlingFile) {
+		countersArrCreate();
+		string countersValues = getCountersValues(handlingFile);
+		setCountersValues(countersValues);
+	}
+};
+
 class Parser {
 public:
 	// The method returns the first given input word
@@ -202,6 +248,7 @@ public:
 	void parse(string cleanInput) {
 		cout << "PARSER ENTERED." << endl;
 
+		CounterRetainer counterRetainer = CounterRetainer();
 		Printer printer = Printer();
 		FileHandler fileHandle = FileHandler();
 
