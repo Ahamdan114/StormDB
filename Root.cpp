@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 			cout << "END" << endl;
 			if (counter < argc) {
 				string currentTextFile = argv[counter];
-				input = fileHandle.inputFromFile(currentTextFile);
+				input = fileHandle.inputFromCommandPrompt(currentTextFile);
 				counter++;
 			}
 			if (input != "")

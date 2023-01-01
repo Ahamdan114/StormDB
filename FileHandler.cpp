@@ -30,6 +30,21 @@ public:
 		}
 		return "";
 	}
+	
+	string inputFromCommandPrompt(string file) {
+
+		fstream Input;
+		Input.open(file, ios::in);
+		if (Input.is_open())
+		{
+			string fileInput;
+
+			while (getline(Input, fileInput)) {}
+			Input.close();
+			return fileInput;
+		}
+		return "";
+	}
 
 	void tableNameToFile(string tableName) {
 		fstream Input;
@@ -46,6 +61,17 @@ public:
 		if (Input.is_open()) {
 			for (int i = 0; i < tableSize - 1; i++) {
 				Input << tableNames[i] << endl;
+			}
+			Input.close();
+		}
+	}
+
+	void countersTableNamesSaver(string* countersArr, int countersSize) {
+		fstream Input;
+		Input.open("HistoryCounters.txt", ios::out);
+		if (Input.is_open()) {
+			for (int i = 0; i < countersSize - 1; i++) {
+				Input << countersArr[i] << endl;
 			}
 			Input.close();
 		}

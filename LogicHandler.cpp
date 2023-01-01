@@ -236,8 +236,45 @@ public:
 	}
 
 
-	void dataSaver() {
+	void countersArrCreate() {
+		delete[] this->countersArr;
+		this->countersArr = new string[this->countersSize];
+	}
 
+	string getCountersValues(FileHandler& handlingFile) {
+		return handlingFile.inputFromFile("HistoryCounters.txt");
+	}
+
+	void setCountersValues(string countersValues) {
+		int j = 0;
+		const char comparisonSpace = ' ';
+		string tempVal = "";
+
+		for (unsigned int i = 0; i < countersValues.length(); i++) {
+			if (countersValues[i] == comparisonSpace) {
+				this->countersArr[j] = tempVal;
+				tempVal = "";
+				j++;
+			}
+			else tempVal += countersValues[i];
+		}
+		cout << endl << endl << endl;
+
+		cout << "CountersTable: " << countersValues << endl;
+		cout << "CountersSize: " << this->countersSize << endl;
+		cout << "The counters values are: ";
+		for (int z = 0; z < j; z++) cout << this->countersArr[z] << " ";
+		cout << endl;
+	}
+
+	void LogicCountersArrayStorage(FileHandler& handlingFile) {
+		countersArrCreate();
+		string countersValues = getCountersValues(handlingFile);
+		setCountersValues(countersValues);
+	}
+
+	void dataSaver(FileHandler& handlingFile) {
+		handlingFile.countersTableNamesSaver(this->tableNames, this->tableSize);
 		cout << "Data SAVED" << endl;
 	}
 

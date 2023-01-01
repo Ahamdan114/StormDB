@@ -1,1 +1,1 @@
-drop table studentsdrop table gigel drop table gigel 
+drop table moisa_1drop table orfelinat_56
