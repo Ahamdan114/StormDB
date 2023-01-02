@@ -1,0 +1,1 @@
+insert into students values (1,'john','1001')insert into nume1 values (3,'ok','7')

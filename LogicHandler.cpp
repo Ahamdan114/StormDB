@@ -345,15 +345,19 @@ public:
 					auxString = "";
 				}
 			}
-			columnValuesArray[columnValues.length() - 1] = auxString;
-
+			cout << "inainte "<< auxString << endl;
+			columnValuesArray[check.noOfColumnsCreate(tableName) * 4 - 1] = auxString;
+			cout << " dupa  "<<auxString << endl;
 		
 
 
 			if ((getCurrentArrSize() - 4) == check.noOfColumnsCreate(tableName))
 			{
-				for (int i = 3; i < check.noOfColumnsCreate(tableName) * 4; i = i + 4)
+				cout << "a intrat in primul if inainte de regex";
+				for (int i = 3; i < check.noOfColumnsCreate(tableName) * 4 ; i = i + 4)
 				{
+					cout << currentArr[counter] << endl;
+					cout << columnValuesArray[i] << endl;
 					bool isIntegerCurrentArr = regex_match(currentArr[counter].c_str(), regex("[0-9]+"));
 					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex("[0-9]+"));
 
@@ -367,18 +371,19 @@ public:
 					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex("[0-9]+\\.[0-9]+"));
 
 
-					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) && (isFloatCurrentArr && isFloatValues))
+					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues))
 					{
 						columnValuesArray[i] = currentArr[counter];
+						cout << "succes!" << endl;
 					}
-					else cout << "error";
+					else cout << "error.typeProblem" << endl;
 
 				
 					counter++;
 
 					
 				}
-				check.suprascriptionTable(columnValuesArray, tableName, check.noOfColumnsCreate(tableName) * 4);
+				check.suprascriptionTable(columnValuesArray, tableName, check.noOfColumnsCreate(tableName) * 4+1);
 				
 
 			}

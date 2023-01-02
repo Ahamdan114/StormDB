@@ -1,0 +1,12 @@
+id
+integer
+1000
+5
+nume
+text
+128
+'suuuper'
+grupa
+text
+50
+'carte'
