@@ -105,7 +105,7 @@ public:
 		Input.open(tableFile, ios::out);
 		if (Input.is_open()) {
 			int i = 3;
-			if (currentArr[3] == "IF") i = 6;
+			if (currentArr[3] == "IF" || currentArr[3]=="if"|| currentArr[3]=="iF" || currentArr[3]=="If") i = 6;
 			for (i; i < size; i++) {
 				Input << currentArr[i] << endl;
 			}
