@@ -113,7 +113,39 @@ public:
 		}
 		cout << "\tFile " << tableFile << " created successfully." << endl;
 	}
+	int noOfColumnsCreate(string tabelName)
+	{
+		fstream input;
+		int counter = 0;
+		input.open(tabelName + ".txt", ios::in);
+			if (input.is_open())
+			{
+				string fileInput;
+				while (getline(input, fileInput))
+				{
+				 counter++;
+				}
+			}
+			return counter / 4;
+		
+	}
+	string getCreateColumnValues(string tabelName)
+	{
+		fstream input;
+		string fileInput;
+		string columnValues;
+		input.open(tabelName + ".txt", ios::in);
+		if (input.is_open())
+		{
+			while (getline(input, fileInput))
+			{
+				columnValues += (fileInput+" ");
+		    }
 
+
+		}
+		return columnValues;
+	}
 	// The method drops the table file.
 	void dropTableFile(string tableName) {
 		string tableFile = tableName + ".txt";

@@ -132,6 +132,19 @@ public:
 	int getTableSize() {
 		return this->tableSize;
 	}
+	
+	 bool checkTabelExists(string tableName)
+	 {
+		
+		for (int i = 0; i < getTableSize(); i++)
+		{
+			if (this->tableNames[i] == tableName)
+				return true;
+		}
+		return false;
+
+
+	}
 
 	// The method gets all the table names in the project
 	string getTableNames(FileHandler& handlingFile) {
@@ -312,7 +325,78 @@ public:
 		else if (firstElement == "display") displayTableElement(tableName);
 
 		cout << endl << "Logical & File phases Passed" << endl;
+	} 
+	
+		////INSERT: 
+		//1. Tabelul trebuie sa fie gasit cand dam search.
+		//2. Numarul de coloane din comanda <= numarul de coloane din fisier. (aici dam valoarea NULL la restul coloanelor)
+		//
+		//INSERT INTO studenti VALUES(1, ”John”, ”1001”)
+
+	
+
+
+	void LogicInsert(string tableName)
+	{
+		if (checkTabelExists(tableName) == true)
+		{
+			FileHandler check = FileHandler();
+			int counter = 4;
+			int position = 0;
+			string auxString;
+			string columnValues = check.getCreateColumnValues(tableName);
+			//put elements in this array of strings 
+			string columnValuesArray[check.noOfColumnsCreate(tableName) * 4];
+
+
+			for (int i = 0; i < columnValues.length(); i++)
+			{
+				if (columnValues[i] != " ")
+				{
+					auxString += columnValues[i];
+
+				}
+				else
+				{
+					columnValuesArray[position] = auxString;
+					position++;
+					auxString = "";
+				}
+			}
+			columnValuesArray[columnValues.length() - 1] = auxString;
+		
+
+
+			if ((getCurrentArrSize() - 4) == check.noOfColumnsCreate(tableName))
+			{
+				for (int i = 3; i < check.noOfColumnsCreate(tableName) * 4; i = i + 4)
+				{   
+					int length1 = currentArr[counter].length();
+					int insertedValue = atoi(currentArr[counter].c_str());
+					int length2 = to_string(insertedValue).length();
+
+						if (length2!= length1) 
+						{
+							cout << "ERROR: ";
+						}
+
+
+					columnValuesArray[i] = currentArr[counter];
+					counter++;
+				}
+
+			}
+			else cout << "The values sequence is not correlated with the  columns sequence from " << tableName;
+		}
+
+		
+		else cout<<"Table name doesn't exist!";
+		
 	}
+	
+	
+
+
 
 	// Avoids memory leaks
 	~LogicHandler() {
