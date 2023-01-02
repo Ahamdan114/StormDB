@@ -1,12 +1,12 @@
 id
 integer
 1000
-4
+9
 nume
 text
 128
-'nimic'
+'ok'
 grupa
 text
 50
-'sigur'
+'super'

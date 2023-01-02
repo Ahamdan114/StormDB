@@ -383,10 +383,12 @@ public:
 
 			}
 			else cout << "The values sequence is not correlated with the  columns sequence from " << tableName << endl;
+			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
 		}
 
 		else cout << "Table name doesn't exist!" << endl;
-				
+		
 		
 	}
 
@@ -408,5 +410,6 @@ public:
 
 		delete[] this->tableNames;
 		this->tableNames = nullptr;
+	
 	}
 };
