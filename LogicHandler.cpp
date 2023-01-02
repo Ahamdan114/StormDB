@@ -322,76 +322,71 @@ public:
 		if (checkTabelExists(tableName) == true)
 		{
 			FileHandler check = FileHandler();
+			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
 			int counter = 4;
 			int position = 0;
 			string auxString;
 			string columnValues = check.getCreateColumnValues(tableName);
+			const char tempCompare = ' ';
 			//put elements in this array of strings 
-			string* columnValuesArray=new string[check.noOfColumnsCreate(tableName) * 4];
+			string* columnValuesArray=new string[noOfColumnsCreate * 4];
 			
 
-			for (int i = 0; i < columnValues.length(); i++)
+			for (int i = 0; i < columnValues.length()-1; i++)
 			{
-				const char tempCompare = ' ';
-				if (columnValues[i] != tempCompare)
+				
+				if (columnValues[i] == tempCompare)
 				{
-					auxString += columnValues[i];
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
 
 				}
 				else
 				{
-					columnValuesArray[position] = auxString;
-					position++;
-					auxString = "";
+	               auxString += columnValues[i];
 				}
+
 			}
-			cout << "inainte "<< auxString << endl;
-			columnValuesArray[check.noOfColumnsCreate(tableName) * 4 - 1] = auxString;
-			cout << " dupa  "<<auxString << endl;
 		
-
-
-			if ((getCurrentArrSize() - 4) == check.noOfColumnsCreate(tableName))
+			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
+			
+		
+			if ((getCurrentArrSize() - 4) == noOfColumnsCreate)
 			{
-				cout << "a intrat in primul if inainte de regex";
-				for (int i = 3; i < check.noOfColumnsCreate(tableName) * 4 ; i = i + 4)
+				for (int i = 3; i < (noOfColumnsCreate * 4); i = i + 4)
 				{
-					cout << currentArr[counter] << endl;
-					cout << columnValuesArray[i] << endl;
-					bool isIntegerCurrentArr = regex_match(currentArr[counter].c_str(), regex("[0-9]+"));
-					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex("[0-9]+"));
-
-                  
-					bool isStringCurrentArr = regex_match(currentArr[counter].c_str(), regex("'[a-zA-Z0-9_]+'"));
-					bool isStringValues = regex_match(columnValuesArray[i].c_str(), regex("'[a-zA-Z0-9_]+'"));
+					string expression1 = "[0-9]+"; // Number Check
+					string expression2 = "'[a-zA-Z0-9_]+'"; // String Check
+					string expression3 = "[0-9]+\\.[0-9]+"; // Float Check
 
 
+					bool isIntegerCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression1));
+					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex(expression1));
 
-					bool isFloatCurrentArr = regex_match(currentArr[counter].c_str(), regex("[0-9]+\\.[0-9]+"));
-					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex("[0-9]+\\.[0-9]+"));
+					bool isStringCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression2));
+					bool isStringValues = regex_match(columnValuesArray[i].c_str(), regex(expression2));
 
+					bool isFloatCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression3));
+					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex(expression3));
 
 					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues))
 					{
-						columnValuesArray[i] = currentArr[counter];
-						cout << "succes!" << endl;
+						cout << "Succes!" << endl;
+						columnValuesArray[i] = this->currentArr[counter];
 					}
 					else cout << "error.typeProblem" << endl;
 
-				
 					counter++;
-
-					
 				}
-				check.suprascriptionTable(columnValuesArray, tableName, check.noOfColumnsCreate(tableName) * 4+1);
-				
+				check.suprascriptionTable(columnValuesArray, tableName, (noOfColumnsCreate * 4) + 1);
 
 			}
-			else cout << "The values sequence is not correlated with the  columns sequence from " << tableName;
+			else cout << "The values sequence is not correlated with the  columns sequence from " << tableName << endl;
 		}
 
-		
-		else cout<<"Table name doesn't exist!";
+		else cout << "Table name doesn't exist!" << endl;
+				
 		
 	}
 
