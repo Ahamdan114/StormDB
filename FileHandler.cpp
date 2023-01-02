@@ -60,7 +60,7 @@ public:
 		}
 	}
 
-	// The method prints on the screen the arrays ( the arrays given for now are: HistoryCounters, TableNames)
+	// The method suprascripts on the screen the arrays ( the arrays given for now are: HistoryCounters, TableNames)
 	void suprascriptionTable(string* tableArray, string tableName, int tableSize) {
 		fstream Input;
 		string tableFile = tableName + ".txt";
