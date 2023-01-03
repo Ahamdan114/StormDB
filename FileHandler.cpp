@@ -95,7 +95,8 @@ public:
 	void createHistoryFile(string word, string input, int counter) {
 		cout << "\tcreateHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
 		string name = word + "_" + to_string(counter) + ".txt";
-		fstream ObjectFile("C:/Users/User/source/repos/sql-database-repo/Debug/HistoryTextFiles/"+name);
+		fstream ObjectFile;
+		rename(name.c_str(), "C:/Users/User/source/repos/sql-database-repo/Debug/HistoryTextFiles");
 		ObjectFile.open(word + "_" + to_string(counter) + ".txt", ios::app);
 		ObjectFile.write(input.c_str(), input.length());
 		ObjectFile.close();

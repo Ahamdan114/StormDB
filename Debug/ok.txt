@@ -1,4 +1,0 @@
-id
-integer
-1
-1

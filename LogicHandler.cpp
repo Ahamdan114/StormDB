@@ -211,6 +211,7 @@ public:
 
 			int dimension = atoi(this->currentArr[i + 2].c_str());
 			int introducedValue = this->currentArr[i+3].length();
+			string expression3 = "[0-9]+\\.[0-9]+"; // Float Check
 			
 			// Checking if the name fits it's set dimension
 
@@ -228,9 +229,16 @@ public:
 
 				if (firstLength != secondLength) {
 					cout << firstLength << " " << secondLength << endl;
-					cout << "ERROR: " << this->currentArr[i + 1] << " " <<  this->currentArr[i + 3] << endl;
+					cout << "ERROR: The value you have introduced is not of integer type" << endl;
 				}
 			}
+			else if (this->currentArr[i + 1] == "float")
+			{bool isFloatCurrentArr = regex_match(this->currentArr[i + 3].c_str(), regex(expression3));
+			if (!isFloatCurrentArr) cout << "ERROR! The value you have introduced is not of float type" << endl;
+
+			}
+			
+
 
 			// Checking the type match if type is text (or string).
 

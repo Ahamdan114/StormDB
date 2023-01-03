@@ -1,1 +1,0 @@
-create table ok (id,integer,1,1)create table ok1 (id,integer,2,2)create table ok (id,integer,1,1)
