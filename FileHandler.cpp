@@ -13,6 +13,10 @@
 
 class FileHandler {
 public:
+	void DirectoryHandler() {
+		const wchar_t* path = L"C:/Users/User/source/repos/sql-database-repo/Debug/HistoryTextFiles";
+		_wmkdir(path);
+	}
 	// The method opens a file and returns the text inside it
 	string inputFromCommandPrompt(string file) {
 		fstream Input;

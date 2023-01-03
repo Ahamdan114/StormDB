@@ -1,5 +1,6 @@
 #include "ClassesImports.cpp"
 
+
 int main(int argc, char* argv[]) {
 	system("color 0D"); // For purple color of the text.
 
@@ -51,6 +52,7 @@ int main(int argc, char* argv[]) {
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
 					string tableName = logicHandler.getTableName();
 					logicHandler.tableLogicalChecks(firstElement, tableName);
+					fileHandle.DirectoryHandler();
 
 					// Command details down
 					// printer.print(input);
@@ -67,5 +69,7 @@ int main(int argc, char* argv[]) {
 		}
 		// logicHandler.dataSaver();
 		printer.goodByeModel();
+
+		
 	}
 }
