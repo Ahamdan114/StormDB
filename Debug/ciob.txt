@@ -1,0 +1,8 @@
+id
+float
+100
+3.5
+nume
+integer
+10
+3

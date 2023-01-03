@@ -1,0 +1,1 @@
+create table sticla ( id, float, 40, 3.5)create table ciob (( id, float, 100, 3.5), ( nume, integer, 10, 3))create table joj (( id, integer, 3, 2), ( ok, integer, 2, 1))create table tabel ((id,integer,2,1), (nu,integer,2,1), (ok,integer,3,2))
