@@ -210,12 +210,12 @@ public:
 		for (i; i < this->currentSize; i = i + 4) {
 
 			int dimension = atoi(this->currentArr[i + 2].c_str());
-			int nameLength = this->currentArr[i].length();
+			int introducedValue = this->currentArr[i+3].length();
 			
 			// Checking if the name fits it's set dimension
 
-			if (nameLength > dimension) {
-				cout << "ERROR: " << this->currentArr[i].length() << this->currentArr[i + 2] << endl;
+			if (introducedValue > dimension) {
+				cout << "ERROR:  " <<" "<< this->currentArr[i + 3].length() <<" "<<this->currentArr[i + 2] << endl;
 			}
 
 			// Checking the type match if type is integer (or int).

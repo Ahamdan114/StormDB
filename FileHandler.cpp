@@ -94,11 +94,12 @@ public:
 	// The method creates the history for each command introduced in the console.
 	void createHistoryFile(string word, string input, int counter) {
 		cout << "\tcreateHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
-
-		fstream ObjectFile;
+		string name = word + "_" + to_string(counter) + ".txt";
+		fstream ObjectFile("C:/Users/User/source/repos/sql-database-repo/Debug/HistoryTextFiles/"+name);
 		ObjectFile.open(word + "_" + to_string(counter) + ".txt", ios::app);
 		ObjectFile.write(input.c_str(), input.length());
 		ObjectFile.close();
+
 	}
 
 	// The method creates the table file.

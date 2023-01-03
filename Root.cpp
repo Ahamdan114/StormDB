@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
 	Printer printer = Printer(); 
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
+	fileHandle.DirectoryHandler();
 	
 	
 	//for (int i = 0; i < argc; i++) {
@@ -52,7 +53,7 @@ int main(int argc, char* argv[]) {
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
 					string tableName = logicHandler.getTableName();
 					logicHandler.tableLogicalChecks(firstElement, tableName);
-					fileHandle.DirectoryHandler();
+					
 
 					// Command details down
 					// printer.print(input);
@@ -69,6 +70,7 @@ int main(int argc, char* argv[]) {
 		}
 		// logicHandler.dataSaver();
 		printer.goodByeModel();
+	
 
 		
 	}
