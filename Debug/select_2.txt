@@ -1,1 +1,1 @@
-select (id) from ian
+select (id) from ianselect (id) from ianselect (id,nume) from ian

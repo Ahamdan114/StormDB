@@ -416,6 +416,10 @@ public:
 		
 		
 	}
+	string lowerCaseInput(string input) {
+		for (unsigned int i = 0; input[i] != '\0'; i++) if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
+		return input;
+	}
 
 	void logicSelect(string tableName)
 	{
@@ -430,6 +434,7 @@ public:
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
 			int j = 1;
 			int k = 0;
+			
 
 			for (int i = 0; i < createValues.length() - 1; i++)
 			{
@@ -449,7 +454,7 @@ public:
 			}
 			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
 
-				while(currentArr[j]!="FROM")
+				while(lowerCaseInput(currentArr[j])!="from")
 				{
 					if(currentArr[j]==columnValuesArray[k])
 					{
