@@ -513,7 +513,6 @@ public:
 
 			for (int i = 0; i < noOfColumnsCreate*4; i = i + 4) {
 				if ((columnValuesArray[i] == currentArr[4]) && (breaker == 0)) {
-					cout << " A INTRAT ! 1";
 					breaker = 1;
 					retainValue = i;
 				}
@@ -521,7 +520,6 @@ public:
 
 				if ((currentArr[6] == columnValuesArray[retainValue+3]) && (breaker == 1))
 				{
-					cout << " A INTRAT 2 !";
 					columnValuesArray[retainValue+3] = "null";
 					cout << columnValuesArray[i] << endl;
 				}
@@ -530,6 +528,11 @@ public:
 			delete[] columnValuesArray;
 		}
 		else cout << "Table name doesn't exist";
+	}
+	void LogicUpdate(string tableName)
+	{
+
+
 	}
 
 	// The method, based on the command, checks it's respective logic																-> Main method
