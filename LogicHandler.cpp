@@ -470,7 +470,7 @@ public:
 				cout << tableName << ": " << endl;
 				for (int i = 0; i < noOfColumnsCreate * 4; i++)
 				{
-					cout <<columnValuesArray[i] << endl;
+					cout <<columnValuesArray[i]<<endl;
 				}
 			
 			}
@@ -479,7 +479,58 @@ public:
 		}
 		else cout << "Table name doesn't exist!" << endl;
 	}
+	void logicDelete(string tableName)
+	{ 
+		if (checkTabelExists(tableName) == true)
+		{
+			int j = 1;
+			int k = 0;
+			string compare = "all";
+			int position = 0;
+			int breaker = 0;
+			FileHandler check = FileHandler();
+			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
+			string auxString;
+			string createValues = check.getCreateColumnValues(tableName);
+			const char tempCompare = ' ';
+			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+			int counter = 0;
+			int retainValue = 0;
 
+			for (int i = 0; i < createValues.length() - 1; i++) {
+				if (createValues[i] == tempCompare)
+				{
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
+				}
+				else
+				{
+					auxString += createValues[i];
+				}
+			}
+			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
+
+			for (int i = 0; i < noOfColumnsCreate*4; i = i + 4) {
+				if ((columnValuesArray[i] == currentArr[4]) && (breaker == 0)) {
+					cout << " A INTRAT ! 1";
+					breaker = 1;
+					retainValue = i;
+				}
+
+
+				if ((currentArr[6] == columnValuesArray[retainValue+3]) && (breaker == 1))
+				{
+					cout << " A INTRAT 2 !";
+					columnValuesArray[retainValue+3] = "null";
+					cout << columnValuesArray[i] << endl;
+				}
+			}
+
+			delete[] columnValuesArray;
+		}
+		else cout << "Table name doesn't exist";
+	}
 
 	// The method, based on the command, checks it's respective logic																-> Main method
 	void tableLogicalChecks(string firstElement, string tableName) {
@@ -488,6 +539,7 @@ public:
 		else if (firstElement == "display") displayTableElement(tableName);
 		else if (firstElement == "insert")logicInsertInto(tableName);
 		else if (firstElement == "select")logicSelect(tableName);
+		else if (firstElement == "delete")logicDelete(tableName);
 
 		cout << endl << "Logical & File phases Passed" << endl;
 	} 

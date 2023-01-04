@@ -164,7 +164,7 @@ class DeleteTable : public CounterRetainer
 public:
 	bool testDeleteTable(string const input)
 	{
-		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*((\"\\w+\"|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
+		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return deleteTable;
 	}
 

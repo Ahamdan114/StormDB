@@ -1,0 +1,1 @@
+delete from ian where nume = 'ian'
