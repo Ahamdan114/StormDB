@@ -434,6 +434,7 @@ public:
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
 			int j = 1;
 			int k = 0;
+			string compare = "all";
 			
 
 			for (int i = 0; i < createValues.length() - 1; i++)
@@ -453,16 +454,26 @@ public:
 
 			}
 			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
-
-				while(lowerCaseInput(currentArr[j])!="from")
+			if (lowerCaseInput(currentArr[1]) != compare) {
+				while (lowerCaseInput(currentArr[j]) != "from")
 				{
-					if(currentArr[j]==columnValuesArray[k])
+					if (currentArr[j] == columnValuesArray[k])
 					{
-						cout << columnValuesArray[k] <<"="<< columnValuesArray[k + 3] << endl;
+						cout << columnValuesArray[k] << "=" << columnValuesArray[k + 3] << endl;
 					}
 					k = k + 4;
 					j++;
 				}
+			}
+			else {
+				
+				cout << tableName << ": " << endl;
+				for (int i = 0; i < noOfColumnsCreate * 4; i++)
+				{
+					cout <<columnValuesArray[i] << endl;
+				}
+			
+			}
 
 			delete[] columnValuesArray;
 		}
