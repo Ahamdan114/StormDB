@@ -1,1 +1,0 @@
-insert into tabel values (1,0,1)insert into joj values (0,0)

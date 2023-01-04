@@ -400,12 +400,61 @@ public:
 		
 	}
 
+	void logicSelect(string tableName)
+	{
+		if (checkTabelExists(tableName) == true)
+		{
+			FileHandler check = FileHandler();
+			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
+			int position = 0;
+			string auxString;
+			string createValues = check.getCreateColumnValues(tableName);
+			const char tempCompare = ' ';
+			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+			int j = 1;
+			int k = 0;
+
+			for (int i = 0; i < createValues.length() - 1; i++)
+			{
+
+				if (createValues[i] == tempCompare)
+				{
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
+
+				}
+				else
+				{
+					auxString += createValues[i];
+				}
+
+			}
+			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
+
+				while(currentArr[j]!="FROM")
+				{
+					if(currentArr[j]==columnValuesArray[k])
+					{
+						cout << columnValuesArray[k] <<"="<< columnValuesArray[k + 3] << endl;
+					}
+					k = k + 4;
+					j++;
+				}
+
+			delete[] columnValuesArray;
+		}
+		else cout << "Table name doesn't exist!" << endl;
+	}
+
+
 	// The method, based on the command, checks it's respective logic																-> Main method
 	void tableLogicalChecks(string firstElement, string tableName) {
 		if (firstElement == "create") createTableElement(tableName);
 		else if (firstElement == "drop") dropTableElement(tableName);
 		else if (firstElement == "display") displayTableElement(tableName);
 		else if (firstElement == "insert")logicInsertInto(tableName);
+		else if (firstElement == "select")logicSelect(tableName);
 
 		cout << endl << "Logical & File phases Passed" << endl;
 	} 

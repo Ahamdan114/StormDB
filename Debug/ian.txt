@@ -1,0 +1,8 @@
+id
+integer
+1000
+7
+nume
+text
+128
+'ian'
