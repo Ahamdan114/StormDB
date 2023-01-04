@@ -78,18 +78,35 @@ public:
 		}
 		this->currentArr[j] = tempStr;
 	}
+	string stringToUpper(string input)
+	{
+		string response = "";
+		for (unsigned int i = 0; i < input.length(); i++)
+		{
+			if (input[i] >= 'a' && input[i] <= 'z')response += (input[i] - 32);
+			else response += input[i];
+		}
+		return response;
+
+	}
+
+
 	// The method finds the table name
 	string findTableName(int size) {
 		string tableName = "";
+		string firstCheck = stringToUpper(currentArr[0]);
 
-		if (this->currentArr[0] == "SELECT") {
-			for (int i = 0; i < size; i++) {
-				if (this->currentArr[i] == "FROM") {
-					tableName = this->currentArr[i + 1];
-				}
-			}
-		}
-		else if (this->currentArr[0] == "UPDATE") tableName = this->currentArr[1];
+		if ((firstCheck) == "SELECT") 
+		{
+		for (int i = 0; i < size; i++) {
+			string secondCheck = stringToUpper(this->currentArr[i]);
+			if (secondCheck == "FROM") {
+				tableName = this->currentArr[i + 1];
+			      }
+		    }
+	    }
+		
+		else if (firstCheck == "UPDATE") tableName = this->currentArr[1];
 		else tableName = this->currentArr[2];
 		
 		return tableName;
