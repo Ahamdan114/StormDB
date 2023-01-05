@@ -14,6 +14,8 @@ int main(int argc, char* argv[]) {
 	Printer printer = Printer(); 
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
+
+	printer.intro();
 	fileHandle.DirectoryHandler();
 	
 	

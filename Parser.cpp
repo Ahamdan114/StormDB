@@ -206,8 +206,8 @@ public:
 	{
 		//bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*((\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))\\s*,\\s*(\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))*)*\\s*,\\s*((\"\\w+\")|([0-9]+\\.[0-9]+)|[0-9]+)\\s*\\)[[:blank:]]*"));
 		//bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*,\\s*('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))*)*\\s*,\\s*(('\\w+')|([0-9]+\\.[0-9]+)|[0-9]+)\\s*\\)[[:blank:]]*"));
-		bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*(\\s*(,\\s*'\\w+')|(\\s*,\\s*[0-9]+\\.[0-9]+)|(\\s*,\\s*[0-9]+))*)\\s*\\)[[:blank:]]*"));
-		
+		// bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*(\\s*(,\\s*'\\w+')|(\\s*,\\s*[0-9]+\\.[0-9]+)|(\\s*,\\s*[0-9]+))*)\\s*\\)[[:blank:]]*"));
+		bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w.+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*(\\s*(,\\s*'\\w.+')|(\\s*,\\s*[0-9]+\\.[0-9]+)|(\\s*,\\s*[0-9]+))*)\\s*\\)[[:blank:]]*"));
 		return insertIntoTable;
 	}
 
