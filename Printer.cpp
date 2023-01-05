@@ -8,6 +8,12 @@ public:
 		cout << "Command details -> The command introduced is: " << cleanInput << endl;
 	}
 
+	void intro() {
+		cout << "The compiler supports the following commands: Create, Drop, Display, Insert, Select, Delete, Update, Import" << endl;
+		cout << "Use help and the name of the command to get a quick guide." << endl;
+		cout << endl << endl;
+	}
+
 	void returnManual(string word) {
 		// (create|drop|display|insert|select|delete|update|import)
 		cout << "The word is: " << word << endl;
