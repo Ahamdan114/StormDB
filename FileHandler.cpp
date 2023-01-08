@@ -188,4 +188,30 @@ public:
 		Output.close();
 	}
 
+	bool csvFileExists(string csvFileName) {
+		fstream File;
+		bool csvFileExists = false;
+		File.open(csvFileName, ios::in);
+		if (File.is_open()) {
+			csvFileExists = true;
+			File.close();
+		}
+		return csvFileExists;
+	}
+
+	string csvFileContent(string csvFileName) {
+		fstream File;
+		File.open(csvFileName, ios::in);
+		if (File.is_open()) {
+			string infoContainer;
+			string interationStr;
+			while (getline(File, interationStr)) {
+				infoContainer += interationStr;
+			}
+			File.close();
+			return infoContainer;
+		}
+		return "";
+	}
+
 };

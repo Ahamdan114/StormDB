@@ -402,7 +402,7 @@ public:
 			printer.returnManual(getLastInputElement(cleanInput));
 		}
 
-        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck)) throw  "Syntax error.";
+        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck || importCheck)) throw  "Syntax error.";
 		else cout << endl << "Parsing phase passed!" << endl << endl;
 	}
 

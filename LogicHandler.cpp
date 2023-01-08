@@ -106,7 +106,7 @@ public:
 		    }
 	    }
 		
-		else if (firstCheck == "UPDATE") tableName = this->currentArr[1];
+		else if (firstCheck == "UPDATE" || firstCheck =="IMPORT") tableName = this->currentArr[1];
 		else tableName = this->currentArr[2];
 		
 		return tableName;
@@ -669,7 +669,99 @@ public:
 		else cout << "The table name doesn't exist!";
 		//add checkings for set 
 	}
+	int csvFileLength(string csvFileName) {
+		char separator = '|';
+		FileHandler fileHandler = FileHandler();
+		string csvFileContent = fileHandler.csvFileContent(csvFileName);
+		int csvFileLength = 0;
+		for (int i = 0; i < csvFileContent.length(); i++) {
+			if (csvFileContent[i] == separator)csvFileLength++;
+		}
+		csvFileLength++; //" a | b | c ", this is for c
+		return csvFileLength;
+	}
+	string* getCsvFileContentArray(string csvFileName) {
+		FileHandler fileHandler = FileHandler();
+		int csvLength = csvFileLength(csvFileName);
+		string csvFileContent = fileHandler.csvFileContent(csvFileName);
+		string* csvFileContentArray = new string[csvLength];
+		string tempStr;
+		char separator = '|';
+		for (int i = 0, j = 0; i < csvFileContent.length(); i++) {
+			if (csvFileContent[i] != separator) tempStr += csvFileContent[i];
+			else {
+				csvFileContentArray[j] = tempStr;
+				tempStr = "";
+				j++;
+			}
+		}
+		csvFileContentArray[csvLength - 1] = tempStr;
+		return csvFileContentArray;
+	}
 
+	void logicImport(string tableName, string csvFileName) {
+		FileHandler fileHandler = FileHandler();
+		bool csvFileExists = fileHandler.csvFileExists(csvFileName);
+		cout << "!!!!!!!!!" << csvFileExists << "     " << endl;
+		cout << tableName << endl;
+		cout << " nume tabel : "<<checkTabelExists(tableName) << endl;
+		char separator = '|';
+		if (checkTabelExists(tableName) && csvFileExists) {
+			int csvLength = csvFileLength(csvFileName);
+			string* csvFileContentArray = getCsvFileContentArray(csvFileName);
+			int noOfColumnsCreate = fileHandler.noOfColumnsCreate(tableName);
+			int noOfCreateElements = noOfColumnsCreate * 4;
+			string columnValues = fileHandler.getCreateColumnValues(tableName);
+			string* columnValuesArray = new string[noOfCreateElements];
+			int counter = 0;
+			int position = 0;
+			string auxString;
+			const char tempCompare = ' ';
+
+			for (int i = 0; i < columnValues.length() - 1; i++) {
+				if (columnValues[i] == tempCompare) {
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
+				}
+				else auxString += columnValues[i];
+			}
+			columnValuesArray[noOfCreateElements - 1] = auxString;
+			if (csvLength == noOfColumnsCreate) {
+				for (int i = 3; i < (noOfColumnsCreate * 4); i = i + 4)
+				{
+					string expression1 = "[0-9]+$"; // Number Check
+					string expression2 = "'[^']+'"; // String Check
+					string expression3 = "([0-9]*[.])+[0-9]+"; // Float Check
+
+					bool isIntegerCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression1));
+					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex(expression1));
+
+					bool isStringCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression2));
+					bool isStringValues = regex_match(columnValuesArray[i].c_str(), regex(expression2));
+
+					bool isFloatCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression3));
+					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex(expression3));
+
+					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues))
+					{
+						cout << "Succes!" << endl;
+						columnValuesArray[i] = csvFileContentArray[counter];
+					}
+					else cout << "error.typeProblem" << endl;
+
+					counter++;
+				}
+				fileHandler.suprascriptionTable(columnValuesArray, tableName, noOfCreateElements + 1);
+			}
+			else cout << " The values sequence is not correlated with the  columns sequence from " << tableName << endl;
+			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
+			delete[] csvFileContentArray;
+			csvFileContentArray = nullptr;
+		}
+		else cout << "Csv file name doesnt't exist or table name is wrong ";
+	}
 
 	// The method, based on the command, checks it's respective logic																-> Main method
 	void tableLogicalChecks(string firstElement, string tableName) {
@@ -680,6 +772,7 @@ public:
 		else if (firstElement == "select")logicSelect(tableName);
 		else if (firstElement == "delete")logicDelete(tableName);
 		else if (firstElement == "update")LogicUpdate(tableName);
+		else if (firstElement == "import")logicImport(tableName,currentArr[getCurrentArrSize()-1]);
 
 		cout << endl << "Logical & File phases Passed" << endl;
 	} 
