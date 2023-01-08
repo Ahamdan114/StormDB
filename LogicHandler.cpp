@@ -603,6 +603,72 @@ public:
 		}
 		else cout << "Table name doesn't exist";
 	}
+
+
+	int checkSetDataType(string tableName)
+	{
+		string expression1 = "[0-9]+$"; // integer Check
+		string expression2 = "'[^']+'"; // text Check
+		string expression3 = "([0-9]*[.])+[0-9]+"; // Float Check
+		int typeIdSet=0;
+		bool isIntegerCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression1));
+		bool isStringCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression2));
+		bool isFloatCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression3));
+		if (isIntegerCurrentArr==true) typeIdSet = 1;
+		else if (isStringCurrentArr==true) typeIdSet = 2;
+	    else if (isFloatCurrentArr==true) typeIdSet = 3;
+
+		return typeIdSet;
+	}
+	int checkColumnArrayDataType(string tableName)
+	{
+		int position = 0;
+		int breaker = 0;
+		FileHandler fileHandle = FileHandler();
+		int noOfColumnsCreate = fileHandle.noOfColumnsCreate(tableName);
+		int noElementsCreate = noOfColumnsCreate * 4;
+		string auxString;
+		string createValues = fileHandle.getCreateColumnValues(tableName);
+		const char tempCompare = ' ';
+		string* columnValuesArray = new string[noOfColumnsCreate * 4];
+		int retainIndex = 0;
+		int typeIdColumn = 0;
+		for (int i = 0; i < createValues.length() - 1; i++) {
+			if (createValues[i] == tempCompare)
+			{
+				columnValuesArray[position] = auxString;
+				auxString = "";
+				position++;
+			}
+			else auxString += createValues[i];
+
+		}
+		for (int i = 0; i < noElementsCreate; i = i + 4) {
+			if ((columnValuesArray[i] == currentArr[3]) && (breaker == 0)) {
+				breaker = 1;
+				retainIndex = i;
+			}
+		}
+		if (breaker == 1) {
+			string expression1 = "integer"; // Number Check
+			string expression2 = "text"; // String Check
+			string expression3 = "float"; // Float Check
+			bool isIntegerCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression1));
+			bool isStringCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression2));
+			bool isFloatCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression3));
+			if (isIntegerCurrentArr == true) typeIdColumn = 1;
+			else if (isStringCurrentArr == true) typeIdColumn = 2;
+			else if (isFloatCurrentArr == true) typeIdColumn = 3;
+			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
+			return typeIdColumn;
+		}
+		else {
+			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
+			return 100;
+		}
+	}
 	void LogicUpdate(string tableName)
 	{   
 		if (checkTabelExists(tableName) == true)
@@ -618,7 +684,9 @@ public:
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
 			int retainIndex = 0;
 			int number = 0;
-
+			int dataTypeColumn = checkColumnArrayDataType(tableName);
+			int dataTypeSet = checkSetDataType(tableName);
+			
 			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempCompare)
 				{
@@ -634,12 +702,12 @@ public:
 					breaker = 1;
 					retainIndex = i;
 				}
-				if ((currentArr[9] == columnValuesArray[retainIndex + 3]) && (breaker == 1))
+				if ((currentArr[9] == columnValuesArray[retainIndex + 3]) && (breaker == 1) && (number ==0))
 				{
 					number = 1;
 				}
 			}
-			if ((breaker == 1) && (number == 1))
+			if ((breaker == 1) && (number == 1) && (dataTypeColumn==dataTypeSet))
 			{
 				columnValuesArray[retainIndex+3] = currentArr[5];
 				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
@@ -648,11 +716,14 @@ public:
 			{
 				cout << "error! column name or value is wrong";
 			}
+			else if ((dataTypeColumn != dataTypeSet))
+			{
+				cout << "error! the data type you tried to set is not correct or the column doesn't exist";
+			}
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 		}
 		else cout << "The table name doesn't exist!";
-		//add checkings for set 
 	}
 	int csvFileLength(string csvFileName) {
 		char separator = '|';
