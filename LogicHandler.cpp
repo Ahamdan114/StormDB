@@ -423,14 +423,14 @@ public:
 	}
 
 	void logicSelect(string tableName)
-	{ }
-		/*if (checkTabelExists(tableName) == true)
-		{
+	{
+		if (checkTabelExists(tableName) == true) {
 			FileHandler check = FileHandler();
 
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
-			int noOfColumnsCreate = noOfColumnsCreate * 4;
+			int noOfElementsCreate = noOfColumnsCreate * 4;
 			string* columnValuesArray = new string[noOfElementsCreate];
+
 			int position = 0;
 			int j = 1;
 			int k = 0;
@@ -443,42 +443,29 @@ public:
 			string comparisonStrWhere = "WHERE";
 
 			const char tempCompare = ' ';
-			
 
-			for (int i = 0; i < createValues.length() - 1; i++)
-			{
 
-				if (createValues[i] == tempCompare)
-				{
+			for (int i = 0; i < createValues.length() - 1; i++) {
+				if (createValues[i] == tempCompare) {
 					columnValuesArray[position] = auxString;
 					auxString = "";
 					position++;
-
 				}
-				else
-				{
-					auxString += createValues[i];
-				}
-
+				else auxString += createValues[i];
 			}
-			columnValuesArray[noOElementsCreate - 1] = auxString;
-
+			columnValuesArray[noOfElementsCreate - 1] = auxString;
 			if (stringToUpper(this->currentArr[1]) != comparisonStrAll) {
-
 				if (stringToUpper(this->currentArr[getCurrentArrSize() - 4]) == comparisonStrWhere) {
-
-					for(int i = 0; i < noOfElementsCreate; i = i + 4) {
-
-						cout << columnValuesArray[i] << " " << this->currentArr[getCurrentArrSize() - 3] << endl;
+					for (int i = 0; i < noOfElementsCreate; i = i + 4) {
+						
 						if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
-							cout << "Level 1 Passed" << endl;
-							cout << columnValuesArray[i + 3] << " " << this->currentArr[getCurrentArrSize() - 1] << endl;
+							
 							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
-								cout << "Level 2 Passed" << endl;
+								
 								int checkerEveryColumn = 0;
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 									for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-										cout << "Level 3 Comparison: " << this->currentArr[j] << " " << columnValuesArray[i] << endl;
+										
 										if (this->currentArr[j] == columnValuesArray[i]) {
 											checkerEveryColumn++;
 										}
@@ -489,7 +476,7 @@ public:
 								if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 									for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-										cout << "Level 3 Comparison: " << this->currentArr[j] << " " << columnValuesArray[i] << endl;
+										
 										if (this->currentArr[j] == columnValuesArray[i]) {
 											cout << columnValuesArray[i] << " = " << columnValuesArray[i + 3] << endl;
 										}
@@ -498,7 +485,6 @@ public:
 								}
 								return;
 							}
-					
 							cout << "ERROR: The value of identifier is inexistent in the table." << endl;
 							return;
 						}
@@ -509,7 +495,7 @@ public:
 					int checkerEveryColumn = 0;
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 						for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-							cout << "Level 3 Comparison: " << this->currentArr[j] << " " << columnValuesArray[i] << endl;
+							
 							if (this->currentArr[j] == columnValuesArray[i]) {
 								checkerEveryColumn++;
 							}
@@ -520,7 +506,7 @@ public:
 					if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 						for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-							cout << "Level 3 Comparison: " << this->currentArr[j] << " " << columnValuesArray[i] << endl;
+							
 							if (this->currentArr[j] == columnValuesArray[i]) {
 								cout << columnValuesArray[i] << " = " << columnValuesArray[i + 3] << endl;
 							}
@@ -533,14 +519,14 @@ public:
 			else {
 				cout << stringToUpper(this->currentArr[getCurrentArrSize() - 4]) << " " << comparisonStrWhere << endl;
 				if (stringToUpper(this->currentArr[getCurrentArrSize() - 4]) == comparisonStrWhere) {
-					cout << "Level 1 Passed" << endl;
+					
 					for (int i = 0; i < noOfElementsCreate; i = i + 4) {
 						cout << columnValuesArray[i] << " " << this->currentArr[getCurrentArrSize() - 3] << endl;
 						if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
-							cout << "Level 2 Passed" << endl;
+							
 							cout << columnValuesArray[i + 3] << " " << this->currentArr[getCurrentArrSize() - 1] << endl;
 							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
-								cout << "IT IS FOUNDED!!!!" << endl << endl << endl;
+								
 								check.displayTableFile(tableName);
 								return;
 							}
@@ -560,8 +546,7 @@ public:
 			columnValuesArray = nullptr;
 		}
 		else cout << "Table name doesn't exist!" << endl;
-	*/
-
+	}
 
 
 	void logicDelete(string tableName)
