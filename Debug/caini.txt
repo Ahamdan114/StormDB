@@ -1,0 +1,8 @@
+nume
+text
+50
+'dorel'
+kg
+integer
+30
+'dorel'

@@ -1,6 +1,5 @@
 #include "ClassesImports.cpp"
 
-
 int main(int argc, char* argv[]) {
 	system("color 0D"); // For purple color of the text.
 
@@ -16,7 +15,7 @@ int main(int argc, char* argv[]) {
 	FileHandler fileHandle = FileHandler();
 
 	printer.intro();
-	fileHandle.DirectoryHandler();
+
 	
 	
 	//for (int i = 0; i < argc; i++) {
