@@ -44,9 +44,7 @@ int main(int argc, char* argv[]) {
 					continue;
 				}
 				try {
-					/*cout << "Data reloading -> " << endl;
-					counterRetainer.dataReloader(fileHandle);*/
-
+					
 					string lowerCaseInput = parser.lowerCaseInput(input);
 					parser.parse(lowerCaseInput);
 
@@ -55,14 +53,12 @@ int main(int argc, char* argv[]) {
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
 					string tableName = logicHandler.getTableName();
 					logicHandler.tableLogicalChecks(firstElement, tableName);
-					
 
 					// Command details down
 					// printer.print(input);
-					// cout << "Data saving -> " << endl;
 				}
 				catch (exception const& e) {
-					// For next phases
+					
 				}
 			}
 			if (counter >= argc) {
@@ -70,7 +66,6 @@ int main(int argc, char* argv[]) {
 				getline(cin, input);
 			}
 		}
-		// logicHandler.dataSaver();
 		printer.goodByeModel();
 	
 
