@@ -581,7 +581,7 @@ public:
 			FileHandler fileHandle = FileHandler();
 			int number = 0;
 
-			for (int i = 0; i < createValues.length() - 1; i++) {
+			for (int i = 0; i < createValues.length()-1; i++) {
 				if (createValues[i] == tempCompare)
 				{
 					columnValuesArray[position] = auxString;
@@ -590,7 +590,7 @@ public:
 				}
 				else auxString += createValues[i];
 			}
-			columnValuesArray[noElementsCreate - 1] = auxString;
+			columnValuesArray[noElementsCreate-1] = auxString;
 
 			for (int i = 0; i < noElementsCreate; i = i + 4) {
 				if ((columnValuesArray[i] == currentArr[4]) && (breaker == 0)) {
