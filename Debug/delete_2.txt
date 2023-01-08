@@ -1,1 +1,1 @@
-delete from ian where nume = 'ian'
+delete from cioco where nume = 'poc'

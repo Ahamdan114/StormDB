@@ -423,8 +423,8 @@ public:
 	}
 
 	void logicSelect(string tableName)
-	{
-		if (checkTabelExists(tableName) == true)
+	{ }
+		/*if (checkTabelExists(tableName) == true)
 		{
 			FileHandler check = FileHandler();
 
@@ -560,7 +560,7 @@ public:
 			columnValuesArray = nullptr;
 		}
 		else cout << "Table name doesn't exist!" << endl;
-	}
+	*/
 
 
 
@@ -568,19 +568,18 @@ public:
 	{ 
 		if (checkTabelExists(tableName) == true)
 		{
-			int j = 1;
-			int k = 0;
-			string compare = "all";
 			int position = 0;
 			int breaker = 0;
 			FileHandler check = FileHandler();
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
+			int noElementsCreate = noOfColumnsCreate * 4;
 			string auxString;
 			string createValues = check.getCreateColumnValues(tableName);
 			const char tempCompare = ' ';
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
-			int counter = 0;
-			int retainValue = 0;
+			int retainIndex = 0;
+			FileHandler fileHandle = FileHandler();
+			int number = 0;
 
 			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempCompare)
@@ -589,33 +588,39 @@ public:
 					auxString = "";
 					position++;
 				}
-				else
-				{
-					auxString += createValues[i];
-				}
+				else auxString += createValues[i];
 			}
-			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
+			columnValuesArray[noElementsCreate - 1] = auxString;
 
-			for (int i = 0; i < noOfColumnsCreate*4; i = i + 4) {
+			for (int i = 0; i < noElementsCreate; i = i + 4) {
 				if ((columnValuesArray[i] == currentArr[4]) && (breaker == 0)) {
 					breaker = 1;
-					retainValue = i;
+					retainIndex = i;
 				}
-
-
-				if ((currentArr[6] == columnValuesArray[retainValue+3]) && (breaker == 1))
+				if ((currentArr[6] == columnValuesArray[retainIndex+3]) && (breaker == 1))
 				{
-					columnValuesArray[retainValue+3] = "null";
-					cout << columnValuesArray[i] << endl;
+					number = 1;
+					//'pushes' the column 'out'
+                    for (int j = retainIndex; j < noElementsCreate - 4; j++){
+
+						columnValuesArray[j] = columnValuesArray[j + 4];
+				    }
+					cout << "The new table is: " << endl;
+					fileHandle.suprascriptionTable(columnValuesArray, tableName, noElementsCreate - 3);
 				}
 			}
-
+			if ((breaker != 1) || (number != 1))
+			{
+				cout << "error! the column name or value is wrong.";
+			}
 			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
 		}
 		else cout << "Table name doesn't exist";
 	}
 	void LogicUpdate(string tableName)
 	{
+
 
 
 	}

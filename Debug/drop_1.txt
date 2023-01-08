@@ -1,1 +1,1 @@
-drop table ian
+drop table cani 

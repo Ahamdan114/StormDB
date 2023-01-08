@@ -1,1 +1,1 @@
-drop table studenti_10
+drop table masini

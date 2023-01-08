@@ -1,1 +1,1 @@
-create table ian ((id, integer, 1000, 7), (nume, text, 128,'ian'))
+create table students (( id,integer,10,2), (nume,text,10,'ana'))create table masini ((id,integer,10,1),(nume,text,10,'volvo'))create table cani ((id,integer,10,1),(nume,text,10,'roz'))create table cioco ((id,integer,10,1),(nume,text,20,'milka'))
