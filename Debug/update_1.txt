@@ -1,0 +1,1 @@
+update vin set nume = 'rosu' where nume = 'alb' 

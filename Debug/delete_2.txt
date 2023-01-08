@@ -1,1 +1,0 @@
-delete from cioco where nume = 'poc'

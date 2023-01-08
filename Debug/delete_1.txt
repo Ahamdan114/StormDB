@@ -1,1 +1,0 @@
-delete from students where nume = 'ion'delete from students where nume = 'ion'delete from students where nume = 'ion'delete from students where nume = 'ion'delete from masini where nume = 'volvo'delete from cani where id = 1delete from cioco where nume = 'milka'

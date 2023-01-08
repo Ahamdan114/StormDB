@@ -620,9 +620,54 @@ public:
 	}
 	void LogicUpdate(string tableName)
 	{
+		if (checkTabelExists(tableName) == true)
+		{
+			int position = 0;
+			int breaker = 0;
+			FileHandler check = FileHandler();
+			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
+			int noElementsCreate = noOfColumnsCreate * 4;
+			string auxString;
+			string createValues = check.getCreateColumnValues(tableName);
+			const char tempCompare = ' ';
+			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+			int retainIndex = 0;
+			FileHandler fileHandle = FileHandler();
+			int number = 0;
 
-
-
+			for (int i = 0; i < createValues.length() - 1; i++) {
+				if (createValues[i] == tempCompare)
+				{
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
+				}
+				else auxString += createValues[i];
+			}
+			columnValuesArray[noElementsCreate - 1] = auxString;
+			for (int i = 0; i < noElementsCreate; i = i + 4) {
+				if ((columnValuesArray[i] == currentArr[7]) && (breaker == 0)) {
+					breaker = 1;
+					retainIndex = i;
+				}
+				if ((currentArr[9] == columnValuesArray[retainIndex + 3]) && (breaker == 1))
+				{
+					number = 1;
+				}
+			}
+			if ((breaker == 1) && (number == 1))
+			{
+				columnValuesArray[retainIndex+3] = currentArr[5];
+				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
+			}
+			else if ((breaker != 1) || (number != 1))
+			{
+				cout << "error! column name or value is wrong";
+			}
+			delete[] columnValuesArray;
+			columnValuesArray = nullptr;
+		}
+		else cout << "The table name doesn't exist!";
 	}
 
 	// The method, based on the command, checks it's respective logic																-> Main method
@@ -633,6 +678,7 @@ public:
 		else if (firstElement == "insert")logicInsertInto(tableName);
 		else if (firstElement == "select")logicSelect(tableName);
 		else if (firstElement == "delete")logicDelete(tableName);
+		else if (firstElement == "update")LogicUpdate(tableName);
 
 		cout << endl << "Logical & File phases Passed" << endl;
 	} 
