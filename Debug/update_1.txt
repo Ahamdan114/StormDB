@@ -1,1 +1,1 @@
-update vin set nume = 'rosu' where nume = 'alb' 
+update vin set nume = 'rosu' where nume = 'alb' update floats set go = 2.5 where go = 3.4update floats set go = 'ok' where go = 2.5 update floats set ijini = 2 where go = 'ok'

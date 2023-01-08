@@ -619,20 +619,19 @@ public:
 		else cout << "Table name doesn't exist";
 	}
 	void LogicUpdate(string tableName)
-	{
+	{   
 		if (checkTabelExists(tableName) == true)
 		{
 			int position = 0;
 			int breaker = 0;
-			FileHandler check = FileHandler();
-			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
+			FileHandler fileHandle = FileHandler();
+			int noOfColumnsCreate = fileHandle.noOfColumnsCreate(tableName);
 			int noElementsCreate = noOfColumnsCreate * 4;
 			string auxString;
-			string createValues = check.getCreateColumnValues(tableName);
+			string createValues = fileHandle.getCreateColumnValues(tableName);
 			const char tempCompare = ' ';
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
 			int retainIndex = 0;
-			FileHandler fileHandle = FileHandler();
 			int number = 0;
 
 			for (int i = 0; i < createValues.length() - 1; i++) {
@@ -668,7 +667,9 @@ public:
 			columnValuesArray = nullptr;
 		}
 		else cout << "The table name doesn't exist!";
+		//add checkings for set 
 	}
+
 
 	// The method, based on the command, checks it's respective logic																-> Main method
 	void tableLogicalChecks(string firstElement, string tableName) {

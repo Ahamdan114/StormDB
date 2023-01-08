@@ -1,1 +1,1 @@
-display table vin 
+display table vin display table floatsdisplay table floats display table floats

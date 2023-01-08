@@ -221,6 +221,32 @@ public:
 	}
 
 };
+class Import : public CounterRetainer
+{
+	static int IMPORT_COUNTER;
+public:
+	bool ImportCheck(string const input)
+	{
+		bool importIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*import[[:blank:]]+\\w+[[:blank:]]+\\w+.csv[[:blank:]]*"));
+		return importIntoTable;
+
+	}
+	int returnCounterImport()
+	{
+		return IMPORT_COUNTER;
+	}
+	void SET_IMPORT_COUNTER(int value)
+	{
+		IMPORT_COUNTER = value;
+	}
+};
+class HelpManual {
+public:
+	bool HelpManualVerify(string const input) {
+		bool helpManualVerify= regex_match(input.c_str(), regex("[[:blank:]]*help[[:blank:]]+(create|drop|display|insert|select|delete|update|import){0,1}[[:blank:]]*"));
+		return helpManualVerify;
+	}
+};
 
  int CreateTable::CREATE_COUNTER = 0;
  int DropTable::DROP_COUNTER = 0;
@@ -230,6 +256,8 @@ public:
  int DeleteTable::DELETE_COUNTER = 0;
  int UpdateTable::UPDATE_COUNTER = 0;
  int Insert::INSERT_COUNTER = 0;
+ int Import::IMPORT_COUNTER = 0;
+ 
 
 
 class Parser {
@@ -245,6 +273,18 @@ public:
 			word += input[i];
 		}
 		return word;
+	}
+	string getLastInputElement(string input) {
+		unsigned int i = input.length() - 1;
+		string word = "";
+		for (i; i > 0; i--) if (input[i] != ' ') break; 
+		for (unsigned int index = i; index >= 0; index--) {
+			if (input[index] == ' ')break;
+			word += input[index];
+		}
+		//because the for loop is reversed
+		reverse(word.begin(), word.end());
+			return word;
 	}
 
 	// The method returns the input given to lowercase
@@ -276,6 +316,8 @@ public:
 		DeleteTable deleteTable = DeleteTable();
 		UpdateTable updateTable = UpdateTable();
 		Insert insertTable = Insert();
+		Import importTable = Import();
+		HelpManual helpManual = HelpManual();
 		
 		bool createCheck = createTable.testCreateTable(cleanInput);
 
@@ -348,7 +390,19 @@ public:
 		}
 		// counterRetainer.dataSaver(fileHandle);
 
-		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck)) throw  "Syntax error.";
+		bool importCheck = importTable.ImportCheck(cleanInput);
+		if (importCheck) {
+			int counter = importTable.returnCounterImport() + 1;
+			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
+			importTable.SET_IMPORT_COUNTER(counter);
+			printer.returnStatement(8);
+		}
+		bool helpCheck = helpManual.HelpManualVerify(cleanInput);
+		if (helpCheck){
+			printer.returnManual(getLastInputElement(cleanInput));
+		}
+
+        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck)) throw  "Syntax error.";
 		else cout << endl << "Parsing phase passed!" << endl << endl;
 	}
 
