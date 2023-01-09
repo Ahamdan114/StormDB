@@ -15,6 +15,14 @@ protected:
 
 public:
 
+	LogicHandler() {
+
+	}
+
+	LogicHandler() {
+
+	}
+
 	// The method removes spaces from the given input
 	string removeSpaces(string input) {
 		char comparison = ' ';
