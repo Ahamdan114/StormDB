@@ -132,5 +132,12 @@ public:
 
 	~Printer() {}
 };
+//class TableCharacteristics:public LogicHandler {
+//	int size = 0;
+//	string date = "";
+//	string content = "";
+//	string name = "";
+//	bool fileExists = false;
+//};
 
 

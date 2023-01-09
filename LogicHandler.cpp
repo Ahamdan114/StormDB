@@ -87,7 +87,6 @@ public:
 			else response += input[i];
 		}
 		return response;
-
 	}
 
 
@@ -108,7 +107,6 @@ public:
 		
 		else if (firstCheck == "UPDATE" || firstCheck =="IMPORT") tableName = this->currentArr[1];
 		else tableName = this->currentArr[2];
-		
 		return tableName;
 	}
 
@@ -682,8 +680,9 @@ public:
 			string createValues = fileHandle.getCreateColumnValues(tableName);
 			const char tempCompare = ' ';
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
-			int retainIndex = 0;
-			int number = 0;
+			int retainIndex1 = 0;
+			int retainIndex2 = 0;
+			int valueAfterWhere = 0;
 			int dataTypeColumn = checkColumnArrayDataType(tableName);
 			int dataTypeSet = checkSetDataType(tableName);
 			
@@ -700,19 +699,26 @@ public:
 			for (int i = 0; i < noElementsCreate; i = i + 4) {
 				if ((columnValuesArray[i] == currentArr[7]) && (breaker == 0)) {
 					breaker = 1;
-					retainIndex = i;
+					retainIndex1 = i;
+					//aici dau checking sa vad ca exista coloana de dupa where : where id = 7
 				}
-				if ((currentArr[9] == columnValuesArray[retainIndex + 3]) && (breaker == 1) && (number ==0))
+				if ((currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere ==0))
 				{
-					number = 1;
+					valueAfterWhere = 1;
 				}
+				// aici gasesc retain value si schimb cu update
+				if ((columnValuesArray[i] == currentArr[3]) && (breaker == 1)&&(valueAfterWhere==1)) {
+					retainIndex2 = i;
+					//set nume = 'ok'
+				}
+
 			}
-			if ((breaker == 1) && (number == 1) && (dataTypeColumn==dataTypeSet))
+			if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn==dataTypeSet))
 			{
-				columnValuesArray[retainIndex+3] = currentArr[5];
+				columnValuesArray[retainIndex2+3] = currentArr[5];
 				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
 			}
-			else if ((breaker != 1) || (number != 1))
+			else if ((breaker != 1) || (valueAfterWhere != 1))
 			{
 				cout << "error! column name or value is wrong";
 			}

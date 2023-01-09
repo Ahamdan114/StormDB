@@ -1,8 +1,8 @@
 nume
 text
-50
-'dorel'
-kg
+10
+'bobo'
+varsta
 integer
-30
-'dorel'
+20
+17

@@ -1,1 +1,1 @@
-update floats set id = 'ana' where id = 2.1update floats set id = 'ok' where id = 2.9
+update caini set nume = 'bobo' where nume = 'coco'

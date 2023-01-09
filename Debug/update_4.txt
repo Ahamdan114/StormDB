@@ -1,0 +1,1 @@
+update caini set varsta = 18 where nume = 'bobo'

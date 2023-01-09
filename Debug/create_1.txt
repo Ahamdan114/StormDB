@@ -1,1 +1,1 @@
-create table vin ((id,integer,30,1),(nume,text,10,'alb'))create table floats ((id,float,10,1.3),(go,float,10,3.4))create table caini ((nume, text,50,'peanut'),(kg,integer,30,7))
+create table caini ((nume,text,10,'bobo'),(varsta,integer,20,17))

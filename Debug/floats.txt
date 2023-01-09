@@ -1,8 +1,0 @@
-id
-float
-10
-2.9
-go
-float
-10
-2

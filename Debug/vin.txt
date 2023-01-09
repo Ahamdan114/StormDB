@@ -1,8 +1,0 @@
-id
-integer
-30
-1
-nume
-text
-10
-'rosu'
