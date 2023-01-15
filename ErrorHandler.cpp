@@ -6,9 +6,7 @@ class ErrorHandler {
 	int i = 0;
 	string input = "Default";
 public:
-	ErrorHandler() {
-
-	}
+	ErrorHandler() {}
 
 	ErrorHandler(string input) {
 		this->input = input;
@@ -32,7 +30,7 @@ public:
 				return "Error number 2 -> The input " + this->getInput() + " is missing a part of it!";
 				break;
 			 default:
-				return "Error Number 2 -> The input " + this->getInput() + " has a problem in it!";
+				return "Error Number 3 -> The input " + this->getInput() + " has a problem in it!";
 		}
 	}
 

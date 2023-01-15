@@ -3,75 +3,8 @@
 #include "FileHandler.cpp"
 #include "Printer.cpp"
 
-class CounterRetainer {
 
-protected:
-
-	string* countersArr = nullptr;
-	int countersSize = 7;
-
-public:
-
-	int getCountersSize() {
-		return this->countersSize;
-	}
-
-	void countersArrCreate() {
-		delete[] this->countersArr;
-		this->countersArr = new string[this->countersSize];
-	}
-
-	string getCountersValues(FileHandler& handlingFile) {
-		return handlingFile.inputFromFile("HistoryCounters.txt");
-	}
-
-	void setCountersValues(string countersValues) {
-		cout << "setCountersValues ENTERED" << endl;
-		int j = 0;
-		const char comparisonSpace = ' ';
-		string tempVal = "";
-
-		for (unsigned int i = 0; i < countersValues.length(); i++) {
-			if (countersValues[i] == comparisonSpace) {
-				this->countersArr[j] = tempVal;
-				tempVal = "";
-				j++;
-			}
-			else tempVal += countersValues[i];
-		}
-		cout << endl << endl << endl;
-
-		cout << "CountersTable: " << countersValues << endl;
-		// cout << "CountersSize: " << this->countersSize << endl;
-		cout << "The counters values are: ";
-		for (int z = 0; z < j; z++) cout << this->countersArr[z] << " ";
-		cout << endl;
-	}
-
-	void LogicCountersArrayStorage(FileHandler& handlingFile) {
-		countersArrCreate();
-		string countersValues = handlingFile.inputFromFile("HistoryCounters.txt");
-		cout << "LogicCountersArrayStorage: " << countersValues << endl;
-		setCountersValues(countersValues);
-	}
-
-	void dataSaver(FileHandler& handlingFile) {
-		// Calling for historyCounters array
-
-		handlingFile.suprascriptionTable(this->countersArr, "HistoryCounters", getCountersSize());
-		cout << "Data SAVED" << endl;
-	}
-
-	void dataReloader(FileHandler& handlingFile) {
-
-		LogicCountersArrayStorage(handlingFile);
-		cout << "Data RELOADED" << endl;
-
-	}
-};
-
-
-class CreateTable : public CounterRetainer
+class CreateTable
 {
 	static int CREATE_COUNTER;
 
@@ -90,7 +23,7 @@ public:
 	}
 };
 
-class DropTable : public CounterRetainer
+class DropTable
 {
 	static int DROP_COUNTER;
 
@@ -110,7 +43,7 @@ public:
 	}
 };
 
-class Select : public CounterRetainer
+class Select
 {
 	static int SELECT_COUNTER;
 
@@ -130,7 +63,7 @@ public:
 	}
 };
 
-class DisplayTable : public CounterRetainer
+class DisplayTable
 {
 	static int DISPLAY_COUNTER;
 
@@ -150,7 +83,7 @@ public:
 	}
 };
 
-class DeleteTable : public CounterRetainer
+class DeleteTable
 {
 	static int DELETE_COUNTER;
 
@@ -170,7 +103,7 @@ public:
 	}
 };
 
-class UpdateTable : public CounterRetainer
+class UpdateTable
 {
 	static int UPDATE_COUNTER;
 
@@ -190,7 +123,7 @@ public:
 	}
 };
 
-class Insert : public CounterRetainer
+class Insert
 {
 	static int INSERT_COUNTER;
 
@@ -210,7 +143,8 @@ public:
 	}
 
 };
-class Import : public CounterRetainer
+
+class Import
 {
 	static int IMPORT_COUNTER;
 public:
@@ -229,6 +163,7 @@ public:
 		IMPORT_COUNTER = value;
 	}
 };
+
 class HelpManual {
 public:
 	bool HelpManualVerify(string const input) {
@@ -291,7 +226,6 @@ public:
 	// The method checks for correctness of input syntax
 	void parse(string cleanInput) {
 
-		CounterRetainer counterRetainer = CounterRetainer();
 		Printer printer = Printer();
 		FileHandler fileHandle = FileHandler();
 		HelpManual helpManual = HelpManual();

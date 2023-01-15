@@ -4,7 +4,6 @@ int main(int argc, char* argv[]) {
 	system("color 0D"); // For purple color of the text.
 	int counter = 1;
 
-	CounterRetainer counterRetainer = CounterRetainer();
 	string input = "";
 	string executableName = argv[0];
 
@@ -49,8 +48,7 @@ int main(int argc, char* argv[]) {
 					string tableName = logicHandler.getTableName();
 					logicHandler.tableLogicalChecks(firstElement, tableName);
 
-					// Command details down
-					// printer.print(input);
+					printer.print(input);
 				}
 				catch (exception const& e) {}
 			}
