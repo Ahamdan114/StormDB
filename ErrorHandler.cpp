@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
-#include <string>
-using namespace std;
+#pragma once
+#include "Imports.cpp"
 
 class ErrorHandler {
 	int i = 0;
@@ -37,12 +36,8 @@ public:
 		}
 	}
 
-	ErrorHandler(const ErrorHandler& err) {
+	ErrorHandler(const ErrorHandler& err) {}
 
-	}
-
-	~ErrorHandler() {
-		//cout << "Destructor ErrorHandler" << endl;
-	}
+	~ErrorHandler() {}
 };
 

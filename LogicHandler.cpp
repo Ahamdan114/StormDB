@@ -15,13 +15,7 @@ protected:
 
 public:
 
-	LogicHandler() {
-
-	}
-
-	LogicHandler() {
-
-	}
+	LogicHandler() {}
 
 	// The method removes spaces from the given input
 	string removeSpaces(string input) {
@@ -86,6 +80,8 @@ public:
 		}
 		this->currentArr[j] = tempStr;
 	}
+
+	// The method converts the string input to uppercase letters
 	string stringToUpper(string input)
 	{
 		string response = "";
@@ -97,6 +93,11 @@ public:
 		return response;
 	}
 
+	// The method converts the string input to lowercasw letters
+	string lowerCaseInput(string input) {
+		for (unsigned int i = 0; input[i] != '\0'; i++) if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
+		return input;
+	}
 
 	// The method finds the table name
 	string findTableName(int size) {
@@ -130,7 +131,7 @@ public:
 
 	// The method creates a dynamic current array with the given input values words on each index position							-> Main method
 	void LogicCurrentArrayModifier(string input) {
-		cout << endl << "LOGIC PHASE ENTERED." << endl;
+		cout << endl << "LOGIC PHASE CHECKS STARTS..." << endl;
 
 		// Input cleaning and size finding of currentArr
 
@@ -156,17 +157,13 @@ public:
 		return this->tableSize;
 	}
 	
+	// The method checks if the table given exists or not
 	 bool checkTabelExists(string tableName)
 	 {
-		
-		for (int i = 0; i < getTableSize(); i++)
-		{
-			if (this->tableNames[i] == tableName)
-				return true;
+		for (int i = 0; i < getTableSize(); i++) {
+			if (this->tableNames[i] == tableName) return true;
 		}
 		return false;
-
-
 	}
 
 	// The method gets all the table names in the project
@@ -224,16 +221,16 @@ public:
 	}
 
 
-
+	// The method handles the logic create command checks
 	void LogicalCheckingsCreate() {
 		int i = 3;
 		cout << this->currentArr[3] << endl;
-		if (this->currentArr[3] == "IF" || this->currentArr[3] == "if" || this->currentArr[3] == "If" || this->currentArr[3] == "iF") i = 6;
+		if (stringToUpper(this->currentArr[3]) == "IF") i = 6;
 
 		for (i; i < this->currentSize; i = i + 4) {
 
-			int dimension = atoi(this->currentArr[i + 2].c_str());
-			int introducedValue = this->currentArr[i+3].length();
+			int dimension = atoi(this->currentArr[i + 2].c_str()); // The dimension identifiable value
+			int introducedValue = this->currentArr[i+3].length(); // The value given for determining the dimension
 			string expression3 = "[0-9]+\\.[0-9]+"; // Float Check
 			
 			// Checking if the name fits it's set dimension
@@ -348,7 +345,8 @@ public:
 
 		if (!finderState) throw "Elementul cautat nu exista!";
 	}
-
+	
+	// The method handles the logic insert command checks
 	void logicInsertInto(string tableName)
 	{
 		if (checkTabelExists(tableName) == true)
@@ -423,11 +421,8 @@ public:
 		
 		
 	}
-	string lowerCaseInput(string input) {
-		for (unsigned int i = 0; input[i] != '\0'; i++) if (input[i] >= 'A' && input[i] <= 'Z') input[i] = input[i] + 32;
-		return input;
-	}
 
+	// The method handles the logic select command checks
 	void logicSelect(string tableName)
 	{
 		if (checkTabelExists(tableName) == true) {
@@ -554,22 +549,26 @@ public:
 		else cout << "Table name doesn't exist!" << endl;
 	}
 
-
+	// The method handles the logic delete command checks
 	void logicDelete(string tableName)
 	{ 
 		if (checkTabelExists(tableName) == true)
 		{
-			int position = 0;
-			int breaker = 0;
 			FileHandler check = FileHandler();
+			FileHandler fileHandle = FileHandler();
+
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
 			int noElementsCreate = noOfColumnsCreate * 4;
-			string auxString;
 			string createValues = check.getCreateColumnValues(tableName);
-			const char tempCompare = ' ';
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+
+			int position = 0;
+			int breaker = 0;
+
+			string auxString;
+			const char tempCompare = ' ';
+
 			int retainIndex = 0;
-			FileHandler fileHandle = FileHandler();
 			int number = 0;
 
 			for (int i = 0; i < createValues.length()-1; i++) {
@@ -591,7 +590,6 @@ public:
 				if ((currentArr[6] == columnValuesArray[retainIndex+3]) && (breaker == 1))
 				{
 					number = 1;
-					//'pushes' the column 'out'
                     for (int j = retainIndex; j < noElementsCreate - 4; j++){
 
 						columnValuesArray[j] = columnValuesArray[j + 4];
@@ -610,7 +608,7 @@ public:
 		else cout << "Table name doesn't exist";
 	}
 
-
+	// The method checks the data type from the table given.
 	int checkSetDataType(string tableName)
 	{
 		string expression1 = "[0-9]+$"; // integer Check
@@ -626,19 +624,24 @@ public:
 
 		return typeIdSet;
 	}
+
 	int checkColumnArrayDataType(string tableName)
 	{
 		int position = 0;
 		int breaker = 0;
+
 		FileHandler fileHandle = FileHandler();
 		int noOfColumnsCreate = fileHandle.noOfColumnsCreate(tableName);
 		int noElementsCreate = noOfColumnsCreate * 4;
-		string auxString;
 		string createValues = fileHandle.getCreateColumnValues(tableName);
-		const char tempCompare = ' ';
 		string* columnValuesArray = new string[noOfColumnsCreate * 4];
+
+		string auxString;
+		const char tempCompare = ' ';
+
 		int retainIndex = 0;
 		int typeIdColumn = 0;
+
 		for (int i = 0; i < createValues.length() - 1; i++) {
 			if (createValues[i] == tempCompare)
 			{
@@ -659,38 +662,51 @@ public:
 			string expression1 = "integer"; // Number Check
 			string expression2 = "text"; // String Check
 			string expression3 = "float"; // Float Check
+
 			bool isIntegerCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression1));
 			bool isStringCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression2));
 			bool isFloatCurrentArr = regex_match(columnValuesArray[retainIndex + 1].c_str(), regex(expression3));
+
 			if (isIntegerCurrentArr == true) typeIdColumn = 1;
 			else if (isStringCurrentArr == true) typeIdColumn = 2;
 			else if (isFloatCurrentArr == true) typeIdColumn = 3;
+			
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
+
 			return typeIdColumn;
 		}
 		else {
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
+
 			return 100;
 		}
 	}
+
+	// The method handles the logic update command checks
 	void LogicUpdate(string tableName)
 	{   
 		if (checkTabelExists(tableName) == true)
 		{
-			int position = 0;
-			int breaker = 0;
 			FileHandler fileHandle = FileHandler();
+
 			int noOfColumnsCreate = fileHandle.noOfColumnsCreate(tableName);
 			int noElementsCreate = noOfColumnsCreate * 4;
-			string auxString;
 			string createValues = fileHandle.getCreateColumnValues(tableName);
-			const char tempCompare = ' ';
 			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+
+			int position = 0;
+			int breaker = 0;
+			
+			string auxString;
+			const char tempCompare = ' ';
+			
 			int retainIndex1 = 0;
 			int retainIndex2 = 0;
+			
 			int valueAfterWhere = 0;
+
 			int dataTypeColumn = checkColumnArrayDataType(tableName);
 			int dataTypeSet = checkSetDataType(tableName);
 			
@@ -708,16 +724,13 @@ public:
 				if ((columnValuesArray[i] == currentArr[7]) && (breaker == 0)) {
 					breaker = 1;
 					retainIndex1 = i;
-					//aici dau checking sa vad ca exista coloana de dupa where : where id = 7
 				}
 				if ((currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere ==0))
 				{
 					valueAfterWhere = 1;
 				}
-				// aici gasesc retain value si schimb cu update
 				if ((columnValuesArray[i] == currentArr[3]) && (breaker == 1)&&(valueAfterWhere==1)) {
 					retainIndex2 = i;
-					//set nume = 'ok'
 				}
 
 			}
@@ -739,17 +752,20 @@ public:
 		}
 		else cout << "The table name doesn't exist!";
 	}
+
+	// The method determines the CSV file content length
 	int csvFileLength(string csvFileName) {
 		char separator = '|';
 		FileHandler fileHandler = FileHandler();
 		string csvFileContent = fileHandler.csvFileContent(csvFileName);
-		int csvFileLength = 0;
+		int csvFileLength = 1;
 		for (int i = 0; i < csvFileContent.length(); i++) {
 			if (csvFileContent[i] == separator)csvFileLength++;
 		}
-		csvFileLength++; //" a | b | c ", this is for c
 		return csvFileLength;
 	}
+
+	// The method gets the values from CSV file into a dynamic array
 	string* getCsvFileContentArray(string csvFileName) {
 		FileHandler fileHandler = FileHandler();
 		int csvLength = csvFileLength(csvFileName);
@@ -769,20 +785,21 @@ public:
 		return csvFileContentArray;
 	}
 
+	// The method handles the logic import command checks
 	void logicImport(string tableName, string csvFileName) {
 		FileHandler fileHandler = FileHandler();
 		bool csvFileExists = fileHandler.csvFileExists(csvFileName);
-		cout << "!!!!!!!!!" << csvFileExists << "     " << endl;
-		cout << tableName << endl;
-		cout << " nume tabel : "<<checkTabelExists(tableName) << endl;
 		char separator = '|';
 		if (checkTabelExists(tableName) && csvFileExists) {
+			
 			int csvLength = csvFileLength(csvFileName);
 			string* csvFileContentArray = getCsvFileContentArray(csvFileName);
+
 			int noOfColumnsCreate = fileHandler.noOfColumnsCreate(tableName);
 			int noOfCreateElements = noOfColumnsCreate * 4;
 			string columnValues = fileHandler.getCreateColumnValues(tableName);
 			string* columnValuesArray = new string[noOfCreateElements];
+
 			int counter = 0;
 			int position = 0;
 			string auxString;
@@ -818,15 +835,17 @@ public:
 						cout << "Succes!" << endl;
 						columnValuesArray[i] = csvFileContentArray[counter];
 					}
-					else cout << "error.typeProblem" << endl;
+					else cout << "ERROR: Type of given values is not similar!" << endl;
 
 					counter++;
 				}
 				fileHandler.suprascriptionTable(columnValuesArray, tableName, noOfCreateElements + 1);
 			}
 			else cout << " The values sequence is not correlated with the  columns sequence from " << tableName << endl;
+
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
+
 			delete[] csvFileContentArray;
 			csvFileContentArray = nullptr;
 		}
@@ -842,7 +861,7 @@ public:
 		else if (firstElement == "select")logicSelect(tableName);
 		else if (firstElement == "delete")logicDelete(tableName);
 		else if (firstElement == "update")LogicUpdate(tableName);
-		else if (firstElement == "import")logicImport(tableName,currentArr[getCurrentArrSize()-1]);
+		else if (firstElement == "import")logicImport(tableName,this->currentArr[getCurrentArrSize()-1]);
 
 		cout << endl << "Logical & File phases Passed" << endl;
 	} 

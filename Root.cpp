@@ -2,11 +2,11 @@
 
 int main(int argc, char* argv[]) {
 	system("color 0D"); // For purple color of the text.
+	int counter = 1;
 
 	CounterRetainer counterRetainer = CounterRetainer();
 	string input = "";
 	string executableName = argv[0];
-	int counter = 1;
 
 	Parser parser = Parser();
 	LogicHandler logicHandler = LogicHandler();
@@ -17,18 +17,14 @@ int main(int argc, char* argv[]) {
 	printer.intro();
 
 	
-	
-	//for (int i = 0; i < argc; i++) {
-	//	cout << "ELEMENT: " << argv[i] << endl;
-	//}
-	//cout << executableName << " sql-database.exe" << endl 
-	//	 << "argc: " << argc << endl;
+	cout << "Let's see if the executable name is correct..." << endl;
+	cout << executableName << " sql-database.exe" << endl 
+		 << "argc: " << argc << endl;
 
-	//if (executableName == "sql-database.exe" && argc <= 6) 
+	if (executableName == "sql-database.exe" && argc <= 6) 
 	{
+		cout << "The executable name is correct! Continue..." << endl;
 		while (true) {
-			// logicHandler.dataReloader();
-			if (input != "exit") logicHandler.LogicTableNamesArrayModifier(fileHandle, true);
 			if (counter < argc) {
 				string currentTextFile = argv[counter];
 				input = fileHandle.inputFromCommandPrompt(currentTextFile);
@@ -38,7 +34,7 @@ int main(int argc, char* argv[]) {
 			{  
 				if (input == "exit") break;
 				if (input == "clear") {
-					for (int i = 0; i < 50; i++) cout << endl << endl;
+					for (int i = 0; i < 100; i++) cout << endl;
 					input = "";
 					continue;
 				}
@@ -56,18 +52,14 @@ int main(int argc, char* argv[]) {
 					// Command details down
 					// printer.print(input);
 				}
-				catch (exception const& e) {
-					
-				}
+				catch (exception const& e) {}
 			}
 			if (counter >= argc) {
+				logicHandler.LogicTableNamesArrayModifier(fileHandle, true);
 				cout << "Enter a command: ";
 				getline(cin, input);
 			}
 		}
 		printer.goodByeModel();
-	
-
-		
 	}
 }

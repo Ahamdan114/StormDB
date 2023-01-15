@@ -1,4 +1,5 @@
 #include "Imports.cpp"
+
 #include "FileHandler.cpp"
 #include "Printer.cpp"
 
@@ -72,17 +73,9 @@ public:
 
 class CreateTable : public CounterRetainer
 {
-	// atoi(countersArr[0].c_str())
 	static int CREATE_COUNTER;
 
 public:
-
-	/*CreateTable(string* countersArr): CounterRetainer(string* countersArr) {
-		this->CREATE_COUNTER = countersArr[0];
-		cout << "HELLO -> CREATE CLASS ENTERED" << endl;
-		cout << countersArr[0] << endl;
-	}*/
-
 	bool testCreateTable(string const input) {
 		bool createTable = regex_match(input.c_str(), regex("[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?(\\([[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+.[0-9]+')|([0-9]+.[0-9]+)|(\")|([0-9]+))\\s*\\))(\\s*,\\s*\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))+\\))|[[:blank:]]*create[[:blank:]]+table[[:blank:]]+(?!table)\\w+[[:blank:]]*(if[[:blank:]]+not[[:blank:]]+exists[[:blank:]]*)?[[:blank:]]*(\\(\\s*\\w+\\s*,\\s*((integer)|(text)|(float))\\s*,\\s*[0-9]+\\s*,\\s*(('[0-9_a-z]+')|('[0-9]+\\.[0-9]+')|([0-9]+\\.[0-9]+)|(\")|([0-9]+))\\s*\\))[[:blank:]]*"));
 		return createTable;
@@ -184,7 +177,6 @@ class UpdateTable : public CounterRetainer
 public:
 	bool testUpdateTable(string const input)
 	{
-		// bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return updateTable;
 	}
@@ -205,9 +197,6 @@ class Insert : public CounterRetainer
 public:
 	bool InsertIntoTable(string const input)
 	{
-		//bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*((\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))\\s*,\\s*(\"\\w+\"|([0-9]+\\.[0-9]+)|([0-9]+))*)*\\s*,\\s*((\"\\w+\")|([0-9]+\\.[0-9]+)|[0-9]+)\\s*\\)[[:blank:]]*"));
-		//bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*,\\s*('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))*)*\\s*,\\s*(('\\w+')|([0-9]+\\.[0-9]+)|[0-9]+)\\s*\\)[[:blank:]]*"));
-		// bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*(\\s*(,\\s*'\\w+')|(\\s*,\\s*[0-9]+\\.[0-9]+)|(\\s*,\\s*[0-9]+))*)\\s*\\)[[:blank:]]*"));
 		bool insertIntoTable = regex_match(input.c_str(), regex("[[:blank:]]*insert[[:blank:]]+into[[:blank:]]+\\w+[[:blank:]]+values[[:blank:]]*\\(\\s*(('\\w.+'|([0-9]+\\.[0-9]+)|([0-9]+))\\s*(\\s*(,\\s*'\\w.+')|(\\s*,\\s*[0-9]+\\.[0-9]+)|(\\s*,\\s*[0-9]+))*)\\s*\\)[[:blank:]]*"));
 		return insertIntoTable;
 	}
@@ -274,6 +263,7 @@ public:
 		}
 		return word;
 	}
+
 	string getLastInputElement(string input) {
 		unsigned int i = input.length() - 1;
 		string word = "";
@@ -282,7 +272,7 @@ public:
 			if (input[index] == ' ')break;
 			word += input[index];
 		}
-		//because the for loop is reversed
+		// reversed for loop problem fixed
 		reverse(word.begin(), word.end());
 			return word;
 	}
@@ -301,13 +291,10 @@ public:
 	// The method checks for correctness of input syntax
 	void parse(string cleanInput) {
 
-		cout << endl << "PARSER PHASE ENTERED." << endl;
-
 		CounterRetainer counterRetainer = CounterRetainer();
 		Printer printer = Printer();
 		FileHandler fileHandle = FileHandler();
-
-		// counterRetainer.dataReloader(fileHandle);
+		HelpManual helpManual = HelpManual();
 
 		CreateTable createTable = CreateTable();
 		DropTable dropTable = DropTable();
@@ -317,7 +304,7 @@ public:
 		UpdateTable updateTable = UpdateTable();
 		Insert insertTable = Insert();
 		Import importTable = Import();
-		HelpManual helpManual = HelpManual();
+
 		
 		bool createCheck = createTable.testCreateTable(cleanInput);
 
@@ -388,7 +375,6 @@ public:
 			insertTable.SET_INSERT_COUNTER(counter);
 			printer.returnStatement(7);
 		}
-		// counterRetainer.dataSaver(fileHandle);
 
 		bool importCheck = importTable.ImportCheck(cleanInput);
 		if (importCheck) {
@@ -402,7 +388,7 @@ public:
 			printer.returnManual(getLastInputElement(cleanInput));
 		}
 
-        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck || importCheck)) throw  "Syntax error.";
+        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck || importCheck)) throw "Parser Error.";
 		else cout << endl << "Parsing phase passed!" << endl << endl;
 	}
 

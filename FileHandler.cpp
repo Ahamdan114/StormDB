@@ -1,16 +1,6 @@
 #pragma once
 #include "Imports.cpp"
 
-
-// Basic modes for files
-// ios::out -> write mode
-// ios::app -> Appending mode
-// ios::in -> read mode
-// x.open(fileName, mode)
-// x.is_open() => file is open?
-// getline(fstream File, destinationString);
-// x.close();
-
 class FileHandler {
 public:
 	// The method opens a file and returns the text inside it
@@ -42,7 +32,6 @@ public:
 			while (getline(Input, temp)) {
 				fileInput += (temp + " ");
 			}
-			// cout << "inputFromFile is: " << fileInput << endl;
 			Input.close();
 			return fileInput;
 		}
@@ -90,10 +79,11 @@ public:
 	// The method creates the history for each command introduced in the console.
 	void createHistoryFile(string word, string input, int counter) {
 		cout << "\tcreateHistoryFile: " << word + "_" + to_string(counter) + ".txt" << endl;
+
 		string name = word + "_" + to_string(counter) + ".txt";
 		fstream ObjectFile;
 		rename(name.c_str(), "C:/Users/User/source/repos/sql-database-repo/Debug/HistoryTextFiles");
-		ObjectFile.open(word + "_" + to_string(counter) + ".txt", ios::app);
+		ObjectFile.open(name, ios::app);
 		ObjectFile.write(input.c_str(), input.length());
 		ObjectFile.close();
 
@@ -107,7 +97,7 @@ public:
 		Input.open(tableFile, ios::out);
 		if (Input.is_open()) {
 			int i = 3;
-			if (currentArr[3] == "IF" || currentArr[3]=="if"|| currentArr[3]=="iF" || currentArr[3]=="If") i = 6;
+			if (stringToUpper(currentArr[3]) == "IF") i = 6;
 			for (i; i < size; i++) {
 				Input << currentArr[i] << endl;
 			}
@@ -115,6 +105,8 @@ public:
 		}
 		cout << "\tFile " << tableFile << " created successfully." << endl;
 	}
+
+	// The method returns the number of columns that the table contains
 	int noOfColumnsCreate(string tabelName)
 	{
 		fstream input;
@@ -131,6 +123,8 @@ public:
 			return counter / 4;
 		
 	}
+
+	// The method returns a string containing all contents of a table accessed
 	string getCreateColumnValues(string tabelName)
 	{
 		fstream input;
@@ -148,6 +142,7 @@ public:
 		}
 		return columnValues;
 	}
+
 	// The method drops the table file.
 	void dropTableFile(string tableName) {
 		string tableFile = tableName + ".txt";
@@ -167,6 +162,7 @@ public:
 			int i = 0;
 			int columnCount = 1;
 			cout << "\tThe table " << tableFile << " is displayed..." << endl;
+			
 			while (getline(Output, fileOutput)) {
 				if (i % 4 == 0) {
 					cout << endl;
@@ -174,6 +170,7 @@ public:
 					cout << endl;
 					columnCount++;
 				}
+
 				cout << fileOutput << endl;
 				i++;
 			}
@@ -184,6 +181,7 @@ public:
 		Output.close();
 	}
 
+	// The method returns a boolean value representing the existence of a CSV file given by user.
 	bool csvFileExists(string csvFileName) {
 		fstream File;
 		bool csvFileExists = false;
@@ -195,6 +193,7 @@ public:
 		return csvFileExists;
 	}
 
+	// The method returns a string containing all contents of the CSV file accessed
 	string csvFileContent(string csvFileName) {
 		fstream File;
 		File.open(csvFileName, ios::in);
@@ -210,4 +209,15 @@ public:
 		return "";
 	}
 
+	// The method converts the string input to uppercase letters
+	string stringToUpper(string input)
+	{
+		string response = "";
+		for (unsigned int i = 0; i < input.length(); i++)
+		{
+			if (input[i] >= 'a' && input[i] <= 'z')response += (input[i] - 32);
+			else response += input[i];
+		}
+		return response;
+	}
 };

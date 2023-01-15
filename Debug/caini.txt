@@ -1,8 +1,0 @@
-nume
-text
-10
-'bobo'
-varsta
-integer
-20
-17

@@ -15,7 +15,6 @@ public:
 	}
 
 	void returnManual(string word) {
-		// (create|drop|display|insert|select|delete|update|import)
 		cout << "The word is: " << word << endl;
 
 		if (word == "create") {
@@ -131,42 +130,4 @@ public:
 	}
 
 	~Printer() {}
-};
-class TableCharacteristic:public LogicHandler {
-protected:
-	int size = 0;
-	string content = "";
-public:
-
-	TableCharacteristic(): LogicHandler() {
-		LogicHandler logicHandler = LogicHandler();
-		FileHandler fileHandler = FileHandler();
-		size = fileHandler.noOfColumnsCreate(name);
-		content = fileHandler.getCreateColumnValues(name);
-    }
-};
-
-//class TableHandler : public TableCharacteristic {
-//public:
-//	TableCharacteristic* tableCharacteristics = nullptr;
-//
-//	string getTableNames(FileHandler& handlingFile) {
-//		return handlingFile.inputFromFile("TableNames.txt");
-//	}
-//	void logicTableCharacteristicsSet() {
-//		FileHandler fileHandler = FileHandler();
-//		string tableNames = getTableNames(fileHandler);
-//		int size = 0;
-//		for (int i = 0; i < tableNames.length(); i++) {
-//			if (tableNames[i] == ' ') size++;
-//		}
-//		string* table
-//		// size tablenName;
-//		//array 
-//		//calluim metodele din logic Handler
-//	}
-//
-//	~TableHandler() {
-//		delete[] this->tableCharacteristics;
-//	}
 };
