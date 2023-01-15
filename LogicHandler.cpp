@@ -1006,6 +1006,7 @@ class printCharacteristics : public TableHandler {
 public:
 
 	Table* tables = nullptr;
+	TableHandler* tableArr = nullptr;
 
 	printCharacteristics(Table* tables) {
 		this->tables = tables;
