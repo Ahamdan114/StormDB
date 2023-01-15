@@ -877,3 +877,134 @@ public:
 	
 	}
 };
+
+class TableHandler {
+public:
+	string getTableNames(FileHandler& handlingFile) {
+		return handlingFile.inputFromFile("TableNames.txt");
+	}
+
+	int getNoOfTables() {
+		FileHandler fileHandler = FileHandler();
+		string tableNames = getTableNames(fileHandler);
+		const char tempCompare = ' ';
+		int noOfTables = 0;
+		for (unsigned int i = 0; i < tableNames.length(); i++) {
+			if (tableNames[i] == tempCompare) noOfTables++;
+		}
+		return noOfTables;
+	}
+
+	string* getTableNamesArr() {
+		FileHandler fileHandler = FileHandler();
+		string tableNames = getTableNames(fileHandler);
+		string* tableNamesArr = new string[getNoOfTables()];
+		string auxString;
+		int position = 0;
+		const char tempCompare = ' ';
+		for (int i = 0; i < getNoOfTables() - 1; i++) {
+			if (tableNames[i] == tempCompare) {
+				tableNamesArr[position] = auxString;
+				auxString = "";
+				position++;
+			}
+			else {
+				auxString += tableNames[i];
+			}
+		}
+		tableNamesArr[getNoOfTables() - 1] = auxString;
+		return tableNamesArr;
+	}
+
+	bool checkNameExists(string input) {
+		string* tableNamesArr = new string[getNoOfTables()];
+		tableNamesArr = getTableNamesArr();
+		bool exists = false;
+		for (int i = 0; i < getNoOfTables(); i++) {
+			if (input == tableNamesArr[i])
+			{
+				exists = true;
+			}
+		}
+		return exists;
+	}
+
+	int getSize(string input) {
+		if (checkNameExists(input)) {
+			FileHandler fileHandle = FileHandler();
+			int sizeOfColumns = fileHandle.noOfColumnsCreate(input) / 4;
+			return sizeOfColumns;
+		}
+		else {
+			cout << "THE TABLE NAME DOESN'T EXIST" << endl;
+			return -1;
+		}
+	}
+
+	string* getContent(string input) {
+		if (checkNameExists(input) && (getSize(input) > 0)) {
+			FileHandler check = FileHandler();
+
+			int noOfColumnsCreate = check.noOfColumnsCreate(input);
+			int noElementsCreate = noOfColumnsCreate * 4;
+
+			string createValues = check.getCreateColumnValues(input);
+			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+
+			int position = 0;
+			string auxString;
+			const char tempCompare = ' ';
+
+			for (unsigned int i = 0; i < createValues.length() - 1; i++) {
+				if (createValues[i] == tempCompare) {
+					columnValuesArray[position] = auxString;
+					auxString = "";
+					position++;
+				}
+				else auxString += createValues[i];
+			}
+			columnValuesArray[noElementsCreate - 1] = auxString;
+			return columnValuesArray;
+		}
+		else {
+			cout << "TABLE NAME IS WRONG";
+			return nullptr;
+		}
+	}
+
+};
+
+class Table {
+public:
+	int size = 0;
+	string* content = nullptr;
+	string input;
+	void setInput(string input) {
+		this->input = input;
+	}
+	Table() {
+		TableHandler tableHandler = TableHandler();
+		this->size = tableHandler.getSize(this->input);
+		this->content = tableHandler.getContent(this->input);
+	}
+
+	~Table() {
+		delete[] content;
+		content = nullptr;
+	}
+};
+
+class printCharacteristics : public TableHandler {
+public:
+
+	Table* tables = nullptr;
+	printCharacteristics(Table* tables) {
+		this->tables = tables;
+	}
+	void print(string input) {
+		{
+			cout << " size: " << tables->size << " " << tables->content << endl;
+		}
+	}
+
+};
