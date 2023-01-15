@@ -13,16 +13,11 @@ int main(int argc, char* argv[]) {
 	ErrorHandler errorHandler = ErrorHandler();
 	FileHandler fileHandle = FileHandler();
 
-	printer.intro();
-
-	
-	cout << "Let's see if the executable name is correct..." << endl;
-	cout << executableName << " sql-database.exe" << endl 
-		 << "argc: " << argc << endl;
-
-	if (executableName == "sql-database.exe" && argc <= 6) 
+	if (executableName == "sql-database.exe" && argc <= 6)
 	{
 		cout << "The executable name is correct! Continue..." << endl;
+
+		printer.intro();
 		while (true) {
 			if (counter < argc) {
 				string currentTextFile = argv[counter];
@@ -30,7 +25,7 @@ int main(int argc, char* argv[]) {
 				counter++;
 			}
 			if (input != "")
-			{  
+			{
 				if (input == "exit") break;
 				if (input == "clear") {
 					for (int i = 0; i < 100; i++) cout << endl;
@@ -38,7 +33,7 @@ int main(int argc, char* argv[]) {
 					continue;
 				}
 				try {
-					
+
 					string lowerCaseInput = parser.lowerCaseInput(input);
 					parser.parse(lowerCaseInput);
 
@@ -60,4 +55,5 @@ int main(int argc, char* argv[]) {
 		}
 		printer.goodByeModel();
 	}
+	else cout << "The executable name is wrong! :(" << endl;
 }
