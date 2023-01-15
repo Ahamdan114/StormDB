@@ -880,10 +880,12 @@ public:
 
 class TableHandler {
 public:
+	// The method gets the table names
 	string getTableNames(FileHandler& handlingFile) {
 		return handlingFile.inputFromFile("TableNames.txt");
 	}
 
+	// The method gets the number of tables in system
 	int getNoOfTables() {
 		FileHandler fileHandler = FileHandler();
 		string tableNames = getTableNames(fileHandler);
@@ -895,6 +897,7 @@ public:
 		return noOfTables;
 	}
 
+	// The method transforms the given tables in an dynamic array of tables.
 	string* getTableNamesArr() {
 		FileHandler fileHandler = FileHandler();
 		string tableNames = getTableNames(fileHandler);
@@ -916,6 +919,7 @@ public:
 		return tableNamesArr;
 	}
 
+	// The method checks the existance of the name given by user
 	bool checkNameExists(string input) {
 		string* tableNamesArr = new string[getNoOfTables()];
 		tableNamesArr = getTableNamesArr();
@@ -929,6 +933,7 @@ public:
 		return exists;
 	}
 
+	// The method gets the size of table as a whole
 	int getSize(string input) {
 		if (checkNameExists(input)) {
 			FileHandler fileHandle = FileHandler();
@@ -941,6 +946,7 @@ public:
 		}
 	}
 
+	// The method gets the content of table as a whole.
 	string* getContent(string input) {
 		if (checkNameExists(input) && (getSize(input) > 0)) {
 			FileHandler check = FileHandler();
@@ -979,18 +985,20 @@ public:
 	int size = 0;
 	string* content = nullptr;
 	string input;
-	void setInput(string input) {
-		this->input = input;
-	}
+
 	Table() {
 		TableHandler tableHandler = TableHandler();
 		this->size = tableHandler.getSize(this->input);
 		this->content = tableHandler.getContent(this->input);
 	}
 
+	void setInput(string input) {
+		this->input = input;
+	}
+
 	~Table() {
-		delete[] content;
-		content = nullptr;
+		delete[] this->content;
+		this->content = nullptr;
 	}
 };
 
@@ -998,12 +1006,16 @@ class printCharacteristics : public TableHandler {
 public:
 
 	Table* tables = nullptr;
+
 	printCharacteristics(Table* tables) {
 		this->tables = tables;
 	}
-	void print(string input) {
+
+	void printTableDescription(string input) {
 		{
-			cout << " size: " << tables->size << " " << tables->content << endl;
+			cout << "The name of the table introduced is: " << input << endl;
+			cout << "The size of the table: " << tables->size << endl;
+			cout << "The content of the table: " << endl;
 		}
 	}
 
