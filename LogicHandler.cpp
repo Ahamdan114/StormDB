@@ -224,7 +224,6 @@ public:
 	// The method handles the logic create command checks
 	void LogicalCheckingsCreate() {
 		int i = 3;
-		cout << this->currentArr[3] << endl;
 		if (stringToUpper(this->currentArr[3]) == "IF") i = 6;
 
 		for (i; i < this->currentSize; i = i + 4) {
@@ -286,11 +285,10 @@ public:
 		// Element not found, so continue
 
 		FileHandler fileHandle = FileHandler();
-
+		
 		LogicalCheckingsCreate();
 		fileHandle.tableNameToFile(tableName);
 		fileHandle.createTableFile(this->currentArr, getCurrentArrSize(), tableName);
-		
 	}
 
 	// The method requests the logic of command DROP and continues the process based on the response
@@ -431,6 +429,7 @@ public:
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
 			int noOfElementsCreate = noOfColumnsCreate * 4;
 			string* columnValuesArray = new string[noOfElementsCreate];
+			int columnCount = 1;
 
 			int position = 0;
 			int j = 1;
@@ -444,7 +443,6 @@ public:
 			string comparisonStrWhere = "WHERE";
 
 			const char tempCompare = ' ';
-
 
 			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempCompare) {
@@ -473,16 +471,20 @@ public:
 									}
 									j++;
 								}
-								j = 1;
+								j = 1; // Resetting the j
+								int i = 0;
 								if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
-									for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-										
 										if (this->currentArr[j] == columnValuesArray[i]) {
-											cout << columnValuesArray[i] << " = " << columnValuesArray[i + 3] << endl;
+
+											cout << "Column: " << columnCount << " displayed." << endl << endl;
+											for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
+											cout << endl << endl;
+											columnCount++;
 										}
-									}
+									
 									j++;
+									i += 4;
 								}
 								return;
 							}
@@ -503,38 +505,35 @@ public:
 						}
 						j++;
 					}
-					j = 1;
+					j = 1; // Resetting the j
+					int i = 0;
 					if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
-						for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-							
-							if (this->currentArr[j] == columnValuesArray[i]) {
-								cout << columnValuesArray[i] << " = " << columnValuesArray[i + 3] << endl;
-							}
+						if (this->currentArr[j] == columnValuesArray[i]) {
+
+							cout << "Column: " << columnCount << " displayed." << endl << endl;
+							for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
+							cout << endl << endl;
+							columnCount++;
 						}
+
 						j++;
+						i += 4;
 					}
 					return;
 				}
 			}
 			else {
-				cout << stringToUpper(this->currentArr[getCurrentArrSize() - 4]) << " " << comparisonStrWhere << endl;
 				if (stringToUpper(this->currentArr[getCurrentArrSize() - 4]) == comparisonStrWhere) {
-					
 					for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-						cout << columnValuesArray[i] << " " << this->currentArr[getCurrentArrSize() - 3] << endl;
 						if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
-							
-							cout << columnValuesArray[i + 3] << " " << this->currentArr[getCurrentArrSize() - 1] << endl;
 							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
-								
 								check.displayTableFile(tableName);
-								return;
 							}
 							else {
 								cout << "ERROR: The column name in where condition doesn't contain something similar with the table " + tableName << endl;
-								return;
 							}
+							return;
 						}
 					}
 					cout << "ERROR: The column name in where condition is inexistent in table " + tableName << endl;
@@ -854,12 +853,15 @@ public:
 
 	// The method, based on the command, checks it's respective logic																-> Main method
 	void tableLogicalChecks(string firstElement, string tableName) {
+
 		if (firstElement == "create") createTableElement(tableName);
 		else if (firstElement == "drop") dropTableElement(tableName);
 		else if (firstElement == "display") displayTableElement(tableName);
+
 		else if (firstElement == "insert")logicInsertInto(tableName);
 		else if (firstElement == "select")logicSelect(tableName);
 		else if (firstElement == "delete")logicDelete(tableName);
+
 		else if (firstElement == "update")LogicUpdate(tableName);
 		else if (firstElement == "import")logicImport(tableName,this->currentArr[getCurrentArrSize()-1]);
 

@@ -1,1 +1,0 @@
-update caini set nume = ' bobo ' where nume = 'coco' update caini set nume = 'bobo' where varsta = 17 

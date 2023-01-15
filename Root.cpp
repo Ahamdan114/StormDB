@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
 	FileHandler fileHandle = FileHandler();
 
 
-	if (executableName == "sql-database.exe" && argc <= 6) 
+	/*if (executableName == "sql-database.exe" && argc <= 6) */
 	{
-		cout << "The executable name is correct! Continue..." << endl;
+		//cout << "The executable name is correct! Continue..." << endl;
 
 		printer.intro();
 		while (true) {
@@ -56,5 +56,5 @@ int main(int argc, char* argv[]) {
 		}
 		printer.goodByeModel();
 	}
-	else cout << "The executable name introduced is incorrect! :(" << endl;
+	//else cout << "The executable name introduced is incorrect! :(" << endl;
 }

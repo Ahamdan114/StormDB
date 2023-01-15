@@ -57,7 +57,6 @@ public:
 		Input.open(tableFile, ios::out);
 		if (Input.is_open()) {
 			for (int i = 0; i < tableSize - 1; i++) {
-				cout << tableArray[i] << endl;
 				Input << tableArray[i] << endl;
 			}
 			Input.close();
