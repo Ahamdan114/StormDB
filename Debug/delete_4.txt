@@ -1,1 +1,0 @@
-delete from nume where nume = 'ahmed'delete from nume where inaltime = 3.5

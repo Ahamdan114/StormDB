@@ -1,1 +1,0 @@
-delete from nume where id = 24delete from nume where grupa = '150'
