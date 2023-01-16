@@ -1,0 +1,1 @@
+delete from nume where punctaj_test = '2004.5'delete from nume where punctaj_test = '204.34'delete from nume where nume = 'cochi'

@@ -1,0 +1,1 @@
+delete from nume where inaltime = 1.5delete from nume where nume = 'c'

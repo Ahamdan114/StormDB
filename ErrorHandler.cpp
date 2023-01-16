@@ -1,8 +1,9 @@
 #pragma once
 #pragma once
 #include "Imports.cpp"
+#include "Printer.cpp"
 
-class ErrorHandler {
+class ErrorHandler : public Printer {
 	int i = 0;
 	string input = "Default";
 public:
@@ -21,17 +22,13 @@ public:
 		return this->input;
 	}
 	// Choosing which error to return.
-	string ErrorsList(int i) {
-		switch (i) {
-			case 1:
-				return "Error Number 1 -> The input " + this->getInput() + " is syntactically incorrect!";
-				break;
-			case 2:
-				return "Error number 2 -> The input " + this->getInput() + " is missing a part of it!";
-				break;
-			 default:
-				return "Error Number 3 -> The input " + this->getInput() + " has a problem in it!";
-		}
+	void ErrorsList(int i) {
+		return actualStatement(i);
+	}
+
+	void actualStatement(int i) {
+		cout << returnTerminatingStatement(i) << endl;
+		throw returnTerminatingStatement(i);
 	}
 
 	ErrorHandler(const ErrorHandler& err) {}

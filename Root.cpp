@@ -2,8 +2,8 @@
 
 int main(int argc, char* argv[]) {
 	system("color 0D"); // For purple color of the text.
+	
 	int counter = 1;
-
 	string input = "";
 	string executableName = argv[0];
 
@@ -16,9 +16,9 @@ int main(int argc, char* argv[]) {
 
 	/*if (executableName == "sql-database.exe" && argc <= 6) */
 	{
-		//cout << "The executable name is correct! Continue..." << endl;
-
+		printer.returnContinueStatement(1);
 		printer.intro();
+
 		while (true) {
 			if (counter < argc) {
 				string currentTextFile = argv[counter];
@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
 			{
 				if (input == "exit") break;
 				if (input == "clear") {
-					for (int i = 0; i < 100; i++) cout << endl;
+					system("CLS");
 					input = "";
 					continue;
 				}

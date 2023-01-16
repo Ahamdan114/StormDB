@@ -3,6 +3,7 @@
 
 #include "Imports.cpp"
 #include "FileHandler.cpp"
+#include "ErrorHandler.cpp"
 
 class LogicHandler {
 protected:
@@ -12,6 +13,9 @@ protected:
 
 	string* currentArr = nullptr;
 	int currentSize = 0;
+
+	Printer printer = Printer();
+	ErrorHandler errorHandler = ErrorHandler();
 
 public:
 
@@ -131,7 +135,6 @@ public:
 
 	// The method creates a dynamic current array with the given input values words on each index position							-> Main method
 	void LogicCurrentArrayModifier(string input) {
-		cout << endl << "LOGIC PHASE CHECKS STARTS..." << endl;
 
 		// Input cleaning and size finding of currentArr
 
@@ -144,12 +147,13 @@ public:
 		setCurrentArr(RemoveSpacesFromInput);
 
 		// Printing part
-		cout << "\tThe table name is: " << getTableName() << endl;
-		cout << "\tCurrentArray Formed! It is:  ";
+		this->printer.returnContinueStatement(2);
+		cout << getTableName() << endl;
+		this->printer.returnContinueStatement(3);
+
 		for (int i = 0; i < this->currentSize; i++) cout << this->currentArr[i] << " ";
 		cout << endl;
 	}
-
 
 
 	// The method returns the size of table names
@@ -213,13 +217,15 @@ public:
 
 		// Printing tableNames array 
 		if (writeStatus == true) {
-			cout << endl << "The table list from which to choose is this one now -> | ";
-			if (!(getTableSize())) cout << "No list items |";
-			else for (int z = 0; z < getTableSize(); z++) cout << this->tableNames[z] << " | ";
-			cout << endl << "The table list size is this one now -> " << getTableSize() << endl << endl;
+			if (!(getTableSize())) this->printer.returnContinueStatement(4);
+			else {
+				this->printer.returnContinueStatement(5);
+				for (int z = 0; z < getTableSize(); z++) cout << this->tableNames[z] << " | ";
+			}
+			this->printer.returnContinueStatement(6);
+			cout << getTableSize() << endl << endl;
 		}
 	}
-
 
 	// The method handles the logic create command checks
 	void LogicalCheckingsCreate() {
@@ -234,9 +240,7 @@ public:
 			
 			// Checking if the name fits it's set dimension
 
-			if (introducedValue > dimension) {
-				cout << "ERROR:  " <<" "<< this->currentArr[i + 3].length() <<" "<<this->currentArr[i + 2] << endl;
-			}
+			if (introducedValue > dimension) this->errorHandler.ErrorsList(2);
 
 			// Checking the type match if type is integer (or int).
 
@@ -246,18 +250,13 @@ public:
 				int number = atoi(this->currentArr[i + 3].c_str());
 				string secondLength = to_string(to_string(number).length());
 
-				if (firstLength != secondLength) {
-					cout << firstLength << " " << secondLength << endl;
-					cout << "ERROR: The value you have introduced is not of integer type" << endl;
-				}
+				if (firstLength != secondLength) this->errorHandler.ErrorsList(3);
 			}
 			else if (this->currentArr[i + 1] == "float")
-			{bool isFloatCurrentArr = regex_match(this->currentArr[i + 3].c_str(), regex(expression3));
-			if (!isFloatCurrentArr) cout << "ERROR! The value you have introduced is not of float type" << endl;
-
+			{
+				bool isFloatCurrentArr = regex_match(this->currentArr[i + 3].c_str(), regex(expression3));
+				if (!isFloatCurrentArr) this->errorHandler.ErrorsList(4);
 			}
-			
-
 
 			// Checking the type match if type is text (or string).
 
@@ -265,10 +264,7 @@ public:
 
 				const char quoteCheck = (this->currentArr[i + 3].c_str())[0];
 				string quotesCheck = this->currentArr[i + 3];
-
-				if (quoteCheck != '\'' && quotesCheck != "\"") {
-					cout << "ERROR" << this->currentArr[i + 3] << endl;
-				}
+				if (quoteCheck != '\'' && quotesCheck != "\"") this->errorHandler.ErrorsList(5);
 			}
 		}
 	}
@@ -279,7 +275,7 @@ public:
 		// Searching for element ( We don't want to find it )
 
 		for (int i = 0; i < getTableSize(); i++) {
-			if (tableName == this->tableNames[i]) throw "Elementul cautat exista deja!";
+			if (tableName == this->tableNames[i]) this->errorHandler.ErrorsList(6);
 		}
 
 		// Element not found, so continue
@@ -350,31 +346,24 @@ public:
 		if (checkTabelExists(tableName) == true)
 		{
 			FileHandler check = FileHandler();
+
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
-			int counter = 4;
-			int position = 0;
 			string auxString;
 			string columnValues = check.getCreateColumnValues(tableName);
-			const char tempCompare = ' ';
-			//put elements in this array of strings 
 			string* columnValuesArray=new string[noOfColumnsCreate * 4];
 			
+			int counter = 4;
+			int position = 0;
+			const char tempCompare = ' ';			
 
-			for (int i = 0; i < columnValues.length()-1; i++)
-			{
-				
-				if (columnValues[i] == tempCompare)
-				{
+			for (int i = 0; i < columnValues.length()-1; i++) {
+				if (columnValues[i] == tempCompare) {
 					columnValuesArray[position] = auxString;
 					auxString = "";
 					position++;
 
 				}
-				else
-				{
-	               auxString += columnValues[i];
-				}
-
+				else auxString += columnValues[i];
 			}
 		
 			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
@@ -385,9 +374,8 @@ public:
 				for (int i = 3; i < (noOfColumnsCreate * 4); i = i + 4)
 				{
 					string expression1 = "[0-9]+"; // Number Check
-					string expression2 = "'[a-zA-Z0-9_]+'"; // String Check
+					string expression2 = "'[a-zA-Z0-9_.]+'"; // String Check
 					string expression3 = "[0-9]+\\.[0-9]+"; // Float Check
-
 
 					bool isIntegerCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression1));
 					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex(expression1));
@@ -398,26 +386,20 @@ public:
 					bool isFloatCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression3));
 					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex(expression3));
 
-					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues))
-					{
-						cout << "Succes!" << endl;
+					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues)) {
 						columnValuesArray[i] = this->currentArr[counter];
 					}
-					else cout << "error.typeProblem" << endl;
-
+					else this->errorHandler.ErrorsList(15);
 					counter++;
 				}
 				check.suprascriptionTable(columnValuesArray, tableName, (noOfColumnsCreate * 4) + 1);
 
 			}
-			else cout << "The values sequence is not correlated with the  columns sequence from " << tableName << endl;
+			else this->errorHandler.ErrorsList(16);
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 		}
-
-		else cout << "Table name doesn't exist!" << endl;
-		
-		
+		else this->errorHandler.ErrorsList(12);
 	}
 
 	// The method handles the logic select command checks
@@ -463,36 +445,32 @@ public:
 								
 								int checkerEveryColumn = 0;
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
-									for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-										
-										if (this->currentArr[j] == columnValuesArray[i]) {
-											checkerEveryColumn++;
-										}
-									}
+									for (int i = 0; i < noOfElementsCreate; i = i + 4) if (this->currentArr[j] == columnValuesArray[i]) checkerEveryColumn++;									
 									j++;
 								}
 								j = 1; // Resetting the j
-								int i = 0;
-								if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
+								cout << "CheckerEveryColumn: " << checkerEveryColumn << " " << "noOfColumnsCreate: " << noOfColumnsCreate << endl;
+								if (checkerEveryColumn > noOfColumnsCreate) this->errorHandler.ErrorsList(7);
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
+									for (int i = 0; i < noOfElementsCreate && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
+										cout << this->currentArr[j] << " " << columnValuesArray[i] << endl;
 										if (this->currentArr[j] == columnValuesArray[i]) {
 
 											cout << "Column: " << columnCount << " displayed." << endl << endl;
 											for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
 											cout << endl << endl;
 											columnCount++;
+											j++;
+											i = -4;
+											continue;
 										}
-									
-									j++;
-									i += 4;
+									}
 								}
 								return;
 							}
-							cout << "ERROR: The value of identifier is inexistent in the table." << endl;
-							return;
+							this->errorHandler.ErrorsList(8);
 						}
 					}
-					cout << "ERROR: The where identifier is inexistent in the table." << endl;
 				}
 				else {
 					int checkerEveryColumn = 0;
@@ -506,19 +484,22 @@ public:
 						j++;
 					}
 					j = 1; // Resetting the j
-					int i = 0;
-					if (checkerEveryColumn != noOfColumnsCreate) cout << "ERROR: The name of column(s) doesn't exists in the table " + tableName << endl;
+					cout << "CheckerEveryColumn: " << checkerEveryColumn << " " << "noOfColumnsCreate: " << noOfColumnsCreate << endl;
+					if (checkerEveryColumn > noOfColumnsCreate) this->errorHandler.ErrorsList(7);
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
-						if (this->currentArr[j] == columnValuesArray[i]) {
+						for (int i = 0; i < noOfElementsCreate && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
+							cout << this->currentArr[j] << " " << columnValuesArray[i] << endl;
+							if (this->currentArr[j] == columnValuesArray[i]) {
 
-							cout << "Column: " << columnCount << " displayed." << endl << endl;
-							for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
-							cout << endl << endl;
-							columnCount++;
+								cout << "Column: " << columnCount << " displayed." << endl << endl;
+								for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
+								cout << endl << endl;
+								columnCount++;
+								j++;
+								i = -4;
+								continue;
+							}
 						}
-
-						j++;
-						i += 4;
 					}
 					return;
 				}
@@ -527,16 +508,12 @@ public:
 				if (stringToUpper(this->currentArr[getCurrentArrSize() - 4]) == comparisonStrWhere) {
 					for (int i = 0; i < noOfElementsCreate; i = i + 4) {
 						if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
-							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
-								check.displayTableFile(tableName);
-							}
-							else {
-								cout << "ERROR: The column name in where condition doesn't contain something similar with the table " + tableName << endl;
-							}
+							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) check.displayTableFile(tableName);
+							else this->errorHandler.ErrorsList(10);
 							return;
 						}
 					}
-					cout << "ERROR: The column name in where condition is inexistent in table " + tableName << endl;
+					this->errorHandler.ErrorsList(11);
 					return;
 				}
 				else check.displayTableFile(tableName);
@@ -545,7 +522,7 @@ public:
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 		}
-		else cout << "Table name doesn't exist!" << endl;
+		else this->errorHandler.ErrorsList(12);
 	}
 
 	// The method handles the logic delete command checks
@@ -570,7 +547,7 @@ public:
 			int retainIndex = 0;
 			int number = 0;
 
-			for (int i = 0; i < createValues.length()-1; i++) {
+			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempCompare)
 				{
 					columnValuesArray[position] = auxString;
@@ -579,32 +556,30 @@ public:
 				}
 				else auxString += createValues[i];
 			}
-			columnValuesArray[noElementsCreate-1] = auxString;
+			columnValuesArray[noElementsCreate - 1] = auxString;
 
 			for (int i = 0; i < noElementsCreate; i = i + 4) {
-				if ((columnValuesArray[i] == currentArr[4]) && (breaker == 0)) {
+				if ((columnValuesArray[i] == this->currentArr[4]) && (breaker == 0)) {
 					breaker = 1;
 					retainIndex = i;
 				}
-				if ((currentArr[6] == columnValuesArray[retainIndex+3]) && (breaker == 1))
+				if ((currentArr[6] == columnValuesArray[retainIndex + 3]) && (breaker == 1))
 				{
 					number = 1;
-                    for (int j = retainIndex; j < noElementsCreate - 4; j++){
+					for (int j = retainIndex; j < noElementsCreate - 4; j++) {
 
 						columnValuesArray[j] = columnValuesArray[j + 4];
-				    }
-					cout << "The new table is: " << endl;
+					}
+					this->printer.returnContinueStatement(7);
 					fileHandle.suprascriptionTable(columnValuesArray, tableName, noElementsCreate - 3);
 				}
 			}
-			if ((breaker != 1) || (number != 1))
-			{
-				cout << "error! the column name or value is wrong.";
-			}
+			if ((breaker != 1) || (number != 1)) this->errorHandler.ErrorsList(13);
+
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 		}
-		else cout << "Table name doesn't exist";
+		else this->errorHandler.ErrorsList(12);
 	}
 
 	// The method checks the data type from the table given.
@@ -613,14 +588,16 @@ public:
 		string expression1 = "[0-9]+$"; // integer Check
 		string expression2 = "'[^']+'"; // text Check
 		string expression3 = "([0-9]*[.])+[0-9]+"; // Float Check
-		int typeIdSet=0;
+
+		int typeIdSet = 0;
+
 		bool isIntegerCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression1));
 		bool isStringCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression2));
 		bool isFloatCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression3));
+
 		if (isIntegerCurrentArr==true) typeIdSet = 1;
 		else if (isStringCurrentArr==true) typeIdSet = 2;
 	    else if (isFloatCurrentArr==true) typeIdSet = 3;
-
 		return typeIdSet;
 	}
 
@@ -697,18 +674,18 @@ public:
 
 			int position = 0;
 			int breaker = 0;
-			
+
 			string auxString;
 			const char tempCompare = ' ';
-			
+
 			int retainIndex1 = 0;
 			int retainIndex2 = 0;
-			
+
 			int valueAfterWhere = 0;
 
 			int dataTypeColumn = checkColumnArrayDataType(tableName);
 			int dataTypeSet = checkSetDataType(tableName);
-			
+
 			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempCompare)
 				{
@@ -719,37 +696,46 @@ public:
 				else auxString += createValues[i];
 			}
 			columnValuesArray[noElementsCreate - 1] = auxString;
+
 			for (int i = 0; i < noElementsCreate; i = i + 4) {
-				if ((columnValuesArray[i] == currentArr[7]) && (breaker == 0)) {
+				// Modified if ((columnValuesArray[i] == this->currentArr[5]) && (breaker == 0)) {, this->currentArr[5] was this->currentArr[7]
+				if ((columnValuesArray[i] == this->currentArr[7]) && (breaker == 0)) {
 					breaker = 1;
 					retainIndex1 = i;
 				}
-				if ((currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere ==0))
-				{
+				if ((this->currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere == 0)) {
 					valueAfterWhere = 1;
 				}
-				if ((columnValuesArray[i] == currentArr[3]) && (breaker == 1)&&(valueAfterWhere==1)) {
+				cout << columnValuesArray[i] << " " << this->currentArr[3] << " " << i << endl;
+				cout << "The breaker is: " << breaker << " and the valueAfterWhere is: " << valueAfterWhere << endl;
+				if ((columnValuesArray[i] == this->currentArr[3]) && (breaker == 1) && (valueAfterWhere == 1)) {
+					cout << "SUCCES!" << endl;
 					retainIndex2 = i;
 				}
 
 			}
-			if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn==dataTypeSet))
+			if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn == dataTypeSet))
 			{
-				columnValuesArray[retainIndex2+3] = currentArr[5];
+				cout << columnValuesArray[retainIndex2 + 3] << " " << this->currentArr[5] << endl;
+				cout << "columnValuesArray[retainIndex2] Index is: " << retainIndex2 << endl;
+
+				columnValuesArray[retainIndex2 + 3] = this->currentArr[5];
+
+				cout << "HERE IS THE ARRAY: ";
+				for (int i = 0; i < noElementsCreate; i++) {
+					cout << columnValuesArray[i] << " ";
+				}
+				cout << endl;
+
 				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
 			}
-			else if ((breaker != 1) || (valueAfterWhere != 1))
-			{
-				cout << "error! column name or value is wrong";
-			}
-			else if ((dataTypeColumn != dataTypeSet))
-			{
-				cout << "error! the data type you tried to set is not correct or the column doesn't exist";
-			}
+			else if ((breaker != 1) || (valueAfterWhere != 1)) this->errorHandler.ErrorsList(13);
+			else if ((dataTypeColumn != dataTypeSet)) this->errorHandler.ErrorsList(14);
+
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 		}
-		else cout << "The table name doesn't exist!";
+		else this->errorHandler.ErrorsList(12);
 	}
 
 	// The method determines the CSV file content length
@@ -789,8 +775,9 @@ public:
 		FileHandler fileHandler = FileHandler();
 		bool csvFileExists = fileHandler.csvFileExists(csvFileName);
 		char separator = '|';
+
 		if (checkTabelExists(tableName) && csvFileExists) {
-			
+
 			int csvLength = csvFileLength(csvFileName);
 			string* csvFileContentArray = getCsvFileContentArray(csvFileName);
 
@@ -819,28 +806,26 @@ public:
 					string expression1 = "[0-9]+$"; // Number Check
 					string expression2 = "'[^']+'"; // String Check
 					string expression3 = "([0-9]*[.])+[0-9]+"; // Float Check
-
-					bool isIntegerCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression1));
+					
+					bool isIntegerCurrentArr = regex_match(csvFileContentArray[counter].c_str(), regex(expression1));
 					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex(expression1));
 
-					bool isStringCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression2));
+					bool isStringCurrentArr = regex_match(csvFileContentArray[counter].c_str(), regex(expression2));
 					bool isStringValues = regex_match(columnValuesArray[i].c_str(), regex(expression2));
 
-					bool isFloatCurrentArr = regex_match(this->currentArr[counter].c_str(), regex(expression3));
+					bool isFloatCurrentArr = regex_match(csvFileContentArray[counter].c_str(), regex(expression3));
 					bool isFloatValues = regex_match(columnValuesArray[i].c_str(), regex(expression3));
 
-					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues))
-					{
-						cout << "Succes!" << endl;
+					if ((isIntegerCurrentArr && isIntegerValues) || (isStringCurrentArr && isStringValues) || (isFloatCurrentArr && isFloatValues)) {
 						columnValuesArray[i] = csvFileContentArray[counter];
 					}
-					else cout << "ERROR: Type of given values is not similar!" << endl;
-
+					else this->errorHandler.ErrorsList(15);
 					counter++;
 				}
+
 				fileHandler.suprascriptionTable(columnValuesArray, tableName, noOfCreateElements + 1);
 			}
-			else cout << " The values sequence is not correlated with the  columns sequence from " << tableName << endl;
+			else this->errorHandler.ErrorsList(16);
 
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
@@ -848,7 +833,7 @@ public:
 			delete[] csvFileContentArray;
 			csvFileContentArray = nullptr;
 		}
-		else cout << "Csv file name doesnt't exist or table name is wrong ";
+		else this->errorHandler.ErrorsList(17);
 	}
 
 	// The method, based on the command, checks it's respective logic																-> Main method
@@ -858,14 +843,14 @@ public:
 		else if (firstElement == "drop") dropTableElement(tableName);
 		else if (firstElement == "display") displayTableElement(tableName);
 
-		else if (firstElement == "insert")logicInsertInto(tableName);
-		else if (firstElement == "select")logicSelect(tableName);
-		else if (firstElement == "delete")logicDelete(tableName);
+		else if (firstElement == "insert") logicInsertInto(tableName);
+		else if (firstElement == "select") logicSelect(tableName);
+		else if (firstElement == "delete") logicDelete(tableName);
 
-		else if (firstElement == "update")LogicUpdate(tableName);
-		else if (firstElement == "import")logicImport(tableName,this->currentArr[getCurrentArrSize()-1]);
+		else if (firstElement == "update") LogicUpdate(tableName);
+		else if (firstElement == "import") logicImport(tableName, this->currentArr[getCurrentArrSize()-1]);
 
-		cout << endl << "Logical & File phases Passed" << endl;
+		this->printer.returnContinueStatement(8);
 	} 
 	
 

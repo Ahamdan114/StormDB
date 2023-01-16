@@ -1,0 +1,1 @@
+update nume set id = 50 where punctaj_test = '9.73'

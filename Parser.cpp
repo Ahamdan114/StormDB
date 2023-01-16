@@ -1,8 +1,7 @@
 #include "Imports.cpp"
 
 #include "FileHandler.cpp"
-#include "Printer.cpp"
-
+#include "ErrorHandler.cpp"
 
 class CreateTable
 {
@@ -90,7 +89,9 @@ class DeleteTable
 public:
 	bool testDeleteTable(string const input)
 	{
-		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
+		
+		bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|('[a-zA-Z0-9_.]+')|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
+		// bool deleteTable = regex_match(input.c_str(), regex("[[:blank:]]*delete[[:blank:]]+from[[:blank:]]+\\w+[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('\\w+'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return deleteTable;
 	}
 
@@ -110,6 +111,7 @@ class UpdateTable
 public:
 	bool testUpdateTable(string const input)
 	{
+		// bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		bool updateTable = regex_match(input.c_str(), regex("[[:blank:]]*update[[:blank:]]+\\w+[[:blank:]]+set[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]+where[[:blank:]]+\\w+[[:blank:]]*=[[:blank:]]*(('[[:blank:]]*\\w.+[[:blank:]]*'|([0-9]+\\.[0-9]+)|[0-9]+))[[:blank:]]*"));
 		return updateTable;
 	}
@@ -225,8 +227,10 @@ public:
 	
 	// The method checks for correctness of input syntax
 	void parse(string cleanInput) {
-
 		Printer printer = Printer();
+		ErrorHandler errorHandler = ErrorHandler();
+
+
 		FileHandler fileHandle = FileHandler();
 		HelpManual helpManual = HelpManual();
 
@@ -247,7 +251,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			createTable.SET_CREATE_COUNTER(counter);
-			printer.returnStatement(1);
+			printer.returnContinueStatement(1);
 		}
 
 		bool dropCheck = dropTable.testDropTable(cleanInput);
@@ -257,7 +261,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			dropTable.SET_DROP_COUNTER(counter);
-			printer.returnStatement(2);
+			printer.returnContinueStatement(2);
 		}
 
 		bool selectCheck = selectTable.testSelect(cleanInput);
@@ -267,7 +271,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			selectTable.SET_SELECT_COUNTER(counter);
-			printer.returnStatement(3);
+			printer.returnContinueStatement(3);
 		}
 
 		bool displayCheck = displayTable.testDisplayTable(cleanInput);
@@ -277,7 +281,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			displayTable.SET_DISPLAY_COUNTER(counter);
-			printer.returnStatement(4);
+			printer.returnContinueStatement(4);
 		}
 
 		bool deleteCheck = deleteTable.testDeleteTable(cleanInput);
@@ -287,7 +291,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			deleteTable.SET_DELETE_COUNTER(counter);
-			printer.returnStatement(5);
+			printer.returnContinueStatement(5);
 		}
 
 		bool updateCheck = updateTable.testUpdateTable(cleanInput);
@@ -297,7 +301,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			updateTable.SET_UPDATE_COUNTER(counter);
-			printer.returnStatement(6);
+			printer.returnContinueStatement(6);
 		}
 
 		bool insertCheck = insertTable.InsertIntoTable(cleanInput);
@@ -307,7 +311,7 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 
 			insertTable.SET_INSERT_COUNTER(counter);
-			printer.returnStatement(7);
+			printer.returnContinueStatement(7);
 		}
 
 		bool importCheck = importTable.ImportCheck(cleanInput);
@@ -315,15 +319,15 @@ public:
 			int counter = importTable.returnCounterImport() + 1;
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			importTable.SET_IMPORT_COUNTER(counter);
-			printer.returnStatement(8);
+			printer.returnContinueStatement(8);
 		}
 		bool helpCheck = helpManual.HelpManualVerify(cleanInput);
 		if (helpCheck){
 			printer.returnManual(getLastInputElement(cleanInput));
 		}
 
-        if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck || importCheck)) throw "Parser Error.";
-		else cout << endl << "Parsing phase passed!" << endl << endl;
+		if (!(createCheck || dropCheck || selectCheck || displayCheck || deleteCheck || updateCheck || insertCheck || helpCheck || importCheck)) errorHandler.ErrorsList(1);
+		else printer.returnContinueStatement(0);
 	}
 
 	~Parser() {}

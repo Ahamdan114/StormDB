@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Imports.cpp"
+#include "ErrorHandler.cpp"
 
 class FileHandler {
 public:
@@ -214,7 +216,7 @@ public:
 		string response = "";
 		for (unsigned int i = 0; i < input.length(); i++)
 		{
-			if (input[i] >= 'a' && input[i] <= 'z')response += (input[i] - 32);
+			if (input[i] >= 'a' && input[i] <= 'z') response += (input[i] - 32);
 			else response += input[i];
 		}
 		return response;
