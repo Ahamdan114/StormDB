@@ -698,18 +698,16 @@ public:
 			columnValuesArray[noElementsCreate - 1] = auxString;
 
 			for (int i = 0; i < noElementsCreate; i = i + 4) {
-				// Modified if ((columnValuesArray[i] == this->currentArr[5]) && (breaker == 0)) {, this->currentArr[5] was this->currentArr[7]
-				if ((columnValuesArray[i] == this->currentArr[7]) && (breaker == 0)) {
-					breaker = 1;
-					retainIndex1 = i;
+				for (int j = 0; j < noElementsCreate; j = j + 4) {
+					if ((columnValuesArray[j] == this->currentArr[7]) && (breaker == 0)) {
+						breaker = 1;
+						retainIndex1 = j;
+					}
 				}
 				if ((this->currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere == 0)) {
 					valueAfterWhere = 1;
 				}
-				cout << columnValuesArray[i] << " " << this->currentArr[3] << " " << i << endl;
-				cout << "The breaker is: " << breaker << " and the valueAfterWhere is: " << valueAfterWhere << endl;
 				if ((columnValuesArray[i] == this->currentArr[3]) && (breaker == 1) && (valueAfterWhere == 1)) {
-					cout << "SUCCES!" << endl;
 					retainIndex2 = i;
 				}
 
@@ -717,16 +715,8 @@ public:
 			if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn == dataTypeSet))
 			{
 				cout << columnValuesArray[retainIndex2 + 3] << " " << this->currentArr[5] << endl;
-				cout << "columnValuesArray[retainIndex2] Index is: " << retainIndex2 << endl;
 
 				columnValuesArray[retainIndex2 + 3] = this->currentArr[5];
-
-				cout << "HERE IS THE ARRAY: ";
-				for (int i = 0; i < noElementsCreate; i++) {
-					cout << columnValuesArray[i] << " ";
-				}
-				cout << endl;
-
 				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
 			}
 			else if ((breaker != 1) || (valueAfterWhere != 1)) this->errorHandler.ErrorsList(13);
