@@ -316,7 +316,7 @@ public:
 			}
 		}
 
-		if (!finderState) throw "Elementul cautat nu exista!";
+		if (!finderState) throw "The searched element does not exist!";
 	}
 
 	// The method requests the logic of command DISPLAY and continues the process based on the response
@@ -337,7 +337,7 @@ public:
 			}
 		}
 
-		if (!finderState) throw "Elementul cautat nu exista!";
+		if (!finderState) throw "The searched element does not exist!";
 	}
 	
 	// The method handles the logic insert command checks
@@ -950,7 +950,7 @@ public:
 			return columnValuesArray;
 		}
 		else {
-			cout << "TABLE NAME IS WRONG";
+			cout << "THE TABLE NAME IS WRONG";
 			return nullptr;
 		}
 	}
