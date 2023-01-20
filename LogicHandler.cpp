@@ -998,3 +998,10 @@ public:
 	}
 
 };
+
+
+//Topics to discuss
+//Inheritance example structure:
+//One base class -> one or many derrived classes
+//Notes: Decide what type of inheritance to use(Public, Protected, Private)
+//Single or Multiple inheritance?
