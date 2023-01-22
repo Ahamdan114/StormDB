@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
 	FileHandler fileHandle = FileHandler();
 
 
-	if (executableName == "sql-database.exe" && argc <= 6) 
+	/*if (executableName == "sql-database.exe" && argc <= 6) */
 	{
 		printer.returnContinueStatement(1);
 		printer.intro();
@@ -42,7 +42,54 @@ int main(int argc, char* argv[]) {
 
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
 					string tableName = logicHandler.getTableName();
-					logicHandler.tableLogicalChecks(firstElement, tableName);
+					
+					if (firstElement == "create") {
+						LogicalCheckingsCreate create = LogicalCheckingsCreate();
+						create = logicHandler;
+						create.tableLogicalChecks(tableName);
+					}
+
+					else if (firstElement == "drop") {
+						LogicalCheckingsDrop drop = LogicalCheckingsDrop();
+						drop = logicHandler;
+						drop.tableLogicalChecks(tableName);
+					}
+					else if (firstElement == "display") {
+						LogicalCheckingsDisplay display = LogicalCheckingsDisplay();
+						display = logicHandler;
+						display.tableLogicalChecks(tableName);
+					}
+
+					else if (firstElement == "insert") {
+						LogicalCheckingsInsert insert = LogicalCheckingsInsert();
+						insert = logicHandler;
+						insert.tableLogicalChecks(tableName);
+					}
+					else if (firstElement == "select") {
+						LogicalCheckingsSelect select = LogicalCheckingsSelect();
+						select = logicHandler;
+						select.tableLogicalChecks(tableName);
+					}
+					else if (firstElement == "delete") {
+						LogicalCheckingsDelete deleteTable = LogicalCheckingsDelete();
+						deleteTable= logicHandler;
+						deleteTable.tableLogicalChecks(tableName);
+					}
+
+					else if (firstElement == "update") {
+						LogicalChekingsUpdate update = LogicalChekingsUpdate();
+						update = logicHandler;
+						update.tableLogicalChecks(tableName);
+						
+					}
+					else if (firstElement == "import") {
+						LogicalCheckingsImport importCsv = LogicalCheckingsImport();
+						importCsv = logicHandler;
+						importCsv.tableLogicalChecks(tableName);
+					
+					}
+
+					//logicHandler.tableLogicalChecks(firstElement, tableName);
 
 					printer.print(input);
 				}
@@ -56,5 +103,5 @@ int main(int argc, char* argv[]) {
 		}
 		printer.goodByeModel();
 	}
-	else cout << "The executable name introduced is incorrect! :(" << endl;
+	//else cout << "The executable name introduced is incorrect! :(" << endl;
 }

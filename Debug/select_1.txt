@@ -1,0 +1,1 @@
+select all from okeselect all from oke where nume = 'popa'select (grupa, punctaj_test) from oke where punctaj_test='8.9'

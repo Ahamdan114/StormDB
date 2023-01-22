@@ -1,0 +1,1 @@
+insert into oke values (1.75,'popa','1065','8.9')

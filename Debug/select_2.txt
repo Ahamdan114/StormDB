@@ -1,0 +1,1 @@
+select (punctaj_test) from okeselect (nume) from oke where nume = 'popa'

@@ -5,6 +5,12 @@
 #include "FileHandler.cpp"
 #include "ErrorHandler.cpp"
 
+//pure virtual class
+class DataAlterer {
+public:
+	virtual void tableLogicalChecks( string tableName) = 0; 
+};
+//--------------------------------------------------------------------------------------
 class LogicHandler {
 protected:
 
@@ -108,17 +114,17 @@ public:
 		string tableName = "";
 		string firstCheck = stringToUpper(currentArr[0]);
 
-		if ((firstCheck) == "SELECT") 
+		if ((firstCheck) == "SELECT")
 		{
-		for (int i = 0; i < size; i++) {
-			string secondCheck = stringToUpper(this->currentArr[i]);
-			if (secondCheck == "FROM") {
-				tableName = this->currentArr[i + 1];
-			      }
-		    }
-	    }
-		
-		else if (firstCheck == "UPDATE" || firstCheck =="IMPORT") tableName = this->currentArr[1];
+			for (int i = 0; i < size; i++) {
+				string secondCheck = stringToUpper(this->currentArr[i]);
+				if (secondCheck == "FROM") {
+					tableName = this->currentArr[i + 1];
+				}
+			}
+		}
+
+		else if (firstCheck == "UPDATE" || firstCheck == "IMPORT") tableName = this->currentArr[1];
 		else tableName = this->currentArr[2];
 		return tableName;
 	}
@@ -140,7 +146,7 @@ public:
 
 		string RemoveSpacesFromInput = removeSpaces(input);
 		this->currentSize = sizeDiscovery(RemoveSpacesFromInput) + 1;
-		
+
 		// Setting the array
 
 		currentArrCreate(this->currentSize);
@@ -160,10 +166,10 @@ public:
 	int getTableSize() {
 		return this->tableSize;
 	}
-	
+
 	// The method checks if the table given exists or not
-	 bool checkTabelExists(string tableName)
-	 {
+	bool checkTabelExists(string tableName)
+	{
 		for (int i = 0; i < getTableSize(); i++) {
 			if (this->tableNames[i] == tableName) return true;
 		}
@@ -226,18 +232,74 @@ public:
 			cout << getTableSize() << endl << endl;
 		}
 	}
+	//copy constructor
+	LogicHandler(LogicHandler const& lh) {
+		if (lh.tableNames != nullptr && lh.tableSize > 0) {
+			this->tableSize = lh.tableSize;
+			tableNames = new string[lh.tableSize];
+			for (int i = 0; i < lh.tableSize; i++) {
+				this->tableNames[i] = lh.tableNames[i];
+			}
+		}
+		if (lh.currentArr != nullptr && lh.currentSize > 0) {
+			this->currentSize = lh.currentSize;
+			currentArr = new string[lh.currentSize];
+			for (int i = 0; i < currentSize; i++) {
+				currentArr[i] = lh.currentArr[i];
+			}
+		}
+	}
+	LogicHandler& operator=(LogicHandler const& lh) {
+		if (this != &lh) {
+			if (tableNames != nullptr) {
+				delete[] tableNames;
+				tableNames = nullptr;
+			}
+			if (currentArr != nullptr) {
+				delete[] currentArr;
+				currentArr = nullptr;
+			}
+			if (lh.tableNames != nullptr && lh.tableSize > 0) {
+				this->tableSize = lh.tableSize;
+				tableNames = new string[lh.tableSize];
+				for (int i = 0; i < lh.tableSize; i++) {
+					this->tableNames[i] = lh.tableNames[i];
+				}
+			}
+			if (lh.currentArr != nullptr && lh.currentSize > 0) {
+				this->currentSize = lh.currentSize;
+				currentArr = new string[lh.currentSize];
+				for (int i = 0; i < currentSize; i++) {
+					currentArr[i] = lh.currentArr[i];
+				}
+			}
+		}
+		return *this;
+	}
+	// Avoids memory leaks
+	~LogicHandler() {
+		delete[] this->currentArr;
+		this->currentArr = nullptr;
 
+		delete[] this->tableNames;
+		this->tableNames = nullptr;
+
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsCreate :public LogicHandler {
+public:
 	// The method handles the logic create command checks
-	void LogicalCheckingsCreate() {
+	void LogicalCreate() {
 		int i = 3;
 		if (stringToUpper(this->currentArr[3]) == "IF") i = 6;
 
 		for (i; i < this->currentSize; i = i + 4) {
 
 			int dimension = atoi(this->currentArr[i + 2].c_str()); // The dimension identifiable value
-			int introducedValue = this->currentArr[i+3].length(); // The value given for determining the dimension
+			int introducedValue = this->currentArr[i + 3].length(); // The value given for determining the dimension
 			string expression3 = "[0-9]+\\.[0-9]+"; // Float Check
-			
+
 			// Checking if the name fits it's set dimension
 
 			if (introducedValue > dimension) this->errorHandler.ErrorsList(2);
@@ -272,6 +334,7 @@ public:
 	// The method requests the logic of command CREATE and continues the process based on the response
 	void createTableElement(string tableName) {
 
+
 		// Searching for element ( We don't want to find it )
 
 		for (int i = 0; i < getTableSize(); i++) {
@@ -281,12 +344,22 @@ public:
 		// Element not found, so continue
 
 		FileHandler fileHandle = FileHandler();
-		
+
 		LogicalCheckingsCreate();
 		fileHandle.tableNameToFile(tableName);
 		fileHandle.createTableFile(this->currentArr, getCurrentArrSize(), tableName);
 	}
-
+	void tableLogicalChecks(string tableName) {
+		createTableElement(tableName);
+	}
+	LogicalCheckingsCreate& operator=(const LogicHandler & other) {
+		LogicHandler::operator=(other);
+		return *this;
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsDrop :public LogicHandler {
+public:
 	// The method requests the logic of command DROP and continues the process based on the response
 	void dropTableElement(string tableName) {
 
@@ -295,7 +368,7 @@ public:
 		// Searching for element ( We want to find it. )
 
 		for (int i = 0; i < getTableSize(); i++) {
-				
+
 			if (tableName == this->tableNames[i]) {
 				// Element found, so continue 
 
@@ -308,7 +381,7 @@ public:
 				this->tableNames[getTableSize() - 1] = "";
 
 				FileHandler fileHandle = FileHandler();
-				
+
 				// Calling for TableNames array
 
 				fileHandle.suprascriptionTable(this->tableNames, "TableNames", getTableSize());
@@ -318,7 +391,17 @@ public:
 
 		if (!finderState) throw "The searched element does not exist!";
 	}
-
+	 void tableLogicalChecks(string tableName) {
+		 dropTableElement(tableName);
+	}
+	 LogicalCheckingsDrop& operator=(const LogicHandler& other) {
+		 LogicHandler::operator=(other);
+		 return *this;
+	 }
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsDisplay :public LogicHandler {
+public:
 	// The method requests the logic of command DISPLAY and continues the process based on the response
 	void displayTableElement(string tableName) {
 
@@ -339,7 +422,17 @@ public:
 
 		if (!finderState) throw "The searched element does not exist!";
 	}
-	
+	void tableLogicalChecks(string tableName) {
+		displayTableElement(tableName);
+	}
+	LogicalCheckingsDisplay& operator=(const LogicHandler& other) {
+		LogicHandler::operator=(other);
+		return *this;
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsInsert :public LogicHandler {
+public:
 	// The method handles the logic insert command checks
 	void logicInsertInto(string tableName)
 	{
@@ -350,13 +443,13 @@ public:
 			int noOfColumnsCreate = check.noOfColumnsCreate(tableName);
 			string auxString;
 			string columnValues = check.getCreateColumnValues(tableName);
-			string* columnValuesArray=new string[noOfColumnsCreate * 4];
-			
+			string* columnValuesArray = new string[noOfColumnsCreate * 4];
+
 			int counter = 4;
 			int position = 0;
-			const char tempCompare = ' ';			
+			const char tempCompare = ' ';
 
-			for (int i = 0; i < columnValues.length()-1; i++) {
+			for (int i = 0; i < columnValues.length() - 1; i++) {
 				if (columnValues[i] == tempCompare) {
 					columnValuesArray[position] = auxString;
 					auxString = "";
@@ -365,10 +458,10 @@ public:
 				}
 				else auxString += columnValues[i];
 			}
-		
+
 			columnValuesArray[noOfColumnsCreate * 4 - 1] = auxString;
-			
-		
+
+
 			if ((getCurrentArrSize() - 4) == noOfColumnsCreate)
 			{
 				for (int i = 3; i < (noOfColumnsCreate * 4); i = i + 4)
@@ -401,7 +494,17 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
-
+      void tableLogicalChecks(string tableName) {
+		logicInsertInto(tableName);
+	  }
+	  LogicalCheckingsInsert& operator=(const LogicHandler& other) {
+		  LogicHandler::operator=(other);
+		  return *this;
+	  }
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsSelect :public LogicHandler {
+public:
 	// The method handles the logic select command checks
 	void logicSelect(string tableName)
 	{
@@ -438,14 +541,14 @@ public:
 			if (stringToUpper(this->currentArr[1]) != comparisonStrAll) {
 				if (stringToUpper(this->currentArr[getCurrentArrSize() - 4]) == comparisonStrWhere) {
 					for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-						
+
 						if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
-							
+
 							if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
-								
+
 								int checkerEveryColumn = 0;
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
-									for (int i = 0; i < noOfElementsCreate; i = i + 4) if (this->currentArr[j] == columnValuesArray[i]) checkerEveryColumn++;									
+									for (int i = 0; i < noOfElementsCreate; i = i + 4) if (this->currentArr[j] == columnValuesArray[i]) checkerEveryColumn++;
 									j++;
 								}
 								j = 1; // Resetting the j
@@ -476,7 +579,7 @@ public:
 					int checkerEveryColumn = 0;
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 						for (int i = 0; i < noOfElementsCreate; i = i + 4) {
-							
+
 							if (this->currentArr[j] == columnValuesArray[i]) {
 								checkerEveryColumn++;
 							}
@@ -524,10 +627,20 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
-
+	void tableLogicalChecks(string tableName) {
+		logicSelect(tableName);
+	}
+	LogicalCheckingsSelect& operator=(const LogicHandler& other) {
+		LogicHandler::operator=(other);
+		return *this;
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsDelete :public LogicHandler {
+public:
 	// The method handles the logic delete command checks
 	void logicDelete(string tableName)
-	{ 
+	{
 		if (checkTabelExists(tableName) == true)
 		{
 			FileHandler check = FileHandler();
@@ -581,7 +694,17 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
-
+	void tableLogicalChecks(string tableName) {
+		logicDelete(tableName);
+	}
+	LogicalCheckingsDelete& operator=(const LogicHandler& other) {
+		LogicHandler::operator=(other);
+		return *this;
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalChekingsUpdate :public LogicHandler {
+public:
 	// The method checks the data type from the table given.
 	int checkSetDataType(string tableName)
 	{
@@ -595,9 +718,9 @@ public:
 		bool isStringCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression2));
 		bool isFloatCurrentArr = regex_match(this->currentArr[5].c_str(), regex(expression3));
 
-		if (isIntegerCurrentArr==true) typeIdSet = 1;
-		else if (isStringCurrentArr==true) typeIdSet = 2;
-	    else if (isFloatCurrentArr==true) typeIdSet = 3;
+		if (isIntegerCurrentArr == true) typeIdSet = 1;
+		else if (isStringCurrentArr == true) typeIdSet = 2;
+		else if (isFloatCurrentArr == true) typeIdSet = 3;
 		return typeIdSet;
 	}
 
@@ -646,7 +769,7 @@ public:
 			if (isIntegerCurrentArr == true) typeIdColumn = 1;
 			else if (isStringCurrentArr == true) typeIdColumn = 2;
 			else if (isFloatCurrentArr == true) typeIdColumn = 3;
-			
+
 			delete[] columnValuesArray;
 			columnValuesArray = nullptr;
 
@@ -662,7 +785,7 @@ public:
 
 	// The method handles the logic update command checks
 	void LogicUpdate(string tableName)
-	{   
+	{
 		if (checkTabelExists(tableName) == true)
 		{
 			FileHandler fileHandle = FileHandler();
@@ -727,6 +850,17 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
+	void tableLogicalChecks(string tableName) {
+		LogicUpdate(tableName);
+	}
+	LogicalChekingsUpdate& operator=(const LogicHandler& other) {
+		LogicHandler::operator=(other);
+		return *this;
+	}
+};
+//--------------------------------------------------------------------------------------
+class LogicalCheckingsImport :public LogicHandler {
+public:
 
 	// The method determines the CSV file content length
 	int csvFileLength(string csvFileName) {
@@ -796,7 +930,7 @@ public:
 					string expression1 = "[0-9]+$"; // Number Check
 					string expression2 = "'[^']+'"; // String Check
 					string expression3 = "([0-9]*[.])+[0-9]+"; // Float Check
-					
+
 					bool isIntegerCurrentArr = regex_match(csvFileContentArray[counter].c_str(), regex(expression1));
 					bool isIntegerValues = regex_match(columnValuesArray[i].c_str(), regex(expression1));
 
@@ -825,36 +959,15 @@ public:
 		}
 		else this->errorHandler.ErrorsList(17);
 	}
-
-	// The method, based on the command, checks it's respective logic																-> Main method
-	void tableLogicalChecks(string firstElement, string tableName) {
-
-		if (firstElement == "create") createTableElement(tableName);
-		else if (firstElement == "drop") dropTableElement(tableName);
-		else if (firstElement == "display") displayTableElement(tableName);
-
-		else if (firstElement == "insert") logicInsertInto(tableName);
-		else if (firstElement == "select") logicSelect(tableName);
-		else if (firstElement == "delete") logicDelete(tableName);
-
-		else if (firstElement == "update") LogicUpdate(tableName);
-		else if (firstElement == "import") logicImport(tableName, this->currentArr[getCurrentArrSize()-1]);
-
-		this->printer.returnContinueStatement(8);
-	} 
-	
-
-	// Avoids memory leaks
-	~LogicHandler() {
-		delete[] this->currentArr;
-		this->currentArr = nullptr;
-
-		delete[] this->tableNames;
-		this->tableNames = nullptr;
-	
+	 void tableLogicalChecks(string tableName) {
+		 logicImport(tableName, this->currentArr[getCurrentArrSize() - 1]);
 	}
+	 LogicalCheckingsImport& operator=(const LogicHandler& other) {
+		 LogicHandler::operator=(other);
+		 return *this;
+	 }
 };
-
+//--------------------------------------------------------------------------------------
 class TableHandler {
 public:
 	// The method gets the table names
@@ -956,7 +1069,7 @@ public:
 	}
 
 };
-
+//--------------------------------------------------------------------------------------
 class Table {
 public:
 	int size = 0;
@@ -978,7 +1091,7 @@ public:
 		this->content = nullptr;
 	}
 };
-
+//--------------------------------------------------------------------------------------
 class printCharacteristics : public TableHandler {
 public:
 
@@ -998,10 +1111,5 @@ public:
 	}
 
 };
+//--------------------------------------------------------------------------------------
 
-
-//Topics to discuss
-//Inheritance example structure:
-//One base class -> one or many derrived classes
-//Notes: Decide what type of inheritance to use(Public, Protected, Private)
-//Single or Multiple inheritance?
