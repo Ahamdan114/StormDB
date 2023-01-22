@@ -588,11 +588,9 @@ public:
 									j++;
 								}
 								j = 1; // Resetting the j
-								cout << "CheckerEveryColumn: " << checkerEveryColumn << " " << "noOfColumnsCreate: " << noOfColumnsCreate << endl;
 								if (checkerEveryColumn > noOfColumnsCreate) this->errorHandler.ErrorsList(7);
 								while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 									for (int i = 0; i < noOfElementsCreate && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
-										cout << this->currentArr[j] << " " << columnValuesArray[i] << endl;
 										if (this->currentArr[j] == columnValuesArray[i]) {
 
 											cout << "Column: " << columnCount << " displayed." << endl << endl;
@@ -623,11 +621,9 @@ public:
 						j++;
 					}
 					j = 1; // Resetting the j
-					cout << "CheckerEveryColumn: " << checkerEveryColumn << " " << "noOfColumnsCreate: " << noOfColumnsCreate << endl;
 					if (checkerEveryColumn > noOfColumnsCreate) this->errorHandler.ErrorsList(7);
 					while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 						for (int i = 0; i < noOfElementsCreate && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
-							cout << this->currentArr[j] << " " << columnValuesArray[i] << endl;
 							if (this->currentArr[j] == columnValuesArray[i]) {
 
 								cout << "Column: " << columnCount << " displayed." << endl << endl;
