@@ -138,6 +138,9 @@ public:
 		}
 
 		else if (firstCheck == "UPDATE" || firstCheck == "IMPORT") tableName = this->currentArr[1];
+		else if (firstCheck == "HELP") {
+			tableName = "There is no table name. You have introduced the help command.";
+		}
 		else tableName = this->currentArr[2];
 		return tableName;
 	}
@@ -883,8 +886,6 @@ public:
 			}
 			if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn == dataTypeSet))
 			{
-				cout << columnValuesArray[retainIndex2 + 3] << " " << this->currentArr[5] << endl;
-
 				columnValuesArray[retainIndex2 + 3] = this->currentArr[5];
 				fileHandle.suprascriptionTable(columnValuesArray, tableName, (noElementsCreate)+1);
 			}
