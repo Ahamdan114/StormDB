@@ -28,13 +28,16 @@ protected:
 
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
-	// LogicHandler** commandArray = new LogicHandler * [8];
 
+	/*LogicHandler* commandArray[8];
+	int commandArraySize = 8;*/
 
 public:
 
 	LogicHandler() {
-	
+		/*for (int i = 0; i < this->commandArraySize - 1; i++) {
+			this->commandArray[i] = new LogicHandler[3];
+		}*/
 	}
 
 	// The method removes spaces from the given input
