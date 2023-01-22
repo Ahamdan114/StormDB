@@ -1,1 +1,0 @@
-delete from oke where nume = 'popa'delete from nume where id = 34

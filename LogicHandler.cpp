@@ -8,8 +8,9 @@
 //pure virtual class
 class DataAlterer {
 public:
-	virtual void tableLogicalChecks( string tableName) = 0; 
+	virtual void tableLogicalChecks(string tableName) = 0; 
 };
+
 class Type {
 public:
 	virtual void printCommandType(string tableName) = 0;
@@ -27,10 +28,14 @@ protected:
 
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
+	// LogicHandler** commandArray = new LogicHandler * [8];
+
 
 public:
 
-	LogicHandler() {}
+	LogicHandler() {
+	
+	}
 
 	// The method removes spaces from the given input
 	string removeSpaces(string input) {
@@ -102,7 +107,7 @@ public:
 		string response = "";
 		for (unsigned int i = 0; i < input.length(); i++)
 		{
-			if (input[i] >= 'a' && input[i] <= 'z')response += (input[i] - 32);
+			if (input[i] >= 'a' && input[i] <= 'z') response += (input[i] - 32);
 			else response += input[i];
 		}
 		return response;
@@ -165,7 +170,6 @@ public:
 		for (int i = 0; i < this->currentSize; i++) cout << this->currentArr[i] << " ";
 		cout << endl;
 	}
-
 
 	// The method returns the size of table names
 	int getTableSize() {
@@ -237,8 +241,10 @@ public:
 			cout << getTableSize() << endl << endl;
 		}
 	}
+	
 	//copy constructor
 	LogicHandler(LogicHandler const& lh) {
+
 		if (lh.tableNames != nullptr && lh.tableSize > 0) {
 			this->tableSize = lh.tableSize;
 			tableNames = new string[lh.tableSize];
@@ -246,6 +252,7 @@ public:
 				this->tableNames[i] = lh.tableNames[i];
 			}
 		}
+
 		if (lh.currentArr != nullptr && lh.currentSize > 0) {
 			this->currentSize = lh.currentSize;
 			currentArr = new string[lh.currentSize];
@@ -254,16 +261,20 @@ public:
 			}
 		}
 	}
+
 	LogicHandler& operator=(LogicHandler const& lh) {
 		if (this != &lh) {
+
 			if (tableNames != nullptr) {
 				delete[] tableNames;
 				tableNames = nullptr;
 			}
+
 			if (currentArr != nullptr) {
 				delete[] currentArr;
 				currentArr = nullptr;
 			}
+
 			if (lh.tableNames != nullptr && lh.tableSize > 0) {
 				this->tableSize = lh.tableSize;
 				tableNames = new string[lh.tableSize];
@@ -271,6 +282,7 @@ public:
 					this->tableNames[i] = lh.tableNames[i];
 				}
 			}
+
 			if (lh.currentArr != nullptr && lh.currentSize > 0) {
 				this->currentSize = lh.currentSize;
 				currentArr = new string[lh.currentSize];
@@ -281,6 +293,7 @@ public:
 		}
 		return *this;
 	}
+	
 	// Avoids memory leaks
 	~LogicHandler() {
 		delete[] this->currentArr;
@@ -288,11 +301,20 @@ public:
 
 		delete[] this->tableNames;
 		this->tableNames = nullptr;
+		
+		/*if (this->commandArray != nullptr) {
+			for (int i = 0; i < 7; i++) {
+				delete[] this->commandArray[i];
+				this->commandArray = nullptr;
+			}
 
+			delete[] this->commandArray;
+			this->commandArray = nullptr;
+		}*/
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsCreate :public LogicHandler,public DataAlterer {
+class LogicalCheckingsCreate : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method handles the logic create command checks
 	void LogicalCreate() {
@@ -350,93 +372,93 @@ public:
 
 		FileHandler fileHandle = FileHandler();
 
-		LogicalCheckingsCreate();
+		LogicalCreate();
 		fileHandle.tableNameToFile(tableName);
 		fileHandle.createTableFile(this->currentArr, getCurrentArrSize(), tableName);
 	}
+	
 	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		createTableElement(tableName);
 	}
+
+	void printCommandType(string tableName) {
+		cout << "This is create command in the table " + tableName << endl;
+	}
+
 	LogicalCheckingsCreate& operator=(const LogicHandler & other) {
 		LogicHandler::operator=(other);
 		return *this;
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDrop :public LogicHandler,public DataAlterer {
+class LogicalCheckingsDrop : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method requests the logic of command DROP and continues the process based on the response
 	void dropTableElement(string tableName) {
 
-		bool finderState = false;
-
-		// Searching for element ( We want to find it. )
-
-		for (int i = 0; i < getTableSize(); i++) {
-
-			if (tableName == this->tableNames[i]) {
-				// Element found, so continue 
-
-				finderState = true;
-
-				for (int j = i; j < getTableSize() - 1; j++) {
-					this->tableNames[j] = this->tableNames[j + 1];
+		if (checkTabelExists(tableName) == true) {
+			FileHandler fileHandle = FileHandler();
+			for (int i = 0; i < getTableSize(); i++) {
+				if (tableName == this->tableNames[i]) {
+					for (int j = i; j < getTableSize() - 1; j++) {
+						this->tableNames[j] = this->tableNames[j + 1];
+					}
+					this->tableNames[getTableSize() - 1] = "";
+					
+					// Calling for TableNames array
+					fileHandle.suprascriptionTable(this->tableNames, "TableNames", getTableSize());
+					fileHandle.dropTableFile(tableName);
 				}
-
-				this->tableNames[getTableSize() - 1] = "";
-
-				FileHandler fileHandle = FileHandler();
-
-				// Calling for TableNames array
-
-				fileHandle.suprascriptionTable(this->tableNames, "TableNames", getTableSize());
-				fileHandle.dropTableFile(tableName);
 			}
 		}
-
-		if (!finderState) throw "The searched element does not exist!";
+		else this->errorHandler.ErrorsList(12);
 	}
-	 void tableLogicalChecks(string tableName) {
+	
+	void tableLogicalChecks(string tableName) {
+		 printCommandType(tableName);
 		 dropTableElement(tableName);
 	}
+
+	 void printCommandType(string tableName) {
+		 cout << "This is drop command in the table " + tableName << endl;
+	 }
+
 	 LogicalCheckingsDrop& operator=(const LogicHandler& other) {
 		 LogicHandler::operator=(other);
 		 return *this;
 	 }
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDisplay :public LogicHandler,public DataAlterer {
+class LogicalCheckingsDisplay : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method requests the logic of command DISPLAY and continues the process based on the response
 	void displayTableElement(string tableName) {
 
-		bool finderState = false;
-
-		// Searching for element ( We want to find it. )
-
-		for (int i = 0; i < getTableSize(); i++) {
-			if (tableName == this->tableNames[i]) {
-				// Element found, so continue 
-
-				finderState = true;
-
-				FileHandler fileHandle = FileHandler();
-				fileHandle.displayTableFile(tableName);
-			}
+		if (checkTabelExists(tableName) == true) {
+			FileHandler fileHandle = FileHandler();
+			fileHandle.displayTableFile(tableName);
 		}
+		else this->errorHandler.ErrorsList(12);
 
-		if (!finderState) throw "The searched element does not exist!";
 	}
+	
 	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		displayTableElement(tableName);
 	}
+
+	void printCommandType(string tableName) {
+		cout << "This is display command in the table " + tableName << endl;
+	}
+
 	LogicalCheckingsDisplay& operator=(const LogicHandler& other) {
 		LogicHandler::operator=(other);
 		return *this;
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsInsert :public LogicHandler,public DataAlterer {
+class LogicalCheckingsInsert : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method handles the logic insert command checks
 	void logicInsertInto(string tableName)
@@ -491,7 +513,6 @@ public:
 					counter++;
 				}
 				check.suprascriptionTable(columnValuesArray, tableName, (noOfColumnsCreate * 4) + 1);
-
 			}
 			else this->errorHandler.ErrorsList(16);
 			delete[] columnValuesArray;
@@ -499,16 +520,23 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
-      void tableLogicalChecks(string tableName) {
+    
+	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		logicInsertInto(tableName);
 	  }
-	  LogicalCheckingsInsert& operator=(const LogicHandler& other) {
+	
+	void printCommandType(string tableName) {
+		  cout << "This is insert command in the table " + tableName << endl;
+	  }
+
+	LogicalCheckingsInsert& operator=(const LogicHandler& other) {
 		  LogicHandler::operator=(other);
 		  return *this;
 	  }
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsSelect :public LogicHandler,public DataAlterer {
+class LogicalCheckingsSelect : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method handles the logic select command checks
 	void logicSelect(string tableName)
@@ -632,16 +660,23 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
+	
 	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		logicSelect(tableName);
 	}
+	
+	void printCommandType(string tableName) {
+		cout << "This is select command in the table " + tableName << endl;
+	}
+
 	LogicalCheckingsSelect& operator=(const LogicHandler& other) {
 		LogicHandler::operator=(other);
 		return *this;
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDelete :public LogicHandler,public DataAlterer {
+class LogicalCheckingsDelete :public LogicHandler,public DataAlterer, public Type {
 public:
 	// The method handles the logic delete command checks
 	void logicDelete(string tableName)
@@ -699,16 +734,23 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
+	
 	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		logicDelete(tableName);
 	}
+	
+	void printCommandType(string tableName) {
+		cout << "This is delete command in the table " + tableName << endl;
+	}
+
 	LogicalCheckingsDelete& operator=(const LogicHandler& other) {
 		LogicHandler::operator=(other);
 		return *this;
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalChekingsUpdate :public LogicHandler,public DataAlterer {
+class LogicalChekingsUpdate :public LogicHandler,public DataAlterer, public Type {
 public:
 	// The method checks the data type from the table given.
 	int checkSetDataType(string tableName)
@@ -855,16 +897,23 @@ public:
 		}
 		else this->errorHandler.ErrorsList(12);
 	}
+	
 	void tableLogicalChecks(string tableName) {
+		printCommandType(tableName);
 		LogicUpdate(tableName);
 	}
+	
+	void printCommandType(string tableName) {
+		cout << "This is update command in the table " + tableName << endl;
+	}
+
 	LogicalChekingsUpdate& operator=(const LogicHandler& other) {
 		LogicHandler::operator=(other);
 		return *this;
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsImport :public LogicHandler,public DataAlterer {
+class LogicalCheckingsImport : public LogicHandler, public DataAlterer, public Type {
 public:
 
 	// The method determines the CSV file content length
@@ -964,10 +1013,17 @@ public:
 		}
 		else this->errorHandler.ErrorsList(17);
 	}
-	 void tableLogicalChecks(string tableName) {
+	
+	void tableLogicalChecks(string tableName) {
+		 printCommandType(tableName);
 		 logicImport(tableName, this->currentArr[getCurrentArrSize() - 1]);
 	}
-	 LogicalCheckingsImport& operator=(const LogicHandler& other) {
+	
+	void printCommandType(string tableName) {
+		 cout << "This is import command in the table " + tableName << endl;
+	 }
+
+	LogicalCheckingsImport& operator=(const LogicHandler& other) {
 		 LogicHandler::operator=(other);
 		 return *this;
 	 }

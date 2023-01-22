@@ -33,8 +33,6 @@ int main(int argc, char* argv[]) {
 					input = "";
 					continue;
 				}
-				try {
-
 					string lowerCaseInput = parser.lowerCaseInput(input);
 					parser.parse(lowerCaseInput);
 
@@ -46,54 +44,66 @@ int main(int argc, char* argv[]) {
 					if (firstElement == "create") {
 						LogicalCheckingsCreate create = LogicalCheckingsCreate();
 						create = logicHandler;
+
+						create.printCommandType(tableName);
 						create.tableLogicalChecks(tableName);
 					}
 
-					else if (firstElement == "drop") {
+					else if (firstElement == "drop")    {
 						LogicalCheckingsDrop drop = LogicalCheckingsDrop();
 						drop = logicHandler;
+
+						drop.printCommandType(tableName);
 						drop.tableLogicalChecks(tableName);
 					}
+
 					else if (firstElement == "display") {
 						LogicalCheckingsDisplay display = LogicalCheckingsDisplay();
 						display = logicHandler;
+
+						display.printCommandType(tableName);
 						display.tableLogicalChecks(tableName);
 					}
 
-					else if (firstElement == "insert") {
+					else if (firstElement == "insert")  {
 						LogicalCheckingsInsert insert = LogicalCheckingsInsert();
 						insert = logicHandler;
+
+						insert.printCommandType(tableName);
 						insert.tableLogicalChecks(tableName);
 					}
-					else if (firstElement == "select") {
+
+					else if (firstElement == "select")  {
 						LogicalCheckingsSelect select = LogicalCheckingsSelect();
 						select = logicHandler;
+						
+						select.printCommandType(tableName);
 						select.tableLogicalChecks(tableName);
 					}
-					else if (firstElement == "delete") {
+
+					else if (firstElement == "delete")  {
 						LogicalCheckingsDelete deleteTable = LogicalCheckingsDelete();
 						deleteTable= logicHandler;
+
+						deleteTable.printCommandType(tableName);
 						deleteTable.tableLogicalChecks(tableName);
 					}
 
-					else if (firstElement == "update") {
+					else if (firstElement == "update")  {
 						LogicalChekingsUpdate update = LogicalChekingsUpdate();
 						update = logicHandler;
+
+						update.printCommandType(tableName);
 						update.tableLogicalChecks(tableName);
-						
 					}
-					else if (firstElement == "import") {
+
+					else if (firstElement == "import")  {
 						LogicalCheckingsImport importCsv = LogicalCheckingsImport();
 						importCsv = logicHandler;
+						
+						importCsv.printCommandType(tableName);
 						importCsv.tableLogicalChecks(tableName);
-					
 					}
-
-					//logicHandler.tableLogicalChecks(firstElement, tableName);
-
-					printer.print(input);
-				}
-				catch (exception const& e) {}
 			}
 			if (counter >= argc) {
 				logicHandler.LogicTableNamesArrayModifier(fileHandle, true);

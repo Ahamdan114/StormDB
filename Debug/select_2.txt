@@ -1,1 +1,0 @@
-select (punctaj_test) from okeselect (nume) from oke where nume = 'popa'select (grupa,id) from nume 

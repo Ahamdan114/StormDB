@@ -1,1 +1,0 @@
-select (grupa, punctaj_test) from oke

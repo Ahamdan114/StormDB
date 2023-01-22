@@ -1,1 +1,0 @@
-update nume set puntaj_test = '4.5' where grupa = '1055'
