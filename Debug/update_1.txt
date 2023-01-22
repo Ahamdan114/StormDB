@@ -1,1 +1,1 @@
-update oke set grupa = '1066' where punctaj_test = '8.9'
+update oke set grupa = '1066' where punctaj_test = '8.9'update nume set punctaj_test = '5.5' where grupa = '1055'

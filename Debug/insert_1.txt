@@ -1,1 +1,1 @@
-insert into oke values (1.75,'popa','1065','8.9')
+insert into oke values (1.75,'popa','1065','8.9')insert into nume values (1.76,'popescu','1066','9.45',34) insert into nume values (3.4,'kok','1055','3.4',34)

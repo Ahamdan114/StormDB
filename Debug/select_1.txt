@@ -1,1 +1,1 @@
-select all from okeselect all from oke where nume = 'popa'select (grupa, punctaj_test) from oke where punctaj_test='8.9'
+select all from okeselect all from oke where nume = 'popa'select (grupa, punctaj_test) from oke where punctaj_test='8.9'select all from musca where id = '8.55'select all from nume

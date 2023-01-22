@@ -10,6 +10,11 @@ class DataAlterer {
 public:
 	virtual void tableLogicalChecks( string tableName) = 0; 
 };
+class Type {
+public:
+	virtual void printCommandType(string tableName) = 0;
+	//rate si gaini, array de pointere la logic Handler
+};
 //--------------------------------------------------------------------------------------
 class LogicHandler {
 protected:
@@ -287,7 +292,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsCreate :public LogicHandler {
+class LogicalCheckingsCreate :public LogicHandler,public DataAlterer {
 public:
 	// The method handles the logic create command checks
 	void LogicalCreate() {
@@ -358,7 +363,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDrop :public LogicHandler {
+class LogicalCheckingsDrop :public LogicHandler,public DataAlterer {
 public:
 	// The method requests the logic of command DROP and continues the process based on the response
 	void dropTableElement(string tableName) {
@@ -400,7 +405,7 @@ public:
 	 }
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDisplay :public LogicHandler {
+class LogicalCheckingsDisplay :public LogicHandler,public DataAlterer {
 public:
 	// The method requests the logic of command DISPLAY and continues the process based on the response
 	void displayTableElement(string tableName) {
@@ -431,7 +436,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsInsert :public LogicHandler {
+class LogicalCheckingsInsert :public LogicHandler,public DataAlterer {
 public:
 	// The method handles the logic insert command checks
 	void logicInsertInto(string tableName)
@@ -503,7 +508,7 @@ public:
 	  }
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsSelect :public LogicHandler {
+class LogicalCheckingsSelect :public LogicHandler,public DataAlterer {
 public:
 	// The method handles the logic select command checks
 	void logicSelect(string tableName)
@@ -636,7 +641,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDelete :public LogicHandler {
+class LogicalCheckingsDelete :public LogicHandler,public DataAlterer {
 public:
 	// The method handles the logic delete command checks
 	void logicDelete(string tableName)
@@ -703,7 +708,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalChekingsUpdate :public LogicHandler {
+class LogicalChekingsUpdate :public LogicHandler,public DataAlterer {
 public:
 	// The method checks the data type from the table given.
 	int checkSetDataType(string tableName)
@@ -859,7 +864,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsImport :public LogicHandler {
+class LogicalCheckingsImport :public LogicHandler,public DataAlterer {
 public:
 
 	// The method determines the CSV file content length
