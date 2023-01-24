@@ -1,0 +1,1 @@
+update eveniment set nume = 'vevo' where grupa = '1001'

@@ -1,0 +1,1 @@
+insert into eveniment values (2.5,'alice','1001','9.50')

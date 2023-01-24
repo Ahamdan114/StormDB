@@ -1,0 +1,1 @@
+select (nume, grupa) from eveniment where grupa = '1066'select (nume, grupa) from eveniment where grupa = '1066'

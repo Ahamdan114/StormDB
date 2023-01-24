@@ -65,6 +65,19 @@ public:
 		}
 	}
 
+	void appendTable(string* tableArray, string tableName, int tableSize) {
+		fstream Input;
+		string tableFile = tableName + ".txt";
+
+		Input.open(tableFile, ios::app);
+		if (Input.is_open()) {
+			for (int i = 0; i < tableSize - 1; i++) {
+				Input << tableArray[i] << endl;
+			}
+			Input.close();
+		}
+	}
+
 	void countersTableNamesSaver(string* countersArr, int countersSize) {
 		fstream Input;
 
@@ -111,18 +124,19 @@ public:
 	int noOfColumnsCreate(string tabelName)
 	{
 		fstream input;
-		int counter = 0;
+		int counter = 1;
 		input.open(tabelName + ".txt", ios::in);
-			if (input.is_open())
-			{
+			if (input.is_open()) {
 				string fileInput;
-				while (getline(input, fileInput))
-				{
-				 counter++;
+				
+				getline(input, fileInput);
+				string startingPoint = fileInput;
+				
+				while (getline(input, fileInput) && startingPoint != fileInput) {
+					counter++;
 				}
 			}
 			return counter / 4;
-		
 	}
 
 	// The method returns a string containing all contents of a table accessed
@@ -134,15 +148,64 @@ public:
 		input.open(tabelName + ".txt", ios::in);
 		if (input.is_open())
 		{
-			while (getline(input, fileInput))
-			{
-				columnValues += (fileInput+" ");
-		    }
+			getline(input, fileInput);
 
+			string startingPoint = fileInput;
+			columnValues += (fileInput + " ");
+
+			while (getline(input, fileInput) && startingPoint != fileInput) {
+				columnValues += (fileInput + " ");
+		    }
 
 		}
 		return columnValues;
 	}
+	//-------------------------------------
+	
+
+
+
+	// The method returns the number of columns that the table contains
+	int noOfBigColumnsCreate(string tabelName) {
+		fstream input;
+		int counter = 0;
+		input.open(tabelName + ".txt", ios::in);
+		if (input.is_open()) {
+			string fileInput;
+
+			while (getline(input, fileInput)) {
+				counter++;
+			}
+		}
+		return counter / 4;
+	}
+
+	// The method returns a string containing all contents of a table accessed
+	string getBigCreateColumnValues(string tabelName) {
+		fstream input;
+		string fileInput;
+		string columnValues;
+		input.open(tabelName + ".txt", ios::in);
+		if (input.is_open())
+		{
+			while (getline(input, fileInput)) {
+				columnValues += (fileInput + " ");
+			}
+
+		}
+		return columnValues;
+	}
+
+
+
+
+
+
+
+	//-------------------------------------
+
+
+
 
 	// The method drops the table file.
 	void dropTableFile(string tableName) {
