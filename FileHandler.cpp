@@ -225,17 +225,29 @@ public:
 			string fileOutput;
 			int i = 0;
 			int columnCount = 1;
+			int recordCount = 1;
 			cout << "\tThe table " << tableFile << " is displayed..." << endl;
-			
+
+			/*int noFileColumns = noOfBigColumnsCreate(tableName);
+			int noTableColumns = noOfColumnsCreate(tableName);
+
+			int numberOfTables = noFileColumns / noTableColumns;*/
+
 			while (getline(Output, fileOutput)) {
+				if (i % 16 == 0) {
+					cout << endl;
+					cout << "Record: " << recordCount << endl;
+					cout << endl;
+					recordCount++;
+				}
 				if (i % 4 == 0) {
 					cout << endl;
-					cout << "Column: " << columnCount << endl;
+					cout << "\tColumn: " << columnCount << endl;
 					cout << endl;
 					columnCount++;
 				}
 
-				cout << fileOutput << endl;
+				cout << "\t\t" + fileOutput << endl;
 				i++;
 			}
 			

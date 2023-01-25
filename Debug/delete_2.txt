@@ -1,1 +1,0 @@
-delete from eveniment where durata = 2.5

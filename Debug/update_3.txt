@@ -1,1 +1,0 @@
-update eveniment set punctaj_test = '7.3' where nume = 'vevo'

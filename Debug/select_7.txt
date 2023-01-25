@@ -1,1 +1,0 @@
-select (nume, grupa) from eveniment where grupa = '1001'

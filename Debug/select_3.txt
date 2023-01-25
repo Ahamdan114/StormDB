@@ -1,1 +1,0 @@
-select (nume) from eveniment where grupa = '1066'select (nume, grupa) from eveniment where grupa = '1056'select (nume, grupa) from evenimentselect (nume, grupa) from eveniment where grupa = '1001'select all from eveniment where nume = 'ion'

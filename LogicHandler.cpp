@@ -483,9 +483,9 @@ public:
 			int position = 0;
 			const char tempCompare = ' ';
 
-			cout << "noOfColumnsCreate " << noOfColumnsCreate << endl;
+			/*cout << "noOfColumnsCreate " << noOfColumnsCreate << endl;
 			cout << "noOfColumnsCreate * 4 " << noOfColumnsCreate * 4 << endl;
-			cout << "columnValues " << columnValues << endl;
+			cout << "columnValues " << columnValues << endl;*/
 
 			for (int i = 0; i < columnValues.length() - 1; i++) {
 				if (columnValues[i] == tempCompare) {
@@ -564,8 +564,6 @@ public:
 			string createValues = fileHandle.getBigCreateColumnValues(tableName);
 			int noOfBigColumnsCreate = fileHandle.noOfBigColumnsCreate(tableName);
 			string* columnBigValuesArray = new string[noOfBigColumnsCreate * 4];
-			// array mare
-			// ARAAY
 
 			int tempBigCompare = ' ';
 			string auxBigString;
@@ -582,18 +580,18 @@ public:
 			}
 			columnBigValuesArray[noOfBigColumnsCreate * 4 - 1] = auxBigString;
 
-			cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
+			/*cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
 
 			cout << "bigPosition " << bigPosition << endl;
 			cout << "The columnBigValuesArray is: ";
 			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
 				cout << columnBigValuesArray[i] << " ";
 			}
-			cout << endl;
+			cout << endl;*/
 			int iterationalCounter = 0;
 
 			while (iterationalCounter < noOfBigColumnsCreate * 4) {
-				cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
+				//cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
 				// array mic
 				string* columnValuesArray = new string[noOfColumnsCreate * 4];
 				for (int i = 0; i < noElementsCreate; i++) {
@@ -751,15 +749,16 @@ public:
 			int noElementsCreate = noOfColumnsCreate * 4;
 
 			string createValues = fileHandle.getBigCreateColumnValues(tableName);
+
 			int noOfBigColumnsCreate = fileHandle.noOfBigColumnsCreate(tableName);
-			string* columnBigValuesArray = new string[noOfBigColumnsCreate * 4];
-			// array mare
-			// ARAAY
+			int noOfBigElementsCreate = noOfBigColumnsCreate * 4;
+
+			string* columnBigValuesArray = new string[noOfBigElementsCreate];
 
 			int tempBigCompare = ' ';
 			string auxBigString;
 			int bigPosition = 0;
-
+			int restrictionedSpace = 0;
 
 			for (int i = 0; i < createValues.length() - 1; i++) {
 				if (createValues[i] == tempBigCompare) {
@@ -769,59 +768,82 @@ public:
 				}
 				else auxBigString += createValues[i];
 			}
-			columnBigValuesArray[noOfBigColumnsCreate * 4 - 1] = auxBigString;
 
-			cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
+			columnBigValuesArray[noOfBigElementsCreate - 1] = auxBigString;
 
-			cout << "bigPosition " << bigPosition << endl;
-			cout << "The columnBigValuesArray is: ";
-			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
+			/*cout << "The old columnBigValuesArray is: ";
+			for (int i = 0; i < noOfBigElementsCreate; i++) {
+				if (i % noElementsCreate == 0) cout << endl << "Table below: " << endl;
 				cout << columnBigValuesArray[i] << " ";
 			}
-			cout << endl;
+			cout << endl;*/
+
 			int iterationalCounter = 0;
 
+			while (iterationalCounter < noOfBigElementsCreate) {
+				//cout << endl << "iterationalCounter " << iterationalCounter << " " << "noOfBigElementsCreate " << noOfBigElementsCreate << endl;
+				string* columnValuesArray = new string[noElementsCreate];
 
-			while (iterationalCounter < noOfBigColumnsCreate * 4) {
-				cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
-				// array mic
-				string* columnValuesArray = new string[noOfColumnsCreate * 4];
 				for (int i = 0; i < noElementsCreate; i++) {
 					columnValuesArray[i] = columnBigValuesArray[iterationalCounter + i];
 				}
 
+				/*cout << "columnValuesArray: ";
+				for (int i = 0; i < noElementsCreate; i++) {
+					cout << columnValuesArray[i] << " ";
+				}
+				cout << endl;*/
+
+
+
 				int number = 0;
 				int breaker = 0;
 				int retainIndex = 0;
-
+				bool status = true;
 				for (int i = 0; i < noElementsCreate; i = i + 4) {
-					if ((columnValuesArray[i] == this->currentArr[4]) && (breaker == 0)) {
+					/*cout << "columnValuesArray[i] " << columnValuesArray[i] 
+						 << " this->currentArr[4] " << this->currentArr[4] << endl;*/
+					if ((columnValuesArray[i] == this->currentArr[4] && columnValuesArray[i] != "Position deleted") && (breaker == 0)) {
+						//cout << "BREAKER SET" << endl;
 						breaker = 1;
 						retainIndex = i;
 					}
-					if ((this->currentArr[6] == columnValuesArray[retainIndex + 3]) && (breaker == 1)) {
-						number = 1;
-						for (int j = retainIndex; j < noOfBigColumnsCreate - noElementsCreate; j++) {
+					else if (columnValuesArray[i] == "Position deleted") {
+						breaker = 1;
+						break;
+					}
+					if ((this->currentArr[6] == columnValuesArray[retainIndex + 3]) && (breaker == 1) && status) {
+						restrictionedSpace += noElementsCreate;
+						status = false;
+						for (int j = iterationalCounter; j < noOfBigElementsCreate - noElementsCreate; j++) {
 							columnBigValuesArray[j] = columnBigValuesArray[j + noElementsCreate];
 						}
-						this->printer.returnContinueStatement(7);
+						/*cout << endl;
+						cout << noOfBigElementsCreate - restrictionedSpace << endl;
+						cout << noOfBigElementsCreate << endl;*/
+						for (int i = (noOfBigElementsCreate - restrictionedSpace); i < noOfBigElementsCreate; i++) {
+							columnBigValuesArray[i] = "Position deleted";
+						}
 					}
 				}
+				if (status) iterationalCounter += noElementsCreate;
 				if (breaker != 1) this->errorHandler.ErrorsList(13);
 
-				iterationalCounter += noElementsCreate;
 				delete[] columnValuesArray;
 				columnValuesArray = nullptr;
 
+				/*cout << endl << endl << endl << endl << endl << endl << endl << endl;
+
+				cout << "The new columnBigValuesArray is: ";
+				for (int i = 0; i < noOfBigElementsCreate; i++) {
+					if (i % noElementsCreate == 0) cout << endl << "Table below: " << endl;
+					cout << columnBigValuesArray[i] << " ";
+				}
+				cout << endl;*/
+
 			}
-			cout << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl << endl;
-			cout << "HOLOLULU" << endl << endl;
-			cout << "The columnBigValuesArray is: ";
-			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
-				cout << columnBigValuesArray[i] << " ";
-			}
-			cout << endl;
-			fileHandle.suprascriptionTable(columnBigValuesArray, tableName, noOfBigColumnsCreate * 4 - noElementsCreate);
+			fileHandle.suprascriptionTable(columnBigValuesArray, tableName, (noOfBigElementsCreate - restrictionedSpace) + 1);
+
 			delete[] columnBigValuesArray;
 			columnBigValuesArray = nullptr;
 		}
@@ -954,18 +976,18 @@ public:
 			}
 			columnBigValuesArray[noOfBigColumnsCreate * 4 - 1] = auxBigString;
 
-			cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
+			/*cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
 
 			cout << "bigPosition " << bigPosition << endl;
 			cout << "The columnBigValuesArray is: ";
 			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
 				cout << columnBigValuesArray[i] << " ";
 			}
-			cout << endl;
+			cout << endl;*/
 			int iterationalCounter = 0;
 
 			while (iterationalCounter < noOfBigColumnsCreate * 4) {
-				cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
+				//cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
 				// array mic
 				string* columnValuesArray = new string[noOfColumnsCreate * 4];
 				for (int i = 0; i < noElementsCreate; i++) {
@@ -981,26 +1003,20 @@ public:
 				int dataTypeColumn = checkColumnArrayDataType(tableName);
 				int dataTypeSet = checkSetDataType(tableName);
 				
-				cout << "LEVEL 0" << endl;
 				for (int i = 0; i < noElementsCreate; i = i + 4) {
-					cout << "LEVEL 1" << endl;
 
 					for (int j = 0; j < noElementsCreate; j = j + 4) {
-						cout << "LEVEL 2" << endl;
 
 						if ((columnValuesArray[j] == this->currentArr[7]) && (breaker == 0)) {
-							cout << "LEVEL 3" << endl;
 							breaker = 1;
 							retainIndex1 = j;
 						}
 					}
 					if ((this->currentArr[9] == columnValuesArray[retainIndex1 + 3]) && (breaker == 1) && (valueAfterWhere == 0)) {
-						cout << "LEVEL 4" << endl;
 
 						valueAfterWhere = 1;
 					}
 					if ((columnValuesArray[i] == this->currentArr[3]) && (breaker == 1) && (valueAfterWhere == 1)) {
-						cout << "LEVEL 5" << endl;
 
 						retainIndex2 = i;
 					}
@@ -1008,14 +1024,13 @@ public:
 				}
 				if ((breaker == 1) && (valueAfterWhere == 1) && (dataTypeColumn == dataTypeSet))
 				{
-					cout << "LEVEL 6" << endl;
 
 					columnValuesArray[retainIndex2 + 3] = this->currentArr[5];
 					// Suprascription of big array from small array
 					
 					for (int i = 0; i < noElementsCreate; i++) {
-						cout << "columnBigValuesArray[iterationalCounter + i] = " << columnBigValuesArray[iterationalCounter + i] 
-							 << " columnValuesArray[i] = " << columnValuesArray[i] << endl;
+						/*cout << "columnBigValuesArray[iterationalCounter + i] = " << columnBigValuesArray[iterationalCounter + i] 
+							 << " columnValuesArray[i] = " << columnValuesArray[i] << endl;*/
 						columnBigValuesArray[iterationalCounter + i] = columnValuesArray[i];
 					}
 					iterationalCounter += noElementsCreate;

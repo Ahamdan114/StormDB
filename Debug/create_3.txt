@@ -1,1 +1,0 @@
-create table eveniment ((durata, float, 1000, 1.5),(nume, text, 128, 'gigel'),(grupa, text, 128, '1066'), (punctaj_test,text, 156, '10'))
