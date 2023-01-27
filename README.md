@@ -35,4 +35,9 @@
 		first attribute of the second record.
 
 #	Youtube Link: https://youtu.be/kYq4MkAxXbY
-	
+#	Github Links: 
+
+	Adriana-Maria Jianu: https://github.com/AdrixJianu
+	Enculescu Andrei: https://github.com/AndreiEnculescu69
+	Maria Copaci: https://github.com/copacimaria
+	Ahmed-Iulian Hamdan: https://github.com/Ahamdan114/sql-database-repo
