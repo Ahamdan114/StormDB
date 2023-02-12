@@ -27,6 +27,7 @@ int main(int argc, char* argv[]) {
 			}
 			if (input != "")
 			{
+
 				if (input == "exit") break;
 				if (input == "clear") {
 					system("CLS");
@@ -37,10 +38,8 @@ int main(int argc, char* argv[]) {
 					parser.parse(lowerCaseInput);
 
 					logicHandler.LogicCurrentArrayModifier(input);
-
 					string firstElement = parser.getFirstInputElement(lowerCaseInput);
 					string tableName = logicHandler.getTableName();
-					
 					if (firstElement == "create") {
 						LogicalCheckingsCreate create = LogicalCheckingsCreate();
 						create = logicHandler;
@@ -73,7 +72,7 @@ int main(int argc, char* argv[]) {
 
 					else if (firstElement == "delete")  {
 						LogicalCheckingsDelete deleteTable = LogicalCheckingsDelete();
-						deleteTable= logicHandler;
+						deleteTable = logicHandler;
 						deleteTable.tableLogicalChecks(tableName);
 					}
 

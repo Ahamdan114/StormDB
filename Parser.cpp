@@ -251,7 +251,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			createTable.SET_CREATE_COUNTER(counter);
-			printer.returnContinueStatement(1);
 		}
 
 		bool dropCheck = dropTable.testDropTable(cleanInput);
@@ -261,7 +260,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			dropTable.SET_DROP_COUNTER(counter);
-			printer.returnContinueStatement(2);
 		}
 
 		bool selectCheck = selectTable.testSelect(cleanInput);
@@ -271,7 +269,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			selectTable.SET_SELECT_COUNTER(counter);
-			printer.returnContinueStatement(3);
 		}
 
 		bool displayCheck = displayTable.testDisplayTable(cleanInput);
@@ -281,7 +278,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			displayTable.SET_DISPLAY_COUNTER(counter);
-			printer.returnContinueStatement(4);
 		}
 
 		bool deleteCheck = deleteTable.testDeleteTable(cleanInput);
@@ -291,7 +287,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			deleteTable.SET_DELETE_COUNTER(counter);
-			printer.returnContinueStatement(5);
 		}
 
 		bool updateCheck = updateTable.testUpdateTable(cleanInput);
@@ -301,7 +296,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			
 			updateTable.SET_UPDATE_COUNTER(counter);
-			printer.returnContinueStatement(6);
 		}
 
 		bool insertCheck = insertTable.InsertIntoTable(cleanInput);
@@ -311,7 +305,6 @@ public:
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 
 			insertTable.SET_INSERT_COUNTER(counter);
-			printer.returnContinueStatement(7);
 		}
 
 		bool importCheck = importTable.ImportCheck(cleanInput);
@@ -319,7 +312,6 @@ public:
 			int counter = importTable.returnCounterImport() + 1;
 			fileHandle.createHistoryFile(getFirstInputElement(cleanInput), cleanInput, counter);
 			importTable.SET_IMPORT_COUNTER(counter);
-			printer.returnContinueStatement(8);
 		}
 		bool helpCheck = helpManual.HelpManualVerify(cleanInput);
 		if (helpCheck){

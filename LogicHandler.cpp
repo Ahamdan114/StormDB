@@ -29,16 +29,9 @@ protected:
 	Printer printer = Printer();
 	ErrorHandler errorHandler = ErrorHandler();
 
-	/*LogicHandler* commandArray[8];
-	int commandArraySize = 8;*/
-
 public:
 
-	LogicHandler() {
-		/*for (int i = 0; i < this->commandArraySize - 1; i++) {
-			this->commandArray[i] = new LogicHandler[3];
-		}*/
-	}
+	LogicHandler() {}
 
 	// The method removes spaces from the given input
 	string removeSpaces(string input) {
@@ -127,20 +120,14 @@ public:
 		string tableName = "";
 		string firstCheck = stringToUpper(currentArr[0]);
 
-		if ((firstCheck) == "SELECT")
-		{
+		if ((firstCheck) == "SELECT") {
 			for (int i = 0; i < size; i++) {
 				string secondCheck = stringToUpper(this->currentArr[i]);
-				if (secondCheck == "FROM") {
-					tableName = this->currentArr[i + 1];
-				}
+				if (secondCheck == "FROM") tableName = this->currentArr[i + 1];
 			}
 		}
-
 		else if (firstCheck == "UPDATE" || firstCheck == "IMPORT") tableName = this->currentArr[1];
-		else if (firstCheck == "HELP") {
-			tableName = "There is no table name. You have introduced the help command.";
-		}
+		else if (firstCheck == "HELP") tableName = "There is no table name. You have introduced the help command.";
 		else tableName = this->currentArr[2];
 		return tableName;
 	}
@@ -171,10 +158,6 @@ public:
 		// Printing part
 		this->printer.returnContinueStatement(2);
 		cout << getTableName() << endl;
-		this->printer.returnContinueStatement(3);
-
-		for (int i = 0; i < this->currentSize; i++) cout << this->currentArr[i] << " ";
-		cout << endl;
 	}
 
 	// The method returns the size of table names
@@ -198,13 +181,9 @@ public:
 
 	// The method find the size of the table names
 	void setTableNamesSize(FileHandler& handlingFile, string tableNames) {
-
 		this->tableSize = 0;
 		const char comparisonSpace = ' ';
-
-		for (unsigned int i = 0; i < tableNames.length(); i++) {
-			if (tableNames[i] == comparisonSpace) this->tableSize++;
-		}
+		for (unsigned int i = 0; i < tableNames.length(); i++) if (tableNames[i] == comparisonSpace) this->tableSize++;
 	}
 
 	// The method creates a dynamic size current array
@@ -241,11 +220,14 @@ public:
 			if (!(getTableSize())) this->printer.returnContinueStatement(4);
 			else {
 				this->printer.returnContinueStatement(5);
-				for (int z = 0; z < getTableSize(); z++) cout << this->tableNames[z] << " | ";
+				for (int z = 0; z < getTableSize(); z++) {
+					cout << this->tableNames[z] << " | ";
+				}
 			}
 			this->printer.returnContinueStatement(6);
 			cout << getTableSize() << endl << endl;
 		}
+		cout << endl;
 	}
 	
 	//copy constructor
@@ -307,16 +289,6 @@ public:
 
 		delete[] this->tableNames;
 		this->tableNames = nullptr;
-		
-		/*if (this->commandArray != nullptr) {
-			for (int i = 0; i < 7; i++) {
-				delete[] this->commandArray[i];
-				this->commandArray = nullptr;
-			}
-
-			delete[] this->commandArray;
-			this->commandArray = nullptr;
-		}*/
 	}
 };
 //--------------------------------------------------------------------------------------
@@ -389,7 +361,7 @@ public:
 	}
 
 	void printCommandType(string tableName) {
-		cout << "This is create command in the table " + tableName << endl;
+		cout << endl << "This is create command in the table " + tableName << endl;
 	}
 
 	LogicalCheckingsCreate& operator=(const LogicHandler & other) {
@@ -427,7 +399,7 @@ public:
 	}
 
 	 void printCommandType(string tableName) {
-		 cout << "This is drop command in the table " + tableName << endl;
+		 cout << endl << "This is drop command in the table " + tableName << endl;
 	 }
 
 	 LogicalCheckingsDrop& operator=(const LogicHandler& other) {
@@ -455,7 +427,7 @@ public:
 	}
 
 	void printCommandType(string tableName) {
-		cout << "This is display command in the table " + tableName << endl;
+		cout << endl << "This is display command in the table " + tableName << endl;
 	}
 
 	LogicalCheckingsDisplay& operator=(const LogicHandler& other) {
@@ -482,10 +454,6 @@ public:
 			int counter = 4;
 			int position = 0;
 			const char tempCompare = ' ';
-
-			/*cout << "noOfColumnsCreate " << noOfColumnsCreate << endl;
-			cout << "noOfColumnsCreate * 4 " << noOfColumnsCreate * 4 << endl;
-			cout << "columnValues " << columnValues << endl;*/
 
 			for (int i = 0; i < columnValues.length() - 1; i++) {
 				if (columnValues[i] == tempCompare) {
@@ -523,7 +491,7 @@ public:
 					else this->errorHandler.ErrorsList(15);
 					counter++;
 				}
-				// Append in asta
+				// Append here
 				check.appendTable(columnValuesArray, tableName, (noOfColumnsCreate * 4) + 1);
 			}
 			else this->errorHandler.ErrorsList(16);
@@ -539,7 +507,7 @@ public:
 	  }
 	
 	void printCommandType(string tableName) {
-		  cout << "This is insert command in the table " + tableName << endl;
+		  cout << endl << "This is insert command in the table " + tableName << endl;
 	  }
 
 	LogicalCheckingsInsert& operator=(const LogicHandler& other) {
@@ -580,31 +548,20 @@ public:
 			}
 			columnBigValuesArray[noOfBigColumnsCreate * 4 - 1] = auxBigString;
 
-			/*cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
-
-			cout << "bigPosition " << bigPosition << endl;
-			cout << "The columnBigValuesArray is: ";
-			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
-				cout << columnBigValuesArray[i] << " ";
-			}
-			cout << endl;*/
 			int iterationalCounter = 0;
 
 			while (iterationalCounter < noOfBigColumnsCreate * 4) {
-				//cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
-				// array mic
+				// small array
 				string* columnValuesArray = new string[noOfColumnsCreate * 4];
 				for (int i = 0; i < noElementsCreate; i++) {
 					columnValuesArray[i] = columnBigValuesArray[iterationalCounter + i];
 				}
-
 
 				string comparisonStrAll = "ALL";
 				string comparisonStrFrom = "FROM";
 				string comparisonStrWhere = "WHERE";
 
 				const char tempCompare = ' ';
-				int columnCount = 0;
 				int j = 0;
 
 				if (stringToUpper(this->currentArr[1]) != comparisonStrAll) {
@@ -618,24 +575,19 @@ public:
 										for (int i = 0; i < noOfColumnsCreate * 4; i = i + 4) if (this->currentArr[j] == columnValuesArray[i]) checkerEveryColumn++;
 										j++;
 									}
+
 									j = 1; // Resetting the j
 									if (checkerEveryColumn > noOfColumnsCreate) this->errorHandler.ErrorsList(7);
 									while (stringToUpper(this->currentArr[j]) != comparisonStrFrom) {
 										for (int i = 0; i < noOfColumnsCreate * 4 && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
-
 											if (this->currentArr[j] == columnValuesArray[i]) {
-
-												cout << "Column: " << columnCount << " displayed." << endl << endl;
-												for (int adder = i; adder < i + 4; adder++) {
-													cout << columnValuesArray[adder] << endl;
-												}
-												cout << endl << endl;
-												columnCount++;
+												for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
 												j++;
 												i = -4;
 												continue;
 											}
 										}
+										cout << endl;
 									}
 
 									iterationalCounter += noElementsCreate;
@@ -663,15 +615,13 @@ public:
 							for (int i = 0; i < noOfColumnsCreate * 4 && stringToUpper(this->currentArr[j]) != comparisonStrFrom; i = i + 4) {
 								if (this->currentArr[j] == columnValuesArray[i]) {
 
-									cout << "Column: " << columnCount << " displayed." << endl << endl;
 									for (int adder = i; adder < i + 4; adder++) cout << columnValuesArray[adder] << endl;
-									cout << endl << endl;
-									columnCount++;
 									j++;
 									i = -4;
 									continue;
 								}
 							}
+							cout << endl;
 						}
 						iterationalCounter += noElementsCreate;
 						continue;
@@ -683,23 +633,11 @@ public:
 							if (columnValuesArray[i] == this->currentArr[getCurrentArrSize() - 3]) {
 								if (columnValuesArray[i + 3] == this->currentArr[getCurrentArrSize() - 1]) {
 									// iterationalCounter += noElementsCreate;
-									for (int i = 0; i < noElementsCreate; i++) {
-										if (i % 4 == 0) {
-											cout << "Column: " << columnCount << " displayed." << endl << endl;
-											columnCount++;
-										}
-										// cout << columnBigValuesArray[i] << endl;
-										cout << columnValuesArray[i] << endl;
-									}
+									for (int i = 0; i < noElementsCreate; i++) cout << columnValuesArray[i] << endl;
 									cout << endl;
-									iterationalCounter += noElementsCreate;
-									continue;
 								}
-								else {
-									iterationalCounter += noElementsCreate;
-									continue;
-								}
-								//return;
+								iterationalCounter += noElementsCreate;
+								continue;
 							}
 						}
 					}
@@ -727,7 +665,7 @@ public:
 	}
 	
 	void printCommandType(string tableName) {
-		cout << "This is select command in the table " + tableName << endl;
+		cout << endl << "This is select command in the table " + tableName << endl;
 	}
 
 	LogicalCheckingsSelect& operator=(const LogicHandler& other) {
@@ -736,7 +674,7 @@ public:
 	}
 };
 //--------------------------------------------------------------------------------------
-class LogicalCheckingsDelete :public LogicHandler,public DataAlterer, public Type {
+class LogicalCheckingsDelete : public LogicHandler, public DataAlterer, public Type {
 public:
 	// The method handles the logic delete command checks
 	void logicDelete(string tableName)
@@ -744,7 +682,6 @@ public:
 		if (checkTabelExists(tableName) == true)
 		{
 			FileHandler fileHandle = FileHandler();
-
 			int noOfColumnsCreate = fileHandle.noOfColumnsCreate(tableName);
 			int noElementsCreate = noOfColumnsCreate * 4;
 
@@ -771,40 +708,22 @@ public:
 
 			columnBigValuesArray[noOfBigElementsCreate - 1] = auxBigString;
 
-			/*cout << "The old columnBigValuesArray is: ";
-			for (int i = 0; i < noOfBigElementsCreate; i++) {
-				if (i % noElementsCreate == 0) cout << endl << "Table below: " << endl;
-				cout << columnBigValuesArray[i] << " ";
-			}
-			cout << endl;*/
-
 			int iterationalCounter = 0;
 
 			while (iterationalCounter < noOfBigElementsCreate) {
-				//cout << endl << "iterationalCounter " << iterationalCounter << " " << "noOfBigElementsCreate " << noOfBigElementsCreate << endl;
 				string* columnValuesArray = new string[noElementsCreate];
 
 				for (int i = 0; i < noElementsCreate; i++) {
 					columnValuesArray[i] = columnBigValuesArray[iterationalCounter + i];
 				}
 
-				/*cout << "columnValuesArray: ";
-				for (int i = 0; i < noElementsCreate; i++) {
-					cout << columnValuesArray[i] << " ";
-				}
-				cout << endl;*/
-
-
-
 				int number = 0;
 				int breaker = 0;
 				int retainIndex = 0;
 				bool status = true;
+
 				for (int i = 0; i < noElementsCreate; i = i + 4) {
-					/*cout << "columnValuesArray[i] " << columnValuesArray[i] 
-						 << " this->currentArr[4] " << this->currentArr[4] << endl;*/
 					if ((columnValuesArray[i] == this->currentArr[4] && columnValuesArray[i] != "Position deleted") && (breaker == 0)) {
-						//cout << "BREAKER SET" << endl;
 						breaker = 1;
 						retainIndex = i;
 					}
@@ -815,15 +734,8 @@ public:
 					if ((this->currentArr[6] == columnValuesArray[retainIndex + 3]) && (breaker == 1) && status) {
 						restrictionedSpace += noElementsCreate;
 						status = false;
-						for (int j = iterationalCounter; j < noOfBigElementsCreate - noElementsCreate; j++) {
-							columnBigValuesArray[j] = columnBigValuesArray[j + noElementsCreate];
-						}
-						/*cout << endl;
-						cout << noOfBigElementsCreate - restrictionedSpace << endl;
-						cout << noOfBigElementsCreate << endl;*/
-						for (int i = (noOfBigElementsCreate - restrictionedSpace); i < noOfBigElementsCreate; i++) {
-							columnBigValuesArray[i] = "Position deleted";
-						}
+						for (int j = iterationalCounter; j < noOfBigElementsCreate - noElementsCreate; j++) columnBigValuesArray[j] = columnBigValuesArray[j + noElementsCreate];
+						for (int i = (noOfBigElementsCreate - restrictionedSpace); i < noOfBigElementsCreate; i++) columnBigValuesArray[i] = "Position deleted";
 					}
 				}
 				if (status) iterationalCounter += noElementsCreate;
@@ -831,15 +743,6 @@ public:
 
 				delete[] columnValuesArray;
 				columnValuesArray = nullptr;
-
-				/*cout << endl << endl << endl << endl << endl << endl << endl << endl;
-
-				cout << "The new columnBigValuesArray is: ";
-				for (int i = 0; i < noOfBigElementsCreate; i++) {
-					if (i % noElementsCreate == 0) cout << endl << "Table below: " << endl;
-					cout << columnBigValuesArray[i] << " ";
-				}
-				cout << endl;*/
 
 			}
 			fileHandle.suprascriptionTable(columnBigValuesArray, tableName, (noOfBigElementsCreate - restrictionedSpace) + 1);
@@ -856,7 +759,7 @@ public:
 	}
 	
 	void printCommandType(string tableName) {
-		cout << "This is delete command in the table " + tableName << endl;
+		cout << endl << "This is delete command in the table " + tableName << endl;
 	}
 
 	LogicalCheckingsDelete& operator=(const LogicHandler& other) {
@@ -958,8 +861,6 @@ public:
 			string createValues = fileHandle.getBigCreateColumnValues(tableName);
 			int noOfBigColumnsCreate = fileHandle.noOfBigColumnsCreate(tableName);
 			string* columnBigValuesArray = new string[noOfBigColumnsCreate * 4];
-			// array mare
-			// ARAAY
 
 			int tempBigCompare = ' ';
 			string auxBigString;
@@ -975,25 +876,14 @@ public:
 				else auxBigString += createValues[i];
 			}
 			columnBigValuesArray[noOfBigColumnsCreate * 4 - 1] = auxBigString;
-
-			/*cout << "createValues " << createValues << endl << endl << endl << endl << endl << endl << endl << endl;
-
-			cout << "bigPosition " << bigPosition << endl;
-			cout << "The columnBigValuesArray is: ";
-			for (int i = 0; i < noOfBigColumnsCreate * 4; i++) {
-				cout << columnBigValuesArray[i] << " ";
-			}
-			cout << endl;*/
 			int iterationalCounter = 0;
 
 			while (iterationalCounter < noOfBigColumnsCreate * 4) {
-				//cout << "iterationalCounter " << iterationalCounter << " " << "noOfBigColumnsCreate * 4 " << noOfBigColumnsCreate * 4 << endl;
-				// array mic
+
 				string* columnValuesArray = new string[noOfColumnsCreate * 4];
 				for (int i = 0; i < noElementsCreate; i++) {
 					columnValuesArray[i] = columnBigValuesArray[iterationalCounter + i];
 				}
-				// =>>>>>>>>>>>>>>>>>>>>>>>>>>>
 			
 				int breaker = 0;
 				int retainIndex1 = 0;
@@ -1028,11 +918,7 @@ public:
 					columnValuesArray[retainIndex2 + 3] = this->currentArr[5];
 					// Suprascription of big array from small array
 					
-					for (int i = 0; i < noElementsCreate; i++) {
-						/*cout << "columnBigValuesArray[iterationalCounter + i] = " << columnBigValuesArray[iterationalCounter + i] 
-							 << " columnValuesArray[i] = " << columnValuesArray[i] << endl;*/
-						columnBigValuesArray[iterationalCounter + i] = columnValuesArray[i];
-					}
+					for (int i = 0; i < noElementsCreate; i++) columnBigValuesArray[iterationalCounter + i] = columnValuesArray[i];
 					iterationalCounter += noElementsCreate;
 				}
 				else if (breaker != 1) this->errorHandler.ErrorsList(13);
@@ -1056,7 +942,7 @@ public:
 	}
 	
 	void printCommandType(string tableName) {
-		cout << "This is update command in the table " + tableName << endl;
+		cout << endl << "This is update command in the table " + tableName << endl;
 	}
 
 	LogicalChekingsUpdate& operator=(const LogicHandler& other) {
@@ -1172,7 +1058,7 @@ public:
 	}
 	
 	void printCommandType(string tableName) {
-		 cout << "This is import command in the table " + tableName << endl;
+		 cout << endl << "This is import command in the table " + tableName << endl;
 	 }
 
 	LogicalCheckingsImport& operator=(const LogicHandler& other) {

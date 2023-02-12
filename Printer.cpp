@@ -100,7 +100,7 @@ public:
 			cout << "\tThe table name is: ";
 			break;
 		case 3:
-			cout << "\tThe current array formed based on input is:  ";
+			cout << "";
 			break;
 		case 4:
 			cout << endl << "The table list from which to choose is this one now -> | No list items |" << endl;

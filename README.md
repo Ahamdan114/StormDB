@@ -34,7 +34,6 @@
 		and the size of every record is determined as the distance between the first attribute of the first record and the 
 		first attribute of the second record.
 
-#	Youtube Link: https://youtu.be/kYq4MkAxXbY
 #	Github Links: 
 
 	Adriana-Maria Jianu: https://github.com/AdrixJianu
